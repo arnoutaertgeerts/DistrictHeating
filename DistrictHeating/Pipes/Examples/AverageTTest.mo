@@ -3,7 +3,7 @@ model AverageTTest
   "Unit test for pipe with average temperature calculation - Changing T, same m_flow"
   extends Modelica.Icons.Example;
 
-  AverageTempPlugFlowPipe averageTempPlugFlowPipe(
+  AvgTempPlugFlowPipe averageTempPlugFlowPipe(
     pipeLength=40,
     m_flow_nominal=4.5,
     redeclare package Medium = Annex60.Media.Water,

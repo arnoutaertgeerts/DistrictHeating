@@ -5,7 +5,7 @@ model AverageTTest2
   parameter Modelica.SIunits.Temperature TInit = 273+40
     "Initial temperature in system, including step signal";
 
-  AverageTempPlugFlowPipe averageTempPlugFlowPipe(
+  AvgTempPlugFlowPipe averageTempPlugFlowPipe(
     pipeLength=40,
     m_flow_nominal=4.5,
     redeclare package Medium = Annex60.Media.Water,
