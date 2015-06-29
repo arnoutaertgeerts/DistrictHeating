@@ -13,6 +13,8 @@ model DHConnection
     "Nominal pressure losses over the connection";
   parameter Integer tau = 120 "Time constant of the temperature sensors";
 
+  Modelica.SIunits.Power QLosses;
+
   //Components
   replaceable Pipes.DoublePipes.TwinPipeGround districtHeatingPipe(
       redeclare package Medium = Medium,
@@ -42,6 +44,8 @@ model DHConnection
   outer IDEAS.SimInfoManager sim
     annotation (Placement(transformation(extent={{-40,-60},{-20,-40}})));
 equation
+
+  der(QLosses) = districtHeatingPipe.Q1 + districtHeatingPipe.Q2;
 
   connect(realExpression.y, districtHeatingPipe.Tg) annotation (Line(
       points={{-35,20},{-40,20},{-40,39.8}},
