@@ -9,9 +9,9 @@ Modelica experiment file
 double experiment(7,1)
        0                   # StartTime    Time at which integration starts
                            #              (and linearization and trimming time)
- 1.0000000000000000E+006   # StopTime     Time at which integration stops
-       0                   # Increment    Communication step size, if > 0
-     500                   # nInterval    Number of communication intervals, if > 0
+ 4.0000000000000000E+005   # StopTime     Time at which integration stops
+       3                   # Increment    Communication step size, if > 0
+       0                   # nInterval    Number of communication intervals, if > 0
  1.0000000000000000E-004   # Tolerance    Relative precision of signals for
                            #              simulation, linearization and trimming
        0                   # MaxFixedStep Maximum step size of fixed step size
@@ -102,213 +102,503 @@ int settings(13,1)
 
 
 #    Names of initial variables
-char initialName(68,30)
-simFasBui.nIrr
-simFasBui.TAmb
-simFasBui.qHeaCoo
-simFasBui.powEle
-simFasBui.irr[1]
-bui.zon.nIrr
-bui.zon.heaPorCon.Q_flow
-bui.zon.heaPorRad.Q_flow
-bui.zon.heaPorEmb.Q_flow
-bui.zon.cZon
-bui.zon.rWal
-bui.zon.capZon.c
-bui.zon.capZon.TSta
-bui.zon.capZon.heaPor.T
-bui.zon.capZon.heaPor.der(T)
-bui.zon.capZon.heaPor.Q_flow
-bui.zon.win[1].heaPor1.Q_flow
-bui.zon.win[1].gA
-bui.zon.win[1].fraHeaPor1
-bui.zon.win[1].heaPor2.Q_flow
-bui.zon.resWal.heaPor_a.Q_flow
-bui.zon.resWal.r
-bui.zon.senTZon.port.Q_flow
-bui.zon.cInt
-bui.zon.rInt
-bui.zon.capInt.c
-bui.zon.capInt.TSta
-bui.zon.capInt.heaPor.T
-bui.zon.capInt.heaPor.der(T)
-bui.zon.capInt.heaPor.Q_flow
-bui.zon.resInt.heaPor_a.Q_flow
-bui.zon.resInt.r
-bui.hva.heaPorRad.Q_flow
-bui.hva.heaPorCon.Q_flow
-bui.hva.heaPorEmb.Q_flow
-bui.hva.fraRad
-bui.use.fraTot
-bui.use.fraCon
-bui.use.fraRad
-bui.use.heaPorCon.Q_flow
-bui.use.heaPorRad.Q_flow
-TAmbSin.amplitude
-TAmbSin.freqHz
-TAmbSin.phase
-TAmbSin.offset
-TAmbSin.startTime
-TAmbSin.pi
-qHea.height
-qHea.offset
-qHea.startTime
-max1.u1
-IGloHor.amplitude
-IGloHor.freqHz
-IGloHor.phase
-IGloHor.offset
-IGloHor.startTime
-IGloHor.pi
-const.k
-powElePul.amplitude
-powElePul.width
-powElePul.period
-powElePul.nperiod
-powElePul.offset
-powElePul.startTime
-powElePul.T_width
-powElePul.T_start
-powElePul.count
-const1.k
+char initialName(247,44)
+TInUp.nout
+TInUp.y[1]
+TInUp.tableOnFile
+TInUp.verboseRead
+TInUp.columns[1]
+TInUp.smoothness
+TInUp.extrapolation
+TInUp.offset[1]
+TInUp.startTime
+TInUp.t_min
+TInUp.t_max
+TInUp.p_offset[1]
+TInUp.tableID.id
+TInUp.nextTimeEvent
+TInUp.tableOnFileRead
+QIn.nout
+QIn.y[1]
+QIn.tableOnFile
+QIn.verboseRead
+QIn.columns[1]
+QIn.smoothness
+QIn.extrapolation
+QIn.offset[1]
+QIn.startTime
+QIn.t_min
+QIn.t_max
+QIn.p_offset[1]
+QIn.tableID.id
+QIn.nextTimeEvent
+QIn.tableOnFileRead
+TInDown.nout
+TInDown.y[1]
+TInDown.tableOnFile
+TInDown.verboseRead
+TInDown.columns[1]
+TInDown.smoothness
+TInDown.extrapolation
+TInDown.offset[1]
+TInDown.startTime
+TInDown.t_min
+TInDown.t_max
+TInDown.p_offset[1]
+TInDown.tableID.id
+TInDown.nextTimeEvent
+TInDown.tableOnFileRead
+TOut.nout
+TOut.y[1]
+TOut.tableOnFile
+TOut.verboseRead
+TOut.columns[1]
+TOut.smoothness
+TOut.extrapolation
+TOut.offset[1]
+TOut.startTime
+TOut.t_min
+TOut.t_max
+TOut.p_offset[1]
+TOut.tableID.id
+TOut.nextTimeEvent
+TOut.tableOnFileRead
+tabs3InpSym4T.cMid
+tabs3InpSym4T.cAmb
+tabs3InpSym4T.c
+tabs3InpSym4T.cIn
+tabs3InpSym4T.r1
+tabs3InpSym4T.rLong
+tabs3InpSym4T.r2
+tabs3InpSym4T.TUp0
+tabs3InpSym4T.TDown0
+tabs3InpSym4T.TIn0
+tabs3InpSym4T.TMid0
+tabs3InpSym4T.TRef
+tabs3InpSym4T.TMax
+tabs3InpSym4T.varE
+tabs3InpSym4T.resUp1.heaPor_a.Q_flow
+tabs3InpSym4T.resUp1.r
+tabs3InpSym4T.resDown1.heaPor_a.Q_flow
+tabs3InpSym4T.resDown1.r
+tabs3InpSym4T.preQIn.T_ref
+tabs3InpSym4T.preQIn.alpha
+tabs3InpSym4T.preQIn.port.Q_flow
+tabs3InpSym4T.senTMid.port.Q_flow
+tabs3InpSym4T.capMid.c
+tabs3InpSym4T.capMid.TSta
+tabs3InpSym4T.capMid.heaPor.T
+tabs3InpSym4T.capMid.heaPor.der(T)
+tabs3InpSym4T.capMid.heaPor.Q_flow
+tabs3InpSym4T.TUp.port.Q_flow
+tabs3InpSym4T.TDown.port.Q_flow
+tabs3InpSym4T.resUp2.r
+tabs3InpSym4T.resDown2.r
+tabs3InpSym4T.capDown.c
+tabs3InpSym4T.capDown.TSta
+tabs3InpSym4T.capDown.heaPor.T
+tabs3InpSym4T.capDown.heaPor.der(T)
+tabs3InpSym4T.capDown.heaPor.Q_flow
+tabs3InpSym4T.capUp.c
+tabs3InpSym4T.capUp.TSta
+tabs3InpSym4T.capUp.heaPor.T
+tabs3InpSym4T.capUp.heaPor.der(T)
+tabs3InpSym4T.capUp.heaPor.Q_flow
+tabs3InpSym4T.capIn.c
+tabs3InpSym4T.capIn.TSta
+tabs3InpSym4T.capIn.heaPor.T
+tabs3InpSym4T.capIn.heaPor.der(T)
+tabs3InpSym4T.capIn.heaPor.Q_flow
+tabs3InpSym4T.resLong.heaPor_a.Q_flow
+tabs3InpSym4T.resLong.r
+tabs3InpSym4T.senTMUp.port.Q_flow
+tabs3InpSym4T.senTMDown.port.Q_flow
+tabs3InpSym4T.senTIn.port.Q_flow
+tabs3InpSym4T.EMUp.c
+tabs3InpSym4T.EMUp.tRef
+tabs3InpSym4T.EMUp.tMax
+tabs3InpSym4T.EMUp.product.u2
+tabs3InpSym4T.EMUp.TDiff.y
+tabs3InpSym4T.EMUp.TDiff.k1
+tabs3InpSym4T.EMUp.TDiff.k2
+tabs3InpSym4T.EMUp.EMax
+tabs3InpSym4T.EMUp.TDiffMax.k1
+tabs3InpSym4T.EMUp.TDiffMax.k2
+tabs3InpSym4T.EMUp.EOut
+tabs3InpSym4T.EMMid.c
+tabs3InpSym4T.EMMid.tRef
+tabs3InpSym4T.EMMid.tMax
+tabs3InpSym4T.EMMid.product.u2
+tabs3InpSym4T.EMMid.TDiff.y
+tabs3InpSym4T.EMMid.TDiff.k1
+tabs3InpSym4T.EMMid.TDiff.k2
+tabs3InpSym4T.EMMid.EMax
+tabs3InpSym4T.EMMid.TDiffMax.k1
+tabs3InpSym4T.EMMid.TDiffMax.k2
+tabs3InpSym4T.EMMid.EOut
+tabs3InpSym4T.EMDown.c
+tabs3InpSym4T.EMDown.tRef
+tabs3InpSym4T.EMDown.tMax
+tabs3InpSym4T.EMDown.product.u2
+tabs3InpSym4T.EMDown.TDiff.y
+tabs3InpSym4T.EMDown.TDiff.k1
+tabs3InpSym4T.EMDown.TDiff.k2
+tabs3InpSym4T.EMDown.EMax
+tabs3InpSym4T.EMDown.TDiffMax.k1
+tabs3InpSym4T.EMDown.TDiffMax.k2
+tabs3InpSym4T.EMDown.EOut
+tabs3InpSym4T.EMIn.c
+tabs3InpSym4T.EMIn.tRef
+tabs3InpSym4T.EMIn.tMax
+tabs3InpSym4T.EMIn.product.u2
+tabs3InpSym4T.EMIn.TDiff.y
+tabs3InpSym4T.EMIn.TDiff.k1
+tabs3InpSym4T.EMIn.TDiff.k2
+tabs3InpSym4T.EMIn.EMax
+tabs3InpSym4T.EMIn.TDiffMax.k1
+tabs3InpSym4T.EMIn.TDiffMax.k2
+tabs3InpSym4T.EMIn.EOut
+tabs3InpSym4T.soCAggregator.n
+tabs3InpSym4T.soCAggregator.TotalEnergy.nin
+tabs3InpSym4T.soCAggregator.TotalEnergy.k[1]
+tabs3InpSym4T.soCAggregator.TotalEnergy.k[2]
+tabs3InpSym4T.soCAggregator.TotalEnergy.k[3]
+tabs3InpSym4T.soCAggregator.TotalEnergy.k[4]
+tabs3InpSym4T.soCAggregator.TotalEnergy.k[5]
+tabs3InpSym4T.soCAggregator.MaxEnergy.nin
+tabs3InpSym4T.soCAggregator.MaxEnergy.y
+tabs3InpSym4T.soCAggregator.MaxEnergy.k[1]
+tabs3InpSym4T.soCAggregator.MaxEnergy.k[2]
+tabs3InpSym4T.soCAggregator.MaxEnergy.k[3]
+tabs3InpSym4T.soCAggregator.MaxEnergy.k[4]
+tabs3InpSym4T.soCAggregator.MaxEnergy.k[5]
+tabs3InpSym4T.soCAggregator.EMaxIn[5]
+tabs3InpSym4T.soCAggregator.EIn[5]
+tabs3InpSym4T.soCAggregator.EOut
+tabs3InpSym4T.OuputSoC
+tabs3InpSym4T.senE.use_numberPort
+tabs3InpSym4T.senE.number
+tabs3InpSym4T.senE.significantDigits
+tabs3InpSym4T.senSoC.use_numberPort
+tabs3InpSym4T.senSoC.number
+tabs3InpSym4T.senSoC.significantDigits
+tabs3InpSym4T.TAmb
+tabs3InpSym4T.energyMeter.c
+tabs3InpSym4T.energyMeter.tRef
+tabs3InpSym4T.energyMeter.tMax
+tabs3InpSym4T.energyMeter.product.u2
+tabs3InpSym4T.energyMeter.TDiff.y
+tabs3InpSym4T.energyMeter.TDiff.k1
+tabs3InpSym4T.energyMeter.TDiff.k2
+tabs3InpSym4T.energyMeter.TDiffMax.k1
+tabs3InpSym4T.energyMeter.TDiffMax.k2
+Energy.nout
+Energy.y[1]
+Energy.tableOnFile
+Energy.verboseRead
+Energy.columns[1]
+Energy.smoothness
+Energy.extrapolation
+Energy.offset[1]
+Energy.startTime
+Energy.t_min
+Energy.t_max
+Energy.p_offset[1]
+Energy.tableID.id
+Energy.nextTimeEvent
+Energy.tableOnFileRead
+TAmb.nout
+TAmb.tableOnFile
+TAmb.table[1, 1]
+TAmb.table[1, 2]
+TAmb.table[2, 1]
+TAmb.table[2, 2]
+TAmb.table[3, 1]
+TAmb.table[3, 2]
+TAmb.table[4, 1]
+TAmb.table[4, 2]
+TAmb.table[5, 1]
+TAmb.table[5, 2]
+TAmb.table[6, 1]
+TAmb.table[6, 2]
+TAmb.table[7, 1]
+TAmb.table[7, 2]
+TAmb.verboseRead
+TAmb.columns[1]
+TAmb.smoothness
+TAmb.extrapolation
+TAmb.offset[1]
+TAmb.startTime
+TAmb.t_min
+TAmb.t_max
+TAmb.p_offset[1]
+TAmb.tableID.id
+TAmb.nextTimeEvent
+TAmb.tableOnFileRead
+SOC.nout
+SOC.y[1]
+SOC.tableOnFile
+SOC.verboseRead
+SOC.columns[1]
+SOC.smoothness
+SOC.extrapolation
+SOC.offset[1]
+SOC.startTime
+SOC.t_min
+SOC.t_max
+SOC.p_offset[1]
+SOC.tableID.id
+SOC.nextTimeEvent
+SOC.tableOnFileRead
 
-double initialValue(68,6)
-  0       1                       1                 1.0000000000000000E+100
-  6   258   # simFasBui.nIrr
-  0 2.8814999999999998E+002       0                 1.0000000000000000E+100
-  6   256   # simFasBui.TAmb
-  0       0                       0                       0                
-  6   320   # simFasBui.qHeaCoo
-  0       0                       0                       0                
-  6   320   # simFasBui.powEle
-  0       0                       0                       0                
-  6   256   # simFasBui.irr[1]
-  0       1                       0                       0                
-  6   258   # bui.zon.nIrr
-  0       0                       0                       0                
-  6   452   # bui.zon.heaPorCon.Q_flow
-  0       0                       0                       0                
-  6   452   # bui.zon.heaPorRad.Q_flow
-  0       0                       0                       0                
-  6   388   # bui.zon.heaPorEmb.Q_flow
- -1 1.0000000000000000E+006       0                       0                
-  1   280   # bui.zon.cZon
- -1       1                       0                       0                
-  1   280   # bui.zon.rWal
-  0       0                       0                       0                
-  6   256   # bui.zon.capZon.c
- -1 2.9314999999999998E+002       0                 1.0000000000000000E+100
-  1   280   # bui.zon.capZon.TSta
- -1       0                       0                 1.0000000000000000E+100
-  2   276   # bui.zon.capZon.heaPor.T
-  0       0                       0                       0                
-  3   260   # bui.zon.capZon.heaPor.der(T)
-  0       0                       0                       0                
-  6   388   # bui.zon.capZon.heaPor.Q_flow
-  0       0                       0                       0                
-  6   388   # bui.zon.win[1].heaPor1.Q_flow
- -1       1                       0                       0                
-  1   280   # bui.zon.win[1].gA
- -1 5.0000000000000000E-001       0                       1                
-  1   280   # bui.zon.win[1].fraHeaPor1
-  0       0                       0                       0                
-  6   388   # bui.zon.win[1].heaPor2.Q_flow
-  0       0                       0                       0                
-  6   388   # bui.zon.resWal.heaPor_a.Q_flow
-  0       0                       0                       0                
-  6   256   # bui.zon.resWal.r
-  0       0                       0                       0                
-  6  1412   # bui.zon.senTZon.port.Q_flow
- -1 1.0000000000000000E+007       0                       0                
-  1   280   # bui.zon.cInt
- -1 1.0000000000000000E-002       0                       0                
-  1   280   # bui.zon.rInt
-  0       0                       0                       0                
-  6   256   # bui.zon.capInt.c
- -1 2.9314999999999998E+002       0                 1.0000000000000000E+100
-  1   280   # bui.zon.capInt.TSta
- -1       0                       0                 1.0000000000000000E+100
-  2   276   # bui.zon.capInt.heaPor.T
-  0       0                       0                       0                
-  3   260   # bui.zon.capInt.heaPor.der(T)
-  0       0                       0                       0                
-  6   388   # bui.zon.capInt.heaPor.Q_flow
-  0       0                       0                       0                
-  6   388   # bui.zon.resInt.heaPor_a.Q_flow
-  0       0                       0                       0                
-  6   256   # bui.zon.resInt.r
-  0       0                       0                       0                
-  6   452   # bui.hva.heaPorRad.Q_flow
-  0       0                       0                       0                
-  6   452   # bui.hva.heaPorCon.Q_flow
-  0       0                       0                       0                
-  6   388   # bui.hva.heaPorEmb.Q_flow
- -1 2.9999999999999999E-001       0                       0                
-  1   280   # bui.hva.fraRad
- -1       1                       0                       0                
-  1   280   # bui.use.fraTot
- -1 6.9999999999999996E-001       0                       0                
-  1   280   # bui.use.fraCon
-  0       0                       0                       0                
-  6   256   # bui.use.fraRad
-  0       0                       0                       0                
-  6   452   # bui.use.heaPorCon.Q_flow
-  0       0                       0                       0                
-  6   452   # bui.use.heaPorRad.Q_flow
- -1       8                       0                       0                
-  1   280   # TAmbSin.amplitude
- -1 1.1574074074074073E-005       0                       0                
-  1   280   # TAmbSin.freqHz
- -1       0                       0                       0                
-  1   280   # TAmbSin.phase
- -1     283                       0                       0                
-  1   280   # TAmbSin.offset
- -1       0                       0                       0                
-  1   280   # TAmbSin.startTime
-  0 3.1415926535897931E+000       0                       0                
-  6  1280   # TAmbSin.pi
- -1    1000                       0                       0                
-  1   280   # qHea.height
- -1       0                       0                       0                
-  1   280   # qHea.offset
- -1   86400                       0                       0                
-  1   280   # qHea.startTime
-  0       0                       0                       0                
-  6   256   # max1.u1
- -1     600                       0                       0                
-  1   280   # IGloHor.amplitude
- -1 1.1574074074074073E-005       0                       0                
-  1   280   # IGloHor.freqHz
- -1       0                       0                       0                
-  1   280   # IGloHor.phase
- -1       0                       0                       0                
-  1   280   # IGloHor.offset
- -1       0                       0                       0                
-  1   280   # IGloHor.startTime
-  0 3.1415926535897931E+000       0                       0                
-  6  1280   # IGloHor.pi
- -1       0                       0                       0                
-  1   280   # const.k
- -1     500                       0                       0                
-  1   280   # powElePul.amplitude
- -1      50                 9.9999999999999997E-061     100                
-  1   280   # powElePul.width
- -1   86400                 9.9999999999999997E-061 1.0000000000000000E+100
-  1   280   # powElePul.period
- -1      -1                       0                       0                
-  1   282   # powElePul.nperiod
- -1       0                       0                       0                
-  1   280   # powElePul.offset
- -1   25000                       0                       0                
-  1   280   # powElePul.startTime
-  0       0                       0                       0                
-  6  1280   # powElePul.T_width
-  0       0                       0                       0                
-  6  1344   # powElePul.T_start
-  0       0                       0                       0                
-  6  1346   # powElePul.count
- -1 2.9314999999999998E+002       0                       0                
-  1   280   # const1.k
+double initialValue(247,6)
+  0       1                  1 1.0000000000000000E+100  6   258   # TInUp.nout
+  0 2.8814999999999998E+002  0 1.0000000000000000E+100  6   256   # TInUp.y[1]
+  0       1                  0       0                  6   257   # TInUp.tableOnFile
+ -1       1                  0       0                  1   281   # TInUp.verboseRead
+  0       2                  0       0                  6   258   # TInUp.columns[1]
+  0       2                  1       3                  6   258   # TInUp.smoothness
+ -1       2                  1       4                  1   282   # TInUp.extrapolation
+ -1       0                  0       0                  1   280   # TInUp.offset[1]
+ -1       0                  0       0                  1   280   # TInUp.startTime
+  0       0                  0       0                  6   256   # TInUp.t_min
+  0       0                  0       0                  6   256   # TInUp.t_max
+  0       0                  0       0                  6  1280   # TInUp.p_offset[1]
+  0       0                  0       0                  6  1282   # TInUp.tableID.id
+  0       0                  0       0                  6  1352   # TInUp.nextTimeEvent
+  0       0                  0       0                  6  1280   # TInUp.tableOnFileRead
+  0       1                  1 1.0000000000000000E+100  6   258   # QIn.nout
+  0       0                  0       0                  6   256   # QIn.y[1]
+  0       1                  0       0                  6   257   # QIn.tableOnFile
+ -1       1                  0       0                  1   281   # QIn.verboseRead
+  0       2                  0       0                  6   258   # QIn.columns[1]
+  0       2                  1       3                  6   258   # QIn.smoothness
+ -1       2                  1       4                  1   282   # QIn.extrapolation
+ -1       0                  0       0                  1   280   # QIn.offset[1]
+ -1       0                  0       0                  1   280   # QIn.startTime
+  0       0                  0       0                  6   256   # QIn.t_min
+  0       0                  0       0                  6   256   # QIn.t_max
+  0       0                  0       0                  6  1280   # QIn.p_offset[1]
+  0       0                  0       0                  6  1282   # QIn.tableID.id
+  0       0                  0       0                  6  1352   # QIn.nextTimeEvent
+  0       0                  0       0                  6  1280   # QIn.tableOnFileRead
+  0       1                  1 1.0000000000000000E+100  6   258   # TInDown.nout
+  0 2.8814999999999998E+002  0 1.0000000000000000E+100  6   256   # TInDown.y[1]
+  0       1                  0       0                  6   257   # TInDown.tableOnFile
+ -1       1                  0       0                  1   281   # TInDown.verboseRead
+  0       2                  0       0                  6   258   # TInDown.columns[1]
+  0       2                  1       3                  6   258   # TInDown.smoothness
+ -1       2                  1       4                  1   282   # TInDown.extrapolation
+ -1 -2.7314999999999998E+002  0       0                  1   280   # TInDown.offset[1]
+ -1       0                  0       0                  1   280   # TInDown.startTime
+  0       0                  0       0                  6   256   # TInDown.t_min
+  0       0                  0       0                  6   256   # TInDown.t_max
+  0       0                  0       0                  6  1280   # TInDown.p_offset[1]
+  0       0                  0       0                  6  1282   # TInDown.tableID.id
+  0       0                  0       0                  6  1352   # TInDown.nextTimeEvent
+  0       0                  0       0                  6  1280   # TInDown.tableOnFileRead
+  0       1                  1 1.0000000000000000E+100  6   258   # TOut.nout
+  0       0                  0       0                  6   256   # TOut.y[1]
+  0       1                  0       0                  6   257   # TOut.tableOnFile
+ -1       1                  0       0                  1   281   # TOut.verboseRead
+  0       2                  0       0                  6   258   # TOut.columns[1]
+  0       2                  1       3                  6   258   # TOut.smoothness
+ -1       2                  1       4                  1   282   # TOut.extrapolation
+ -1       0                  0       0                  1   280   # TOut.offset[1]
+ -1       0                  0       0                  1   280   # TOut.startTime
+  0       0                  0       0                  6   256   # TOut.t_min
+  0       0                  0       0                  6   256   # TOut.t_max
+  0       0                  0       0                  6  1280   # TOut.p_offset[1]
+  0       0                  0       0                  6  1282   # TOut.tableID.id
+  0       0                  0       0                  6  1352   # TOut.nextTimeEvent
+  0       0                  0       0                  6  1280   # TOut.tableOnFileRead
+ -1    1594                  0       0                  1   280   # tabs3InpSym4T.cMid
+ -1 2.4375000000000000E+002  0       0                  1   280   # tabs3InpSym4T.cAmb
+ -1 1.4830000000000001E+002  0       0                  1   280   # tabs3InpSym4T.c
+ -1 1.8250000000000000E+002  0       0                  1   280   # tabs3InpSym4T.cIn
+ -1 2.7599999999999998E+000  0       0                  1   280   # tabs3InpSym4T.r1
+ -1 3.4640000000000000E+000  0       0                  1   280   # tabs3InpSym4T.rLong
+ -1 5.5229999999999997E+000  0       0                  1   280   # tabs3InpSym4T.r2
+ -1 2.8814999999999998E+002  0 1.0000000000000000E+100  1   280   # tabs3InpSym4T.TUp0
+ -1 2.8814999999999998E+002  0 1.0000000000000000E+100  1   280   # tabs3InpSym4T.TDown0
+ -1 2.8814999999999998E+002  0 1.0000000000000000E+100  1   280   # tabs3InpSym4T.TIn0
+ -1 2.8814999999999998E+002  0 1.0000000000000000E+100  1   280   # tabs3InpSym4T.TMid0
+ -1 2.8814999999999998E+002  0 1.0000000000000000E+100  1   280   # tabs3InpSym4T.TRef
+ -1 2.9814999999999998E+002  0 1.0000000000000000E+100  1   280   # tabs3InpSym4T.TMax
+ -1 1.1899999999999999E+000  0       0                  1   280   # tabs3InpSym4T.varE
+  0       0                  0       0                  6   388   # tabs3InpSym4T.resUp1.heaPor_a.Q_flow
+  0       0                  0       0                  6   256   # tabs3InpSym4T.resUp1.r
+  0       0                  0       0                  6   388   # tabs3InpSym4T.resDown1.heaPor_a.Q_flow
+  0       0                  0       0                  6   256   # tabs3InpSym4T.resDown1.r
+ -1 2.9314999999999998E+002  0 1.0000000000000000E+100  1   280   # tabs3InpSym4T.preQIn.T_ref
+ -1       0                  0       0                  1   280   # tabs3InpSym4T.preQIn.alpha
+  0       0                  0       0                  6   388   # tabs3InpSym4T.preQIn.port.Q_flow
+  0       0                  0       0                  6   388   # tabs3InpSym4T.senTMid.port.Q_flow
+  0       0                  0       0                  6   256   # tabs3InpSym4T.capMid.c
+  0 2.8814999999999998E+002  0 1.0000000000000000E+100  6   256   # tabs3InpSym4T.capMid.TSta
+ -1       0                  0 1.0000000000000000E+100  2   276   # tabs3InpSym4T.capMid.heaPor.T
+  0       0                  0       0                  3   260   # tabs3InpSym4T.capMid.heaPor.der(T)
+  0       0                  0       0                  6   388   # tabs3InpSym4T.capMid.heaPor.Q_flow
+  0       0                  0       0                  6   388   # tabs3InpSym4T.TUp.port.Q_flow
+  0       0                  0       0                  6   388   # tabs3InpSym4T.TDown.port.Q_flow
+  0       0                  0       0                  6   256   # tabs3InpSym4T.resUp2.r
+  0       0                  0       0                  6   256   # tabs3InpSym4T.resDown2.r
+  0       0                  0       0                  6   256   # tabs3InpSym4T.capDown.c
+  0 2.8814999999999998E+002  0 1.0000000000000000E+100  6   256   # tabs3InpSym4T.capDown.TSta
+ -1       0                  0 1.0000000000000000E+100  2   276   # tabs3InpSym4T.capDown.heaPor.T
+  0       0                  0       0                  3   260   # tabs3InpSym4T.capDown.heaPor.der(T)
+  0       0                  0       0                  6   388   # tabs3InpSym4T.capDown.heaPor.Q_flow
+  0       0                  0       0                  6   256   # tabs3InpSym4T.capUp.c
+  0 2.8814999999999998E+002  0 1.0000000000000000E+100  6   256   # tabs3InpSym4T.capUp.TSta
+ -1       0                  0 1.0000000000000000E+100  2   276   # tabs3InpSym4T.capUp.heaPor.T
+  0       0                  0       0                  3   260   # tabs3InpSym4T.capUp.heaPor.der(T)
+  0       0                  0       0                  6   388   # tabs3InpSym4T.capUp.heaPor.Q_flow
+  0       0                  0       0                  6   256   # tabs3InpSym4T.capIn.c
+  0 2.8814999999999998E+002  0 1.0000000000000000E+100  6   256   # tabs3InpSym4T.capIn.TSta
+ -1       0                  0 1.0000000000000000E+100  2   276   # tabs3InpSym4T.capIn.heaPor.T
+  0       0                  0       0                  3   260   # tabs3InpSym4T.capIn.heaPor.der(T)
+  0       0                  0       0                  6   388   # tabs3InpSym4T.capIn.heaPor.Q_flow
+  0       0                  0       0                  6   388   # tabs3InpSym4T.resLong.heaPor_a.Q_flow
+  0       0                  0       0                  6   256   # tabs3InpSym4T.resLong.r
+  0       0                  0       0                  6   388   # tabs3InpSym4T.senTMUp.port.Q_flow
+  0       0                  0       0                  6   388   # tabs3InpSym4T.senTMDown.port.Q_flow
+  0       0                  0       0                  6   388   # tabs3InpSym4T.senTIn.port.Q_flow
+  0       0                  0       0                  6   256   # tabs3InpSym4T.EMUp.c
+  0 2.8814999999999998E+002  0 1.0000000000000000E+100  6   256   # tabs3InpSym4T.EMUp.tRef
+  0 2.8814999999999998E+002  0 1.0000000000000000E+100  6   256   # tabs3InpSym4T.EMUp.tMax
+  0       0                  0       0                  6   256   # tabs3InpSym4T.EMUp.product.u2
+  0       0                  0       0                  6   256   # tabs3InpSym4T.EMUp.TDiff.y
+ -1      -1                  0       0                  1   280   # tabs3InpSym4T.EMUp.TDiff.k1
+ -1       1                  0       0                  1   280   # tabs3InpSym4T.EMUp.TDiff.k2
+  0       0                  0       0                  6   256   # tabs3InpSym4T.EMUp.EMax
+ -1      -1                  0       0                  1   280   # tabs3InpSym4T.EMUp.TDiffMax.k1
+ -1       1                  0       0                  1   280   # tabs3InpSym4T.EMUp.TDiffMax.k2
+  0       0                  0       0                  6   256   # tabs3InpSym4T.EMUp.EOut
+  0       0                  0       0                  6   256   # tabs3InpSym4T.EMMid.c
+  0 2.8814999999999998E+002  0 1.0000000000000000E+100  6   256   # tabs3InpSym4T.EMMid.tRef
+  0 2.8814999999999998E+002  0 1.0000000000000000E+100  6   256   # tabs3InpSym4T.EMMid.tMax
+  0       0                  0       0                  6   256   # tabs3InpSym4T.EMMid.product.u2
+  0       0                  0       0                  6   256   # tabs3InpSym4T.EMMid.TDiff.y
+ -1      -1                  0       0                  1   280   # tabs3InpSym4T.EMMid.TDiff.k1
+ -1       1                  0       0                  1   280   # tabs3InpSym4T.EMMid.TDiff.k2
+  0       0                  0       0                  6   256   # tabs3InpSym4T.EMMid.EMax
+ -1      -1                  0       0                  1   280   # tabs3InpSym4T.EMMid.TDiffMax.k1
+ -1       1                  0       0                  1   280   # tabs3InpSym4T.EMMid.TDiffMax.k2
+  0       0                  0       0                  6   256   # tabs3InpSym4T.EMMid.EOut
+  0       0                  0       0                  6   256   # tabs3InpSym4T.EMDown.c
+  0 2.8814999999999998E+002  0 1.0000000000000000E+100  6   256   # tabs3InpSym4T.EMDown.tRef
+  0 2.8814999999999998E+002  0 1.0000000000000000E+100  6   256   # tabs3InpSym4T.EMDown.tMax
+  0       0                  0       0                  6   256   # tabs3InpSym4T.EMDown.product.u2
+  0       0                  0       0                  6   256   # tabs3InpSym4T.EMDown.TDiff.y
+ -1      -1                  0       0                  1   280   # tabs3InpSym4T.EMDown.TDiff.k1
+ -1       1                  0       0                  1   280   # tabs3InpSym4T.EMDown.TDiff.k2
+  0       0                  0       0                  6   256   # tabs3InpSym4T.EMDown.EMax
+ -1      -1                  0       0                  1   280   # tabs3InpSym4T.EMDown.TDiffMax.k1
+ -1       1                  0       0                  1   280   # tabs3InpSym4T.EMDown.TDiffMax.k2
+  0       0                  0       0                  6   256   # tabs3InpSym4T.EMDown.EOut
+  0       0                  0       0                  6   256   # tabs3InpSym4T.EMIn.c
+  0 2.8814999999999998E+002  0 1.0000000000000000E+100  6   256   # tabs3InpSym4T.EMIn.tRef
+  0 2.8814999999999998E+002  0 1.0000000000000000E+100  6   256   # tabs3InpSym4T.EMIn.tMax
+  0       0                  0       0                  6   256   # tabs3InpSym4T.EMIn.product.u2
+  0       0                  0       0                  6   256   # tabs3InpSym4T.EMIn.TDiff.y
+ -1      -1                  0       0                  1   280   # tabs3InpSym4T.EMIn.TDiff.k1
+ -1       1                  0       0                  1   280   # tabs3InpSym4T.EMIn.TDiff.k2
+  0       0                  0       0                  6   256   # tabs3InpSym4T.EMIn.EMax
+ -1      -1                  0       0                  1   280   # tabs3InpSym4T.EMIn.TDiffMax.k1
+ -1       1                  0       0                  1   280   # tabs3InpSym4T.EMIn.TDiffMax.k2
+  0       0                  0       0                  6   256   # tabs3InpSym4T.EMIn.EOut
+  0       5                  0       0                  6   258   # tabs3InpSym4T.soCAggregator.n
+  0       5                  0       0                  6   258   # tabs3InpSym4T.soCAggregator.TotalEnergy.nin
+ -1       1                  0       0                  1   280   # tabs3InpSym4T.soCAggregator.TotalEnergy.k[1]
+ -1       1                  0       0                  1   280   # tabs3InpSym4T.soCAggregator.TotalEnergy.k[2]
+ -1       1                  0       0                  1   280   # tabs3InpSym4T.soCAggregator.TotalEnergy.k[3]
+ -1       1                  0       0                  1   280   # tabs3InpSym4T.soCAggregator.TotalEnergy.k[4]
+ -1       1                  0       0                  1   280   # tabs3InpSym4T.soCAggregator.TotalEnergy.k[5]
+  0       5                  0       0                  6   258   # tabs3InpSym4T.soCAggregator.MaxEnergy.nin
+  0       0                  0       0                  6   256   # tabs3InpSym4T.soCAggregator.MaxEnergy.y
+ -1       1                  0       0                  1   280   # tabs3InpSym4T.soCAggregator.MaxEnergy.k[1]
+ -1       1                  0       0                  1   280   # tabs3InpSym4T.soCAggregator.MaxEnergy.k[2]
+ -1       1                  0       0                  1   280   # tabs3InpSym4T.soCAggregator.MaxEnergy.k[3]
+ -1       1                  0       0                  1   280   # tabs3InpSym4T.soCAggregator.MaxEnergy.k[4]
+ -1       1                  0       0                  1   280   # tabs3InpSym4T.soCAggregator.MaxEnergy.k[5]
+  0       0                  0       0                  6   256   # tabs3InpSym4T.soCAggregator.EMaxIn[5]
+  0       0                  0       0                  6   256   # tabs3InpSym4T.soCAggregator.EIn[5]
+  0       0                  0       0                  6   256   # tabs3InpSym4T.soCAggregator.EOut
+  0       0                  0       0                  6   256   # tabs3InpSym4T.OuputSoC
+  0       1                  0       0                  6   769   # tabs3InpSym4T.senE.use_numberPort
+  0       0                  0       0                  6   768   # tabs3InpSym4T.senE.number
+ -1       2                  1 1.0000000000000000E+100  1   282   # tabs3InpSym4T.senE.significantDigits
+  0       1                  0       0                  6   769   # tabs3InpSym4T.senSoC.use_numberPort
+  0       0                  0       0                  6   768   # tabs3InpSym4T.senSoC.number
+ -1       2                  1 1.0000000000000000E+100  1   282   # tabs3InpSym4T.senSoC.significantDigits
+  0       0                  0       0                  6   256   # tabs3InpSym4T.TAmb
+  0       0                  0       0                  6   256   # tabs3InpSym4T.energyMeter.c
+  0 2.8814999999999998E+002  0 1.0000000000000000E+100  6   256   # tabs3InpSym4T.energyMeter.tRef
+  0 2.8814999999999998E+002  0 1.0000000000000000E+100  6   256   # tabs3InpSym4T.energyMeter.tMax
+  0       0                  0       0                  6   256   # tabs3InpSym4T.energyMeter.product.u2
+  0       0                  0       0                  6   256   # tabs3InpSym4T.energyMeter.TDiff.y
+ -1      -1                  0       0                  1   280   # tabs3InpSym4T.energyMeter.TDiff.k1
+ -1       1                  0       0                  1   280   # tabs3InpSym4T.energyMeter.TDiff.k2
+ -1      -1                  0       0                  1   280   # tabs3InpSym4T.energyMeter.TDiffMax.k1
+ -1       1                  0       0                  1   280   # tabs3InpSym4T.energyMeter.TDiffMax.k2
+  0       1                  1 1.0000000000000000E+100  6   258   # Energy.nout
+  0       0                  0       0                  6   256   # Energy.y[1]
+  0       1                  0       0                  6   257   # Energy.tableOnFile
+ -1       1                  0       0                  1   281   # Energy.verboseRead
+  0       2                  0       0                  6   258   # Energy.columns[1]
+  0       2                  1       3                  6   258   # Energy.smoothness
+ -1       2                  1       4                  1   282   # Energy.extrapolation
+ -1       0                  0       0                  1   280   # Energy.offset[1]
+ -1       0                  0       0                  1   280   # Energy.startTime
+  0       0                  0       0                  6   256   # Energy.t_min
+  0       0                  0       0                  6   256   # Energy.t_max
+  0       0                  0       0                  6  1280   # Energy.p_offset[1]
+  0       0                  0       0                  6  1282   # Energy.tableID.id
+  0       0                  0       0                  6  1352   # Energy.nextTimeEvent
+  0       0                  0       0                  6  1280   # Energy.tableOnFileRead
+  0       1                  1 1.0000000000000000E+100  6   258   # TAmb.nout
+  0       0                  0       0                  6   257   # TAmb.tableOnFile
+ -1       0                  0       0                  1   280   # TAmb.table[1, 1]
+ -1      15                  0       0                  1   280   # TAmb.table[1, 2]
+ -1   50000                  0       0                  1   280   # TAmb.table[2, 1]
+ -1      15                  0       0                  1   280   # TAmb.table[2, 2]
+ -1  100000                  0       0                  1   280   # TAmb.table[3, 1]
+ -1      15                  0       0                  1   280   # TAmb.table[3, 2]
+ -1 1.6000000000000000E+005  0       0                  1   280   # TAmb.table[4, 1]
+ -1      15                  0       0                  1   280   # TAmb.table[4, 2]
+ -1 2.1000000000000000E+005  0       0                  1   280   # TAmb.table[5, 1]
+ -1      15                  0       0                  1   280   # TAmb.table[5, 2]
+ -1 2.6000000000000000E+005  0       0                  1   280   # TAmb.table[6, 1]
+ -1      15                  0       0                  1   280   # TAmb.table[6, 2]
+ -1 4.0000000000000000E+005  0       0                  1   280   # TAmb.table[7, 1]
+ -1      15                  0       0                  1   280   # TAmb.table[7, 2]
+ -1       1                  0       0                  1   281   # TAmb.verboseRead
+  0       2                  0       0                  6   258   # TAmb.columns[1]
+  0       1                  1       3                  6   258   # TAmb.smoothness
+ -1       2                  1       4                  1   282   # TAmb.extrapolation
+ -1 2.7314999999999998E+002  0       0                  1   280   # TAmb.offset[1]
+ -1       0                  0       0                  1   280   # TAmb.startTime
+  0       0                  0       0                  6   256   # TAmb.t_min
+  0       0                  0       0                  6   256   # TAmb.t_max
+  0       0                  0       0                  6  1280   # TAmb.p_offset[1]
+  0       0                  0       0                  6  1282   # TAmb.tableID.id
+  0       0                  0       0                  6  1352   # TAmb.nextTimeEvent
+  0       0                  0       0                  6  1280   # TAmb.tableOnFileRead
+  0       1                  1 1.0000000000000000E+100  6   258   # SOC.nout
+  0       0                  0       0                  6   256   # SOC.y[1]
+  0       1                  0       0                  6   257   # SOC.tableOnFile
+ -1       1                  0       0                  1   281   # SOC.verboseRead
+  0       2                  0       0                  6   258   # SOC.columns[1]
+  0       1                  1       3                  6   258   # SOC.smoothness
+ -1       2                  1       4                  1   282   # SOC.extrapolation
+ -1       0                  0       0                  1   280   # SOC.offset[1]
+ -1       0                  0       0                  1   280   # SOC.startTime
+  0       0                  0       0                  6   256   # SOC.t_min
+  0       0                  0       0                  6   256   # SOC.t_max
+  0       0                  0       0                  6  1280   # SOC.p_offset[1]
+  0       0                  0       0                  6  1282   # SOC.tableID.id
+  0       0                  0       0                  6  1352   # SOC.nextTimeEvent
+  0       0                  0       0                  6  1280   # SOC.tableOnFileRead
 
 
 # Matrix with 6 columns defining the initial value calculation
@@ -359,32 +649,108 @@ double initialValue(68,6)
 #   nominal value (and maybe minimum and maximum values given in 
 #   column 3 and 4). If these values are zero, scale(i)=1 is used).
 #
-char initialDescription(68,75)
-Number of irradiation vectors [:#(type=Integer)]
-Ambient temperature [K]
-Heating/cooling
-Electricity consumption
-Array with irradiation inputs
-Number of irradiation inputs/windows [:#(type=Integer)]
+char initialDescription(247,97)
+Number of outputs [:#(type=Integer)]
+Connector of Real output signals [K]
+= true, if table is defined on file or in function usertab [:#(type=Boolean)]
+= true, if info message that file is loading is to be printed [:#(type=Boolean)]
+Columns of table to be interpolated [:#(type=Integer)]
+Smoothness of table interpolation [:#(type=Modelica.Blocks.Types.Smoothness)]
+Extrapolation of data outside the definition range [:#(type=Modelica.Blocks.Types.Extrapolation)]
+Offsets of output signals
+Output = offset for time < startTime [s]
+Minimum abscissa value defined in table [s]
+Maximum abscissa value defined in table [s]
+Offsets of output signals
+[:#(type=Integer)]
+Next time event instant [s]
+= 1, if table was successfully read from file
+Number of outputs [:#(type=Integer)]
+Connector of Real output signals [W]
+= true, if table is defined on file or in function usertab [:#(type=Boolean)]
+= true, if info message that file is loading is to be printed [:#(type=Boolean)]
+Columns of table to be interpolated [:#(type=Integer)]
+Smoothness of table interpolation [:#(type=Modelica.Blocks.Types.Smoothness)]
+Extrapolation of data outside the definition range [:#(type=Modelica.Blocks.Types.Extrapolation)]
+Offsets of output signals
+Output = offset for time < startTime [s]
+Minimum abscissa value defined in table [s]
+Maximum abscissa value defined in table [s]
+Offsets of output signals
+[:#(type=Integer)]
+Next time event instant [s]
+= 1, if table was successfully read from file
+Number of outputs [:#(type=Integer)]
+Connector of Real output signals [K]
+= true, if table is defined on file or in function usertab [:#(type=Boolean)]
+= true, if info message that file is loading is to be printed [:#(type=Boolean)]
+Columns of table to be interpolated [:#(type=Integer)]
+Smoothness of table interpolation [:#(type=Modelica.Blocks.Types.Smoothness)]
+Extrapolation of data outside the definition range [:#(type=Modelica.Blocks.Types.Extrapolation)]
+Offsets of output signals
+Output = offset for time < startTime [s]
+Minimum abscissa value defined in table [s]
+Maximum abscissa value defined in table [s]
+Offsets of output signals
+[:#(type=Integer)]
+Next time event instant [s]
+= 1, if table was successfully read from file
+Number of outputs [:#(type=Integer)]
+Connector of Real output signals
+= true, if table is defined on file or in function usertab [:#(type=Boolean)]
+= true, if info message that file is loading is to be printed [:#(type=Boolean)]
+Columns of table to be interpolated [:#(type=Integer)]
+Smoothness of table interpolation [:#(type=Modelica.Blocks.Types.Smoothness)]
+Extrapolation of data outside the definition range [:#(type=Modelica.Blocks.Types.Extrapolation)]
+Offsets of output signals
+Output = offset for time < startTime [s]
+Minimum abscissa value defined in table [s]
+Maximum abscissa value defined in table [s]
+Offsets of output signals
+[:#(type=Integer)]
+Next time event instant [s]
+= 1, if table was successfully read from file
+Thermal capacity of middle slab [J/K]
+[J/K]
+Thermal capacity of upper slab [J/K]
+Thermal capacity of down slab [J/K]
+Thermal resistance of upper half of lower slab, in K/W [K/W]
+Thermal resistance of lower half of upper slab, in K/W [K/W]
+Thermal resistance of upper half of uppper slab, in K/W [K/W]
+Initial temperature of upper capacity in K [K|degC]
+Initial temperature of lower capacity in K [K|degC]
+Initial temperature of inner capacity in K [K|degC]
+Initial temperature of middle capacity in K [K|degC]
+Reference temperature for energy calculations [K|degC]
+Maximum temperature for SoC calculations [K|degC]
+[1]
+Heat flow rate (positive if flowing from outside into the component) [W]
+Constant thermal resistance [K/W]
+Heat flow rate (positive if flowing from outside into the component) [W]
+Constant thermal resistance [K/W]
+Reference temperature [K|degC]
+Temperature coefficient of heat flow rate [1/K]
 Heat flow rate (positive if flowing from outside into the component) [W]
 Heat flow rate (positive if flowing from outside into the component) [W]
-Heat flow rate (positive if flowing from outside into the component) [W]
-Thermal capacity of the zone [J/K]
-Total thermal resistance of the walls, in K/W [K/W]
 Heat capacity of element (= cp*m) [J/K]
 Initial temperature for the capacity, fixed=true [K|degC]
 Port temperature [K|degC]
 der(Port temperature) [K/s]
 Heat flow rate (positive if flowing from outside into the component) [W]
 Heat flow rate (positive if flowing from outside into the component) [W]
-gA value of the window(s)
-Fraction of heat flux to heaPor1
-Heat flow rate (positive if flowing from outside into the component) [W]
 Heat flow rate (positive if flowing from outside into the component) [W]
 Constant thermal resistance [K/W]
+Constant thermal resistance [K/W]
+Heat capacity of element (= cp*m) [J/K]
+Initial temperature for the capacity, fixed=true [K|degC]
+Port temperature [K|degC]
+der(Port temperature) [K/s]
 Heat flow rate (positive if flowing from outside into the component) [W]
-Thermal capacity of the zone [J/K]
-Total thermal resistance of the walls, in K/W [K/W]
+Heat capacity of element (= cp*m) [J/K]
+Initial temperature for the capacity, fixed=true [K|degC]
+Port temperature [K|degC]
+der(Port temperature) [K/s]
+Heat flow rate (positive if flowing from outside into the component) [W]
 Heat capacity of element (= cp*m) [J/K]
 Initial temperature for the capacity, fixed=true [K|degC]
 Port temperature [K|degC]
@@ -395,37 +761,140 @@ Constant thermal resistance [K/W]
 Heat flow rate (positive if flowing from outside into the component) [W]
 Heat flow rate (positive if flowing from outside into the component) [W]
 Heat flow rate (positive if flowing from outside into the component) [W]
-Fraction of heating to radiation
-Fraction of powEle that is converted into internal gains
-Fraction of PUsers that is converted in convective heat
-Fraction of PUsers that is converted in radiative heat
-Heat flow rate (positive if flowing from outside into the component) [W]
-Heat flow rate (positive if flowing from outside into the component) [W]
-Amplitude of sine wave
-Frequency of sine wave [Hz]
-Phase of sine wave [rad|deg]
-Offset of output signal
+Input capacitance for algorithm [J/K]
+Reference temperature, treated as zero energy point [K|degC]
+Maximal temperature of calculated state [K|degC]
+Connector of Real input signal 2
+Connector of Real output signal
+Gain of upper input
+Gain of lower input
+Connector of Real output signal
+Gain of upper input
+Gain of lower input
+Connector of Real output signal
+Input capacitance for algorithm [J/K]
+Reference temperature, treated as zero energy point [K|degC]
+Maximal temperature of calculated state [K|degC]
+Connector of Real input signal 2
+Connector of Real output signal
+Gain of upper input
+Gain of lower input
+Connector of Real output signal
+Gain of upper input
+Gain of lower input
+Connector of Real output signal
+Input capacitance for algorithm [J/K]
+Reference temperature, treated as zero energy point [K|degC]
+Maximal temperature of calculated state [K|degC]
+Connector of Real input signal 2
+Connector of Real output signal
+Gain of upper input
+Gain of lower input
+Connector of Real output signal
+Gain of upper input
+Gain of lower input
+Connector of Real output signal
+Input capacitance for algorithm [J/K]
+Reference temperature, treated as zero energy point [K|degC]
+Maximal temperature of calculated state [K|degC]
+Connector of Real input signal 2
+Connector of Real output signal
+Gain of upper input
+Gain of lower input
+Connector of Real output signal
+Gain of upper input
+Gain of lower input
+Connector of Real output signal
+Number of states to integrate in the SoC [:#(type=Integer)]
+Number of inputs [:#(type=Integer)]
+Optional: sum coefficients
+Optional: sum coefficients
+Optional: sum coefficients
+Optional: sum coefficients
+Optional: sum coefficients
+Number of inputs [:#(type=Integer)]
+Connector of Real output signal
+Optional: sum coefficients
+Optional: sum coefficients
+Optional: sum coefficients
+Optional: sum coefficients
+Optional: sum coefficients
+Maximum energy of all states
+Instantaneous energy content of all states
+Connector of Real output signal
+Output of SoC (Real)
+= true, if numberPort enabled [:#(type=Boolean)]
+Number to visualize if use_numberPort=false (time varying)
+Number of significant digits to be shown [:#(type=Integer)]
+= true, if numberPort enabled [:#(type=Boolean)]
+Number to visualize if use_numberPort=false (time varying)
+Number of significant digits to be shown [:#(type=Integer)]
+Connector of Real input signal 2
+Input capacitance for algorithm [J/K]
+Reference temperature, treated as zero energy point [K|degC]
+Maximal temperature of calculated state [K|degC]
+Connector of Real input signal 2
+Connector of Real output signal
+Gain of upper input
+Gain of lower input
+Gain of upper input
+Gain of lower input
+Number of outputs [:#(type=Integer)]
+Connector of Real output signals
+= true, if table is defined on file or in function usertab [:#(type=Boolean)]
+= true, if info message that file is loading is to be printed [:#(type=Boolean)]
+Columns of table to be interpolated [:#(type=Integer)]
+Smoothness of table interpolation [:#(type=Modelica.Blocks.Types.Smoothness)]
+Extrapolation of data outside the definition range [:#(type=Modelica.Blocks.Types.Extrapolation)]
+Offsets of output signals
 Output = offset for time < startTime [s]
-
-Height of step
-Offset of output signal y
-Output y = offset for time < startTime [s]
-Connector of Real input signal 1
-Amplitude of sine wave
-Frequency of sine wave [Hz]
-Phase of sine wave [rad|deg]
-Offset of output signal
+Minimum abscissa value defined in table [s]
+Maximum abscissa value defined in table [s]
+Offsets of output signals
+[:#(type=Integer)]
+Next time event instant [s]
+= 1, if table was successfully read from file
+Number of outputs [:#(type=Integer)]
+= true, if table is defined on file or in function usertab [:#(type=Boolean)]
+Table matrix (time = first column; e.g., table=[0,2])
+Table matrix (time = first column; e.g., table=[0,2])
+Table matrix (time = first column; e.g., table=[0,2])
+Table matrix (time = first column; e.g., table=[0,2])
+Table matrix (time = first column; e.g., table=[0,2])
+Table matrix (time = first column; e.g., table=[0,2])
+Table matrix (time = first column; e.g., table=[0,2])
+Table matrix (time = first column; e.g., table=[0,2])
+Table matrix (time = first column; e.g., table=[0,2])
+Table matrix (time = first column; e.g., table=[0,2])
+Table matrix (time = first column; e.g., table=[0,2])
+Table matrix (time = first column; e.g., table=[0,2])
+Table matrix (time = first column; e.g., table=[0,2])
+Table matrix (time = first column; e.g., table=[0,2])
+= true, if info message that file is loading is to be printed [:#(type=Boolean)]
+Columns of table to be interpolated [:#(type=Integer)]
+Smoothness of table interpolation [:#(type=Modelica.Blocks.Types.Smoothness)]
+Extrapolation of data outside the definition range [:#(type=Modelica.Blocks.Types.Extrapolation)]
+Offsets of output signals
 Output = offset for time < startTime [s]
-
-Constant output value
-Amplitude of pulse
-Width of pulse in % of period
-Time for one period [s]
-Number of periods (< 0 means infinite number of periods) [:#(type=Integer)]
-Offset of output signals
+Minimum abscissa value defined in table [s]
+Maximum abscissa value defined in table [s]
+Offsets of output signals
+[:#(type=Integer)]
+Next time event instant [s]
+= 1, if table was successfully read from file
+Number of outputs [:#(type=Integer)]
+Connector of Real output signals
+= true, if table is defined on file or in function usertab [:#(type=Boolean)]
+= true, if info message that file is loading is to be printed [:#(type=Boolean)]
+Columns of table to be interpolated [:#(type=Integer)]
+Smoothness of table interpolation [:#(type=Modelica.Blocks.Types.Smoothness)]
+Extrapolation of data outside the definition range [:#(type=Modelica.Blocks.Types.Extrapolation)]
+Offsets of output signals
 Output = offset for time < startTime [s]
-[s]
-Start time of current period [s]
-Period count [:#(type=Integer)]
-Constant output value
+Minimum abscissa value defined in table [s]
+Maximum abscissa value defined in table [s]
+Offsets of output signals
+[:#(type=Integer)]
+Next time event instant [s]
+= 1, if table was successfully read from file
 
