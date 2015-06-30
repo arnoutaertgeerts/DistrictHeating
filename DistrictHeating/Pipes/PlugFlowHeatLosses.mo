@@ -9,23 +9,26 @@ model PlugFlowHeatLosses
   //Parameters
   parameter Modelica.SIunits.Length L;
   parameter Modelica.SIunits.Length D;
+  parameter Modelica.SIunits.Length h=0.02 "Insulation thickness";
+
+  final constant Real pi = Modelica.Constants.pi;
+  final parameter Modelica.SIunits.Volume V=L*pi*(D/2)^2;
+
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal;
   parameter Modelica.SIunits.PressureDifference dp_nominal=0;
 
   parameter Modelica.SIunits.Density rho = 1000 "Mass density of fluid";
+  parameter Modelica.SIunits.SpecificHeatCapacity cp=4187
+    "Specific heat of fluid";
 
   parameter Boolean dynamicBalance = true
     "Set to true to use a dynamic balance, which often leads to smaller systems of equations"
     annotation (Evaluate=true, Dialog(tab="Dynamics", group="Equations"));
-
-  parameter Modelica.SIunits.SpecificHeatCapacity cp=4187
-    "Specific heat of fluid";
   parameter Modelica.SIunits.ThermalConductivity k=0.026 "Heat conductivity";
-  parameter Real S=2*pi/Modelica.Math.acosh(2*5/D) "Shape factor";
+  parameter Real S=2*pi/Modelica.Math.log((D+h)/D) "Shape factor";
 
-  final constant Real pi = Modelica.Constants.pi;
-  final parameter Modelica.SIunits.Volume V=L*pi*(D/2)^2;
-  final parameter Modelica.SIunits.ThermalResistance R=rho*pi*(D/2)^2/(k*S);
+  final parameter Modelica.SIunits.ThermalConductivity r=1/(k*S);
+  final parameter Real c=rho*pi*(D/2)^2*cp;
 
   //Variables
   Real u;
@@ -51,20 +54,20 @@ model PlugFlowHeatLosses
     annotation (Placement(transformation(extent={{-26,18},{-6,38}})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=u)
     annotation (Placement(transformation(extent={{-66,18},{-46,38}})));
-  BaseClasses.ExponentialDecay tempDecay(C=cp, R=R)
+  BaseClasses.ExponentialDecay tempDecay(C=c, R=r)
     annotation (Placement(transformation(extent={{20,14},{40,34}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTem(m_flow_nominal=m_flow_nominal,
       redeclare package Medium = Medium,
     tau=0)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
-  DeSchipjes.ProductionSites.Heaters.IdealHeater idealHeater(
+  Annex60.Fluid.HeatExchangers.HeaterCooler_T    idealHeater(
     m_flow_nominal=m_flow_nominal,
     redeclare package Medium = Medium,
     dp_nominal=0)
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
 equation
   //Normalized speed of the fluid [1/s]
-  u = port_a.m_flow/(1000*V);
+  u = port_a.m_flow/(rho*V);
 
   connect(port_a, plugFlowPipe.port_a) annotation (Line(
       points={{-100,0},{-60,0}},
@@ -102,8 +105,8 @@ equation
       points={{80,0},{100,0}},
       color={0,127,255},
       smooth=Smooth.None));
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}}),
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
+            {100,100}}),
                    graphics={
         Polygon(
           points={{20,-70},{60,-85},{20,-100},{20,-70}},
