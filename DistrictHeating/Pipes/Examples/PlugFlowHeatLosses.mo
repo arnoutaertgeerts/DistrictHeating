@@ -49,9 +49,8 @@ model PlugFlowHeatLosses
     redeclare package Medium = Annex60.Media.Water,
     m_flow_nominal=1,
     dp_nominal=0,
-    senTem(tau=0),
-    k=1,
-    L=100)
+    L=100,
+    k=0.026)
     annotation (Placement(transformation(extent={{-10,-30},{10,-10}})));
   Buildings.HeatTransfer.Sources.FixedTemperature fixedTemperature(T=273.15 + 20)
     annotation (Placement(transformation(extent={{-94,30},{-74,50}})));
@@ -64,12 +63,6 @@ model PlugFlowHeatLosses
     T_start=273.15 + 70,
     V=plug.V)
     annotation (Placement(transformation(extent={{-10,70},{10,90}})));
-  IDEAS.HeatTransfer.ThermalResistor thermalResistor(R=plug.R/(plug.V*plug.rho))
-                                                     annotation (Placement(
-        transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=90,
-        origin={-60,60})));
   IDEAS.Fluid.Sources.FixedBoundary bou1(
     nPorts=1,
     p=100000,
@@ -122,11 +115,14 @@ model PlugFlowHeatLosses
     diameter=plug.D,
     use_HeatTransfer=true,
     nNodes=50,
+    redeclare package Medium = Annex60.Media.Water,
+    T_start=273.15 + 20,
     redeclare model HeatTransfer =
         Modelica.Fluid.Pipes.BaseClasses.HeatTransfer.ConstantFlowHeatTransfer
-        (alpha0=plug.R/(plug.L*Modelica.Constants.pi*plug.D)),
-    redeclare package Medium = Annex60.Media.Water,
-    T_start=273.15 + 20)
+        (
+        k=plug.k*plug.S/(2*Modelica.Constants.pi*(plug.D + 2*plug.h)),
+        T_ambient=273.15 + 20,
+        alpha0=0))
     annotation (Placement(transformation(extent={{10,-64},{30,-44}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalCollector colAllToOne(m=50)
     "Connector to assign multiple heat ports to one heat port" annotation (
@@ -134,6 +130,11 @@ model PlugFlowHeatLosses
         extent={{-6,-6},{6,6}},
         rotation=180,
         origin={20,-42})));
+  Modelica.Thermal.HeatTransfer.Components.ThermalResistor thermalResistor1
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={-60,64})));
 equation
   connect(pump3.port_b, TPlugIn.port_a) annotation (Line(
       points={{-50,-20},{-44,-20}},
@@ -162,14 +163,6 @@ equation
   connect(temperatureSensor.T, plug.TBoundary) annotation (Line(
       points={{-20,20},{0.2,20},{0.2,-15}},
       color={0,0,127},
-      smooth=Smooth.None));
-  connect(vol.heatPort, thermalResistor.port_b) annotation (Line(
-      points={{-10,80},{-60,80},{-60,70}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(thermalResistor.port_a, temperatureSensor.port) annotation (Line(
-      points={{-60,50},{-60,20},{-40,20}},
-      color={191,0,0},
       smooth=Smooth.None));
   connect(vol.ports[1], bou1.ports[1]) annotation (Line(
       points={{0,70},{0,66},{30,66}},
@@ -201,6 +194,14 @@ equation
       smooth=Smooth.None));
   connect(colAllToOne.port_b, temperatureSensor.port) annotation (Line(
       points={{20,-36},{20,40},{-60,40},{-60,20},{-40,20}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(thermalResistor1.port_b, vol.heatPort) annotation (Line(
+      points={{-60,74},{-60,80},{-10,80}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(thermalResistor1.port_a, temperatureSensor.port) annotation (Line(
+      points={{-60,54},{-60,20},{-40,20}},
       color={191,0,0},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
