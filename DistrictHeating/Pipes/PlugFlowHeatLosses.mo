@@ -51,10 +51,11 @@ model PlugFlowHeatLosses
     annotation (Placement(transformation(extent={{-26,18},{-6,38}})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=u)
     annotation (Placement(transformation(extent={{-66,18},{-46,38}})));
-  BaseClasses.TempDecay tempDecay(C=cp, R=R)
+  BaseClasses.ExponentialDecay tempDecay(C=cp, R=R)
     annotation (Placement(transformation(extent={{20,14},{40,34}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTem(m_flow_nominal=m_flow_nominal,
-      redeclare package Medium = Medium)
+      redeclare package Medium = Medium,
+    tau=0)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   DeSchipjes.ProductionSites.Heaters.IdealHeater idealHeater(
     m_flow_nominal=m_flow_nominal,

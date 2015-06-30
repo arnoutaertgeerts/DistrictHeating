@@ -52,18 +52,7 @@ model MSL
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={58,-52})));
-  Modelica.Fluid.Pipes.DynamicPipe pipe(
-    nNodes=50,
-    use_HeatTransfer=true,
-    redeclare package Medium = Annex60.Media.Water,
-    diameter=0.05,
-    length=100,
-    redeclare model HeatTransfer =
-        Modelica.Fluid.Pipes.BaseClasses.HeatTransfer.ConstantFlowHeatTransfer
-        (
-        T_ambient=273.15 + 20,
-        k=0.026/0.16/2,
-        alpha0=0.026/0.16/2))
+  Buildings.Fluid.FixedResistances.Pipe pip
     annotation (Placement(transformation(extent={{0,-62},{20,-42}})));
 equation
   connect(pump1.port_b,senTem1. port_a) annotation (Line(
@@ -78,12 +67,12 @@ equation
       points={{68,-52},{80,-52}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(pipe.port_b, PlugFlowT1.port_a) annotation (Line(
-      points={{20,-52},{48,-52}},
+  connect(senTem1.port_b, pip.port_a) annotation (Line(
+      points={{-20,-52},{0,-52}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(senTem1.port_b, pipe.port_a) annotation (Line(
-      points={{-20,-52},{0,-52}},
+  connect(pip.port_b, PlugFlowT1.port_a) annotation (Line(
+      points={{20,-52},{48,-52}},
       color={0,127,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
