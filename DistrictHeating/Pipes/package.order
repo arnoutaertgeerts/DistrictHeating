@@ -1,8 +1,9 @@
+Pipe
 PlugFlowLosslessPipe
 PlugFlowPipe
 PlugFlowHeatLosses
 InsulatedPlugFlow
-AverageTempPlugFlowPipe
+AvgTempPlugFlowPipe
 DoublePipes
 Examples
 BaseClasses
