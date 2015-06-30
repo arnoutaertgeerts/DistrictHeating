@@ -20,26 +20,21 @@ model Pipe
       mu_a=mu_default,
       mu_b=mu_default,
       length=length,
-      diameter=diameter,
+      diameter=dh,
       roughness=roughness,
       m_flow_small=m_flow_small)
     "Pressure loss of a straight pipe at m_flow_nominal";
 
-  parameter Boolean useMultipleHeatPorts=false
-    "= true to use one heat port for each segment of the pipe, false to use a single heat port for the entire pipe";
-
-
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort if not
-    useMultipleHeatPorts
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort
     "Single heat port that connects to outside of pipe wall (default, enabled when useMultipleHeatPorts=false)"
     annotation (Placement(transformation(extent={{-10,40},{10,20}}),
         iconTransformation(extent={{-10,60},{10,40}})));
 equation
 
-  if useMultipleHeatPorts then
-  else
-
-  end if;
+  connect(vol.heatPort, heatPort) annotation (Line(
+      points={{-1,-28},{-46,-28},{-46,30},{0,30}},
+      color={191,0,0},
+      smooth=Smooth.None));
   annotation (
     defaultComponentName="pip",
     Documentation(info="<html>
@@ -102,6 +97,6 @@ First implementation.
 </li>
 </ul>
 </html>"),
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
-            100,100}}), graphics));
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
+            100}}), graphics));
 end Pipe;
