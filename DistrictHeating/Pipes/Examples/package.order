@@ -2,5 +2,7 @@ PreinsulatedPipesExample
 PlugFlowTemperaturePipe
 AverageTTest
 AverageTTest2
-PlugFlowHeatLosses
+MassflowPulse
+TemperaturePulse
 MSL
+PlugFlow
