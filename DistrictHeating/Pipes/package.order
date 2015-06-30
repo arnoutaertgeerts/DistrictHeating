@@ -1,7 +1,7 @@
 Pipe
 PlugFlowLosslessPipe
 PlugFlowPipe
-PlugFlowHeatPort
+PlugFlowHeatLosses
 InsulatedPlugFlow
 AvgTempPlugFlowPipe
 DoublePipes

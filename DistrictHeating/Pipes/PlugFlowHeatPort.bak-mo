@@ -30,7 +30,7 @@ model PlugFlowHeatPort
     m_flow_nominal=m_flow_nominal,
     dp_nominal=dp_nominal,
     redeclare package Medium = Medium)
-    annotation (Placement(transformation(extent={{-20,-10},{0,10}})));
+    annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
 
 equation
   // Mass balance (no storage)
@@ -48,7 +48,7 @@ equation
   dp=plugFlowPipe.dp;
 
   connect(port_a, plugFlowPipe.port_a) annotation (Line(
-      points={{-100,0},{-20,0}},
+      points={{-100,0},{-60,0}},
       color={0,127,255},
       smooth=Smooth.None));
   annotation (Icon(graphics={

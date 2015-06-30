@@ -1,4 +1,4 @@
 DistrictHeatingPipe
 FixedResistanceDpM
 Pipe
-TempDecay
+ExponentialDecay
