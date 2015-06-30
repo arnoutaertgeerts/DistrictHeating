@@ -35,24 +35,24 @@ model Pipe
     final linearized=linearizeFlowResistance,
     final ReC=ReC,
     final homotopyInitialization=homotopyInitialization) "Flow resistance"
-    annotation (Placement(transformation(extent={{20,-10},{40,10}})));
-  Buildings.Fluid.MixingVolumes.MixingVolume[nSeg] vol(
+    annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
+  Buildings.Fluid.MixingVolumes.MixingVolume vol(
     redeclare each final package Medium = Medium,
-    each energyDynamics=energyDynamics,
-    each massDynamics=massDynamics,
-    each final V=VPipe/nSeg,
-    each nPorts=2,
-    each final m_flow_nominal=m_flow_nominal,
-    each prescribedHeatFlowRate=true,
-    each p_start=p_start,
-    each T_start=T_start,
-    each X_start=X_start,
-    each C_start=C_start,
-    each C_nominal=C_nominal,
-    each final m_flow_small=m_flow_small,
-    each final allowFlowReversal=allowFlowReversal) "Volume for pipe fluid"
+    energyDynamics=energyDynamics,
+    massDynamics=massDynamics,
+    final V=VPipe,
+    nPorts=2,
+    final m_flow_nominal=m_flow_nominal,
+    prescribedHeatFlowRate=true,
+    p_start=p_start,
+    T_start=T_start,
+    X_start=X_start,
+    C_start=C_start,
+    C_nominal=C_nominal,
+    final m_flow_small=m_flow_small,
+    final allowFlowReversal=allowFlowReversal) "Volume for pipe fluid"
                                                   annotation (Placement(
-        transformation(extent={{53,-20},{73,-40}})));
+        transformation(extent={{17,-20},{37,-40}})));
 
 protected
   parameter Modelica.SIunits.Volume VPipe=Modelica.Constants.pi*(diameter/2.0)^
@@ -66,21 +66,17 @@ protected
     "Dynamic viscosity at nominal condition";
 equation
   connect(port_a, preDro.port_a) annotation (Line(
-      points={{-100,5.55112e-016},{-72,5.55112e-016},{-72,1.16573e-015},{-58,
-          1.16573e-015},{-58,0},{20,0}},
+      points={{-100,5.55112e-016},{-72,5.55112e-016},{-72,1.16573e-015},{-58,1.16573e-015},
+          {-58,0},{-40,0}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(preDro.port_b, vol[1].ports[1]) annotation (Line(
-      points={{40,0},{61,0},{61,-20}},
+
+  connect(preDro.port_b, vol.ports[1]) annotation (Line(
+      points={{-20,0},{25,0},{25,-20}},
       color={0,127,255},
       smooth=Smooth.None));
-  if nSeg > 1 then
-    for i in 1:(nSeg - 1) loop
-      connect(vol[i].ports[2], vol[i + 1].ports[1]);
-    end for;
-  end if;
-  connect(vol[nSeg].ports[2], port_b) annotation (Line(
-      points={{65,-20},{66,-20},{66,0},{100,0}},
+  connect(vol.ports[2], port_b) annotation (Line(
+      points={{29,-20},{28,-20},{28,0},{100,0}},
       color={0,127,255},
       smooth=Smooth.None));
   annotation (
@@ -141,5 +137,7 @@ February 12, 2012 by Wangda Zuo:<br/>
 First implementation.
 </li>
 </ul>
-</html>"));
+</html>"),
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
+            100,100}}), graphics));
 end Pipe;

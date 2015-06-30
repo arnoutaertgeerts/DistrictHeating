@@ -1,7 +1,7 @@
 within DistrictHeating.Pipes;
 model Pipe
-  "Pipe from Buildings, but adapted to use diameter instead of nominal flow as an input"
-  extends Buildings.Fluid.FixedResistances.BaseClasses.Pipe(
+  "Pipe from Buildings, but adapted to use diameter to cope with varying flow velocities"
+  extends DistrictHeating.Pipes.BaseClasses.Pipe(
    diameter=dh,
    dp_nominal=2*dpStraightPipe_nominal,
    preDro(dp(nominal=length*10)));
@@ -12,6 +12,8 @@ model Pipe
   parameter Modelica.SIunits.Length dh = 0.05 "Hydraulic diameter of pipe";
   parameter Modelica.SIunits.Length roughness(min=0) = 2.5e-5
     "Absolute roughness of pipe, with a default for a smooth steel pipe (dummy if use_roughness = false)";
+  parameter Modelica.SIunits.MassFlowRate m_flow_nominal
+    "Nominal mass flow rate, as calculated from the rated power transmission in pipe";
   final parameter Modelica.SIunits.Pressure dpStraightPipe_nominal=
       Modelica.Fluid.Pipes.BaseClasses.WallFriction.Detailed.pressureLoss_m_flow(
       m_flow=m_flow_nominal,
@@ -32,7 +34,7 @@ model Pipe
 equation
 
   connect(vol.heatPort, heatPort) annotation (Line(
-      points={{-1,-28},{-46,-28},{-46,30},{0,30}},
+      points={{17,-30},{0,-30},{0,30}},
       color={191,0,0},
       smooth=Smooth.None));
   annotation (
@@ -97,6 +99,7 @@ First implementation.
 </li>
 </ul>
 </html>"),
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            100}}), graphics));
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
+            100,100}}),
+                    graphics));
 end Pipe;

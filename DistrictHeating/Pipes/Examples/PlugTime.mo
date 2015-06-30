@@ -13,7 +13,6 @@ model PlugTime
 
   Modelica.Blocks.Nonlinear.VariableDelay delay
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
-    annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=tau)
     annotation (Placement(transformation(extent={{-40,-16},{-20,4}})));
 
@@ -47,6 +46,7 @@ equation
       points={{-12,-6},{-19,-6}},
       color={0,0,127},
       smooth=Smooth.None));
-  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+    annotation (Placement(transformation(extent={{-10,-10},{10,10}})),
+              Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));
 end PlugTime;

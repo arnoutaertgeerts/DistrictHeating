@@ -1,6 +1,7 @@
 within DistrictHeating.Pipes.BaseClasses;
 partial model DistrictHeatingPipe
   "A partial for a return and supply district heating pipe model based on Kvisgaard and Hadvig (1980)"
+  import DistrictHeating;
 
   //Extensions
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(
@@ -102,38 +103,38 @@ protected
      Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
-        origin={0,-34})));
-  Buildings.Fluid.FixedResistances.Pipe      Pipe1(
+        origin={0,-22})));
+  DistrictHeating.Pipes.Pipe                 Pipe1(
     redeclare package Medium = Medium,
     m_flow_nominal=m1_flow_nominal,
     dp_nominal=dp_nominal*L,
     massDynamics=massDynamics,
     energyDynamics=energyDynamics,
+    dh = Di,
     lambdaIns=0.26,
     length=L,
-    thicknessIns=0.0001,
-    nSeg=1)
+    thicknessIns=0.0001)
     annotation (Placement(transformation(extent={{-10,50},{10,70}})));
-  Buildings.Fluid.FixedResistances.Pipe      Pipe2(
+  DistrictHeating.Pipes.Pipe                 Pipe2(
     redeclare package Medium = Medium,
     massDynamics=massDynamics,
     energyDynamics=energyDynamics,
+    dh = Di,
     m_flow_nominal=m2_flow_nominal,
     dp_nominal=dp_nominal*L,
     lambdaIns=0.26,
     length=L,
-    thicknessIns=0.00001,
-    nSeg=1)
+    thicknessIns=0.00001)
     annotation (Placement(transformation(extent={{10,-70},{-10,-50}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow Q1Losses annotation (
      Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
-        origin={0,92})));
+        origin={0,106})));
   Modelica.Blocks.Sources.RealExpression SupplyHeatLosses(y=-Q1)
-    annotation (Placement(transformation(extent={{-40,96},{-20,116}})));
+    annotation (Placement(transformation(extent={{-40,110},{-20,130}})));
   Modelica.Blocks.Sources.RealExpression ReturnHeatLosses(y=-Q2)
-    annotation (Placement(transformation(extent={{-40,-22},{-20,-2}})));
+    annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
 
 equation
   T1 = (TIn1.T + TOut1.T)/2;
@@ -162,16 +163,12 @@ equation
       points={{80,-60},{100,-60}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(Q2Losses.port, Pipe2.heatPort) annotation (Line(
-      points={{0,-44},{0,-55}},
-      color={191,0,0},
-      smooth=Smooth.None));
   connect(SupplyHeatLosses.y, Q1Losses.Q_flow) annotation (Line(
-      points={{-19,106},{0,106},{0,102}},
+      points={{-19,120},{0,120},{0,116}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(ReturnHeatLosses.y, Q2Losses.Q_flow) annotation (Line(
-      points={{-19,-12},{0,-12},{0,-24}},
+      points={{-19,0},{0,0},{0,-12}},
       color={0,0,127},
       smooth=Smooth.None));
 
@@ -192,7 +189,11 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(Q1Losses.port, Pipe1.heatPort) annotation (Line(
-      points={{0,82},{0,65}},
+      points={{0,96},{0,65}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(Q2Losses.port, Pipe2.heatPort) annotation (Line(
+      points={{0,-32},{0,-55}},
       color={191,0,0},
       smooth=Smooth.None));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-140},
