@@ -1,5 +1,5 @@
 within DistrictHeating.Pipes;
-model PlugFlowHeatPort
+model PlugFlowHeatLosses
   "Pipe model with a temperature plug flow, pressure losses and heat exchange to the environment"
 
   //Extensions
@@ -18,10 +18,6 @@ model PlugFlowHeatPort
     annotation (Evaluate=true, Dialog(tab="Dynamics", group="Equations"));
 
   //Interface
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort
-    "Port for heat exchange with mixing volume" annotation (Placement(
-        transformation(extent={{-10,90},{10,110}}), iconTransformation(extent={{-10,90},
-            {10,110}})));
 
   //Components
   DistrictHeating.Pipes.PlugFlowPipe plugFlowPipe(
@@ -30,8 +26,13 @@ model PlugFlowHeatPort
     m_flow_nominal=m_flow_nominal,
     dp_nominal=dp_nominal,
     redeclare package Medium = Medium)
-    annotation (Placement(transformation(extent={{-20,-10},{0,10}})));
+    annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
 
+  Modelica.Blocks.Interfaces.RealInput u annotation (Placement(transformation(
+          extent={{-48,72},{-8,112}}), iconTransformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={1.77636e-015,90})));
 equation
   // Mass balance (no storage)
   plugFlowPipe.port_b.m_flow + port_b.m_flow = 0;
@@ -48,10 +49,12 @@ equation
   dp=plugFlowPipe.dp;
 
   connect(port_a, plugFlowPipe.port_a) annotation (Line(
-      points={{-100,0},{-20,0}},
+      points={{-100,0},{-60,0}},
       color={0,127,255},
       smooth=Smooth.None));
-  annotation (Icon(graphics={
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{100,100}}),
+                   graphics={
         Polygon(
           points={{20,-70},{60,-85},{20,-100},{20,-70}},
           lineColor={0,128,255},
@@ -92,9 +95,9 @@ equation
           color={0,128,255},
           smooth=Smooth.None,
           visible=showDesignFlowDirection),                                                                                 Polygon(          points={{
-              -10,-35},{-10,15},{0,35},{10,15},{10,-35},{-10,-35}},                                                                                                    lineColor={255,0,0},
+              -10,-41},{-10,15},{0,35},{10,15},{10,-41},{-10,-41}},                                                                                                    lineColor={255,0,0},
             fillPattern =                                                                                                   FillPattern.Forward,          fillColor={255,255,255},
           origin={0,59},
           rotation=180)}), Diagram(coordinateSystem(preserveAspectRatio=false,
           extent={{-100,-100},{100,100}}), graphics));
-end PlugFlowHeatPort;
+end PlugFlowHeatLosses;
