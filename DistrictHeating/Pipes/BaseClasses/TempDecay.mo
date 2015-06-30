@@ -22,10 +22,10 @@ model TempDecay
         origin={0,-100})));
   Modelica.Blocks.Interfaces.RealOutput TOut "Oulet temperature"
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}}), graphics));
 
 equation
   TOut = TBou + (TIn - TBou)*Modelica.Math.exp(-tDelay/(cp*rho*Modelica.Constants.pi*dh^2)*k*4);
 
+    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{100,100}}), graphics));
 end TempDecay;
