@@ -32,6 +32,7 @@ model PlugFlowHeatLosses
 
   //Variables
   Real u;
+  Modelica.SIunits.Power Q_Losses;
 
   //Components
   DistrictHeating.Pipes.PlugFlowPipe plugFlowPipe(
@@ -68,6 +69,7 @@ model PlugFlowHeatLosses
 equation
   //Normalized speed of the fluid [1/s]
   u = port_a.m_flow/(rho*V);
+  Q_Losses = -idealHeater.Q_flow/L;
 
   connect(port_a, plugFlowPipe.port_a) annotation (Line(
       points={{-100,0},{-60,0}},

@@ -52,6 +52,9 @@ partial model DHPipePlugFlow
   Modelica.SIunits.Temperature T1Avg;
   Modelica.SIunits.Temperature T2Avg;
 
+  Modelica.SIunits.Power Q1 "Heat losses from the supply line";
+  Modelica.SIunits.Power Q2 "Heat losses from the return line";
+
   //Interfaces
   Modelica.Blocks.Interfaces.RealInput Tg "Temperature of the ground"
                                 annotation (Placement(
@@ -63,14 +66,14 @@ partial model DHPipePlugFlow
         rotation=90,
         origin={0,-142})));
   //Components
-  PlugFlowHeatLosses plugFlowHeatLosses(
+  PlugFlowHeatLosses plugFlow1(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
     L=L,
     D=Di,
     S=Modelica.Constants.pi*(ha + hs))
     annotation (Placement(transformation(extent={{-10,50},{10,70}})));
-  PlugFlowHeatLosses plugFlowHeatLosses1(
+  PlugFlowHeatLosses plugFlow2(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
     L=L,
@@ -102,11 +105,14 @@ equation
   T1Bou = T2Avg*(1/hs-1/ha)/(1/hs+1/ha) + Tg*(2/ha)/(1/hs+1/ha);
   T2Bou = T1Avg*(1/hs-1/ha)/(1/hs+1/ha) + Tg*(2/ha)/(1/hs+1/ha);
 
-  connect(plugFlowHeatLosses1.port_b, T2In.port_a) annotation (Line(
+  Q1 = plugFlow1.Q_Losses;
+  Q2 = plugFlow2.Q_Losses;
+
+  connect(plugFlow2.port_b, T2In.port_a) annotation (Line(
       points={{-10,-60},{-20,-60}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(T2Out.port_b, plugFlowHeatLosses1.port_a) annotation (Line(
+  connect(T2Out.port_b, plugFlow2.port_a) annotation (Line(
       points={{20,-60},{10,-60}},
       color={0,127,255},
       smooth=Smooth.None));
@@ -118,7 +124,7 @@ equation
       points={{40,-60},{100,-60}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(plugFlowHeatLosses.port_b, T1Out.port_a) annotation (Line(
+  connect(plugFlow1.port_b, T1Out.port_a) annotation (Line(
       points={{10,60},{20,60}},
       color={0,127,255},
       smooth=Smooth.None));
@@ -126,7 +132,7 @@ equation
       points={{40,60},{100,60}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(T1In.port_b, plugFlowHeatLosses.port_a) annotation (Line(
+  connect(T1In.port_b, plugFlow1.port_a) annotation (Line(
       points={{-20,60},{-10,60}},
       color={0,127,255},
       smooth=Smooth.None));
@@ -134,13 +140,11 @@ equation
       points={{-100,60},{-40,60}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(SupplyBoundaryTemperature.y, plugFlowHeatLosses.TBoundary)
-    annotation (Line(
+  connect(SupplyBoundaryTemperature.y, plugFlow1.TBoundary) annotation (Line(
       points={{-11,100},{0.2,100},{0.2,65}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(ReturnBoundaryTemperature.y, plugFlowHeatLosses1.TBoundary)
-    annotation (Line(
+  connect(ReturnBoundaryTemperature.y, plugFlow2.TBoundary) annotation (Line(
       points={{-19,-100},{-0.2,-100},{-0.2,-65}},
       color={0,0,127},
       smooth=Smooth.None));

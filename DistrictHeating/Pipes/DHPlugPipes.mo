@@ -88,8 +88,157 @@ package DHPlugPipes
             smooth=Smooth.None)}));
   end TwinPipeGround;
 
+  model TwinPipeAir "Twin pipe model for symmetric pipes above the ground"
+
+    //Extensions
+    extends BaseClasses.DHPipePlugFlow(
+      hs=1/hsInvers,
+      ha=1/haInvers);
+
+    //Parameters
+    parameter Modelica.SIunits.Length Dc
+      "Outer diameter of the larger circumscribing pipe";
+  protected
+    parameter Modelica.SIunits.Length rc=Dc/2
+      "Outer radius of the larger circumscribing pipe";
+
+  protected
+    parameter Real hsInvers=
+      Modelica.Math.log(rc^2/(2*D*ri)) -
+      Modelica.Math.log(rc^4/(rc^4-D^4));
+    parameter Real haInvers=
+      Modelica.Math.log(2*D/ri) -
+      Modelica.Math.log((rc^2+D^2)/(rc^2-D^2));
+
+    annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-140},
+              {100,140}}),
+                     graphics={
+          Ellipse(
+            extent={{100,-100},{-100,100}},
+            lineColor={135,135,135},
+            fillColor={255,255,255},
+            fillPattern=FillPattern.Forward),
+          Polygon(
+            points={{34,24},{64,14},{34,2},{34,24}},
+            smooth=Smooth.None,
+            fillColor={255,0,0},
+            fillPattern=FillPattern.HorizontalCylinder,
+            pattern=LinePattern.None,
+            lineColor={0,0,0}),
+          Ellipse(
+            extent={{30,-90},{-30,-30}},
+            lineColor={0,0,255},
+            fillColor={0,0,255},
+            fillPattern=FillPattern.Sphere),
+          Polygon(
+            points={{34,20},{56,14},{34,6},{34,20}},
+            smooth=Smooth.None,
+            fillColor={255,255,255},
+            fillPattern=FillPattern.HorizontalCylinder,
+            pattern=LinePattern.None,
+            lineColor={0,0,0}),
+          Line(
+            points={{-58,14},{58,14}},
+            color={255,0,0},
+            smooth=Smooth.None),
+          Polygon(
+            points={{-32,0},{-62,-10},{-32,-22},{-32,0}},
+            smooth=Smooth.None,
+            fillColor={0,0,255},
+            fillPattern=FillPattern.HorizontalCylinder,
+            pattern=LinePattern.None,
+            lineColor={0,0,0}),
+          Polygon(
+            points={{-32,-4},{-54,-10},{-32,-18},{-32,-4}},
+            smooth=Smooth.None,
+            fillColor={255,255,255},
+            fillPattern=FillPattern.HorizontalCylinder,
+            pattern=LinePattern.None,
+            lineColor={0,0,0}),
+          Line(
+            points={{60,-10},{-52,-10}},
+            color={0,0,255},
+            smooth=Smooth.None),
+          Ellipse(
+            extent={{30,28},{-30,88}},
+            lineColor={255,0,0},
+            fillColor={255,0,0},
+            fillPattern=FillPattern.Sphere),
+          Rectangle(
+            extent={{-100,-140},{100,-114}},
+            lineColor={85,170,255},
+            fillColor={255,255,255},
+            fillPattern=FillPattern.Backward),
+          Line(
+            points={{-100,-114},{-100,-140},{-100,-114},{100,-114},{100,-140}},
+            color={255,255,255},
+            smooth=Smooth.None)}));
+  end TwinPipeAir;
+
+  model SoloPipes
+    "A symmetrical preinsulated pipe model where each pipe has its own insulation"
+
+    //Extensions
+    extends BaseClasses.DHPipePlugFlow(
+      hs=1/hsInvers,
+      ha=1/haInvers,
+      Do=0.25);
+
+    //Parameters
+  protected
+    parameter Real hsInvers=
+      Modelica.Math.log(2*Heff/ro) + beta +
+      Modelica.Math.log(sqrt(1 + (Heff/D)^2));
+    parameter Real haInvers=
+      Modelica.Math.log(2*Heff/ro) + beta -
+      Modelica.Math.log(sqrt(1 + (Heff/D)^2));
+
+    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+              -120},{100,120}}), graphics), Icon(coordinateSystem(
+            preserveAspectRatio=false, extent={{-100,-140},{100,140}}), graphics={
+          Ellipse(
+            extent={{-40,-20},{40,-100}},
+            lineColor={135,135,135},
+            fillPattern=FillPattern.Forward,
+            fillColor={255,255,255},
+            startAngle=0,
+            endAngle=360),
+          Ellipse(
+            extent={{-40,100},{40,20}},
+            lineColor={135,135,135},
+            fillPattern=FillPattern.Forward,
+            fillColor={255,255,255},
+            startAngle=0,
+            endAngle=360),
+          Ellipse(
+            extent={{30,30},{-30,90}},
+            lineColor={255,0,0},
+            fillColor={255,0,0},
+            fillPattern=FillPattern.Sphere),
+          Ellipse(
+            extent={{30,-90},{-30,-30}},
+            lineColor={0,0,255},
+            fillColor={0,0,255},
+            fillPattern=FillPattern.Sphere),
+          Rectangle(
+            extent={{-100,-140},{100,-114}},
+            lineColor={127,0,0},
+            fillColor={255,255,255},
+            fillPattern=FillPattern.Backward),
+          Line(
+            points={{-100,-114},{-100,-140},{-100,-114},{100,-114},{100,-140}},
+            color={255,255,255},
+            smooth=Smooth.None)}));
+
+  end SoloPipes;
+
   package Examples
+    extends Modelica.Icons.ExamplesPackage;
+
     model TwinPipes
+      //Extensions
+      extends Modelica.Icons.Example;
+
       TwinPipeGround twinPipeGround(redeclare package Medium =
             Annex60.Media.Water, L=100)
         annotation (Placement(transformation(extent={{-10,0},{10,28}})));
@@ -101,15 +250,15 @@ package DHPlugPipes
             extent={{-4,-4},{4,4}},
             rotation=90,
             origin={-80,-8})));
-      IDEAS.Fluid.Sensors.TemperatureTwoPort T1In(m_flow_nominal=0.1,
-          redeclare package Medium = IDEAS.Media.Water.Simple) annotation (
-          Placement(transformation(
+      IDEAS.Fluid.Sensors.TemperatureTwoPort T1In(m_flow_nominal=0.1, redeclare
+          package Medium = IDEAS.Media.Water.Simple) annotation (Placement(
+            transformation(
             extent={{-10,-10},{10,10}},
             rotation=0,
             origin={-28,42})));
-      IDEAS.Fluid.Sensors.TemperatureTwoPort T2In(m_flow_nominal=0.1,
-          redeclare package Medium = IDEAS.Media.Water.Simple) annotation (
-          Placement(transformation(
+      IDEAS.Fluid.Sensors.TemperatureTwoPort T2In(m_flow_nominal=0.1, redeclare
+          package Medium = IDEAS.Media.Water.Simple) annotation (Placement(
+            transformation(
             extent={{10,-10},{-10,10}},
             rotation=0,
             origin={28,-16})));
@@ -135,25 +284,26 @@ package DHPlugPipes
       Modelica.Blocks.Sources.Pulse pulse1(
         period=86400,
         offset=0.1,
-        width=20,
         startTime=7200,
-        amplitude=-0.09)
+        amplitude=-0.09,
+        width=60)
         annotation (Placement(transformation(extent={{-74,62},{-66,70}})));
-      IDEAS.Fluid.Sensors.TemperatureTwoPort T1Out(m_flow_nominal=0.1,
-          redeclare package Medium = IDEAS.Media.Water.Simple) annotation (
-          Placement(transformation(
+      IDEAS.Fluid.Sensors.TemperatureTwoPort T1Out(
+        m_flow_nominal=0.1,
+        redeclare package Medium = IDEAS.Media.Water.Simple,
+        tau=0) annotation (Placement(transformation(
             extent={{-10,-10},{10,10}},
             rotation=0,
             origin={26,20})));
-      IDEAS.Fluid.Sensors.TemperatureTwoPort T2Out(m_flow_nominal=0.1,
-          redeclare package Medium = IDEAS.Media.Water.Simple) annotation (
-          Placement(transformation(
+      IDEAS.Fluid.Sensors.TemperatureTwoPort T2Out(m_flow_nominal=0.1, redeclare
+          package Medium = IDEAS.Media.Water.Simple) annotation (Placement(
+            transformation(
             extent={{10,-10},{-10,10}},
             rotation=0,
             origin={-26,8})));
-      Modelica.Blocks.Sources.Constant const(k=273.15 + 50)
+      Modelica.Blocks.Sources.Constant const(k=273.15 + 40)
         annotation (Placement(transformation(extent={{72,0},{80,8}})));
-      Modelica.Blocks.Sources.Constant const1(k=273.15 - 20) annotation (
+      Modelica.Blocks.Sources.Constant const1(k=273.15 + 10) annotation (
           Placement(transformation(
             extent={{-4,-4},{4,4}},
             rotation=90,
@@ -215,8 +365,8 @@ package DHPlugPipes
           points={{-80,-4},{-80,8},{-90,8},{-90,42},{-88,42}},
           color={0,127,255},
           smooth=Smooth.None));
-      annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{
-                -100,-100},{100,100}}), graphics));
+      annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+                -100},{100,100}}), graphics));
     end TwinPipes;
   end Examples;
 end DHPlugPipes;
