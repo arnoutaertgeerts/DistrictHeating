@@ -1,0 +1,18 @@
+within DistrictHeating.Pipes.BaseClasses;
+model TSupplyBoundary
+  parameter Real Ra;
+  parameter Real Rs;
+
+  Modelica.Blocks.Interfaces.RealInput Tg
+    annotation (Placement(transformation(extent={{-130,40},{-90,80}})));
+  Modelica.Blocks.Interfaces.RealInput Tr
+    annotation (Placement(transformation(extent={{-130,-80},{-90,-40}})));
+  Modelica.Blocks.Interfaces.RealOutput y
+    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
+
+equation
+  y = Tr*(Rs-Ra)/(Rs+Ra) + 2*Ra/(Rs+Ra)*Tg
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{100,100}}), graphics));
+
+end TSupplyBoundary;

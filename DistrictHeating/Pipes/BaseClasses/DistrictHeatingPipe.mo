@@ -45,8 +45,6 @@ partial model DistrictHeatingPipe
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.1;
 
   parameter Integer tau = 120 "Time constant of the temperature sensors";
-
-protected
   parameter Real hs "Heat loss factor for the symmetrical problem";
   parameter Real ha "Heat loss factor fot the anti-symmetrical problem";
 

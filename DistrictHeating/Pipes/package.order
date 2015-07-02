@@ -2,9 +2,9 @@ Pipe
 PlugFlowLosslessPipe
 PlugFlowPipe
 PlugFlowHeatLosses
-InsulatedPlugFlow
 AvgTempPlugFlowPipe
 DoublePipes
+DHPlugPipes
 Examples
 BaseClasses
 Types

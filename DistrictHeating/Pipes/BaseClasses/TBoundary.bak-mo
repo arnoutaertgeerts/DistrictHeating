@@ -1,0 +1,12 @@
+within DistrictHeating.Pipes.BaseClasses;
+model TBoundary
+  parameter Real Ra;
+  parameter Real Rs;
+
+  Modelica.Blocks.Interfaces.RealInput Tg
+    annotation (Placement(transformation(extent={{-130,40},{-90,80}})));
+  Modelica.Blocks.Interfaces.RealInput Tr
+    annotation (Placement(transformation(extent={{-130,-80},{-90,-40}})));
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{100,100}}), graphics));
+end TBoundary;

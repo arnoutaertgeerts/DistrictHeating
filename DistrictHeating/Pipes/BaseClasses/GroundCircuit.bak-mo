@@ -1,0 +1,102 @@
+within DistrictHeating.Pipes.BaseClasses;
+model GroundCircuit
+  Modelica.Thermal.HeatTransfer.Components.ThermalResistor thermalResistor
+    annotation (Placement(transformation(
+        extent={{10,-10},{-10,10}},
+        rotation=180,
+        origin={28,0})));
+  Modelica.Thermal.HeatTransfer.Components.ThermalResistor thermalResistor1
+    annotation (Placement(transformation(
+        extent={{10,-10},{-10,10}},
+        rotation=180,
+        origin={2,0})));
+  Modelica.Thermal.HeatTransfer.Components.ThermalResistor thermalResistor2
+    annotation (Placement(transformation(
+        extent={{10,-10},{-10,10}},
+        rotation=180,
+        origin={-38,-40})));
+  Buildings.HeatTransfer.Sources.PrescribedTemperature prescribedTemperature
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=0,
+        origin={-72,-40})));
+  Modelica.Blocks.Interfaces.RealInput T1
+    annotation (Placement(transformation(extent={{-134,-60},{-94,-20}})));
+  Modelica.Blocks.Interfaces.RealInput Tboundary annotation (Placement(
+        transformation(
+        extent={{-20,-20},{20,20}},
+        rotation=90,
+        origin={0,-110})));
+  Buildings.HeatTransfer.Sources.PrescribedTemperature prescribedTemperature1
+    annotation (Placement(transformation(
+        extent={{10,-10},{-10,10}},
+        rotation=0,
+        origin={56,0})));
+  Modelica.Blocks.Interfaces.RealOutput y
+    annotation (Placement(transformation(extent={{96,-10},{116,10}})));
+  Modelica.Thermal.HeatTransfer.Components.ThermalResistor thermalResistor4
+    annotation (Placement(transformation(
+        extent={{10,-10},{-10,10}},
+        rotation=180,
+        origin={-40,40})));
+  Buildings.HeatTransfer.Sources.PrescribedTemperature prescribedTemperature2
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=0,
+        origin={-74,40})));
+  Modelica.Blocks.Interfaces.RealInput T2
+    annotation (Placement(transformation(extent={{-134,20},{-94,60}})));
+  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor temperatureSensor
+    annotation (Placement(transformation(extent={{0,30},{20,50}})));
+equation
+  connect(prescribedTemperature.T, T1) annotation (Line(
+      points={{-84,-40},{-114,-40}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(prescribedTemperature.port, thermalResistor2.port_a) annotation (Line(
+      points={{-62,-40},{-48,-40}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(thermalResistor1.port_b, thermalResistor.port_a) annotation (Line(
+      points={{12,0},{18,0}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(prescribedTemperature1.port, thermalResistor.port_b) annotation (Line(
+      points={{46,0},{38,0}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(Tboundary, prescribedTemperature1.T) annotation (Line(
+      points={{0,-110},{0,-60},{80,-60},{80,0},{68,0}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(prescribedTemperature2.T, T2) annotation (Line(
+      points={{-86,40},{-114,40}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(prescribedTemperature2.port, thermalResistor4.port_a) annotation (
+      Line(
+      points={{-64,40},{-50,40}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(thermalResistor4.port_b, thermalResistor1.port_a) annotation (Line(
+      points={{-30,40},{-20,40},{-20,1.33227e-015},{-8,1.33227e-015},{-8,
+          1.22125e-015}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(thermalResistor2.port_b, thermalResistor1.port_a) annotation (Line(
+      points={{-28,-40},{-20,-40},{-20,1.33227e-015},{-8,1.33227e-015},{-8,
+          1.22125e-015}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(temperatureSensor.port, thermalResistor1.port_a) annotation (Line(
+      points={{0,40},{-20,40},{-20,1.33227e-015},{-8,1.33227e-015},{-8,
+          1.22125e-015}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(temperatureSensor.T, y) annotation (Line(
+      points={{20,40},{88,40},{88,0},{106,0}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{100,100}}), graphics));
+end GroundCircuit;

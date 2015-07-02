@@ -51,11 +51,11 @@ model PlugFlowHeatLosses
         rotation=270,
         origin={2,50})));
   TimeDelays.PDETime pDETime
-    annotation (Placement(transformation(extent={{-26,18},{-6,38}})));
+    annotation (Placement(transformation(extent={{-28,24},{-8,44}})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=u)
-    annotation (Placement(transformation(extent={{-66,18},{-46,38}})));
+    annotation (Placement(transformation(extent={{-58,24},{-38,44}})));
   BaseClasses.ExponentialDecay tempDecay(C=c, R=r)
-    annotation (Placement(transformation(extent={{20,14},{40,34}})));
+    annotation (Placement(transformation(extent={{20,20},{40,40}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTem(m_flow_nominal=m_flow_nominal,
       redeclare package Medium = Medium,
     tau=0)
@@ -74,7 +74,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(pDETime.u, realExpression.y) annotation (Line(
-      points={{-28,28},{-45,28}},
+      points={{-30,34},{-37,34}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(plugFlowPipe.port_b, senTem.port_a) annotation (Line(
@@ -82,19 +82,19 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(senTem.T, tempDecay.TIn) annotation (Line(
-      points={{0,11},{0,20},{18,20}},
+      points={{0,11},{0,26},{18,26}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(pDETime.tau, tempDecay.tDelay) annotation (Line(
-      points={{-5,28},{18,28}},
+      points={{-7,34},{18,34}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(TBoundary, tempDecay.TBou) annotation (Line(
-      points={{0,110},{0,66},{30,66},{30,36}},
+      points={{0,110},{0,66},{30,66},{30,42}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(tempDecay.TOut, idealHeater.TSet) annotation (Line(
-      points={{41,24},{50,24},{50,6},{58,6}},
+      points={{41,30},{50,30},{50,6},{58,6}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(senTem.port_b, idealHeater.port_a) annotation (Line(

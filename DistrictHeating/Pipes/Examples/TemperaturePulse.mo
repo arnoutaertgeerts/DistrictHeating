@@ -88,7 +88,7 @@ model TemperaturePulse
     redeclare model HeatTransfer =
         Modelica.Fluid.Pipes.BaseClasses.HeatTransfer.ConstantFlowHeatTransfer
         (T_ambient=273.15 + 20, alpha0=plug.k*plug.S/(plug.pi*plug.D)),
-    nNodes=50)
+    nNodes=5)
     annotation (Placement(transformation(extent={{-2,-50},{18,-30}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalCollector colAllToOne(m=MSL.nNodes)
     "Connector to assign multiple heat ports to one heat port" annotation (
@@ -190,7 +190,7 @@ model TemperaturePulse
     redeclare model HeatTransfer =
         Modelica.Fluid.Pipes.BaseClasses.HeatTransfer.ConstantFlowHeatTransfer
         (T_ambient=273.15 + 20, alpha0=plug.k*plug.S/(plug.pi*plug.D)),
-    nNodes=50)
+    nNodes=5)
     annotation (Placement(transformation(extent={{24,-50},{44,-30}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalCollector colAllToOne1(m=MSL.nNodes)
     "Connector to assign multiple heat ports to one heat port" annotation (
@@ -366,7 +366,7 @@ equation
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(extent={{-100,
             -100},{100,100}})),
-    experiment(StopTime=25000),
+    experiment(StopTime=180000),
     __Dymola_experimentSetupOutput,
     __Dymola_Commands(executeCall(ensureSimulated=true) = RunScript(
         "C:/Users/u0098668/Documents/Modelica/DistrictHeating/DistrictHeating/simulate and plot.mos")

@@ -3,7 +3,6 @@ package Examples
   model DHNetwork
 
     DHConnection dHConnection(
-      redeclare package Medium = Buildings.Media.Water,
       m_flow_nominal=0.5,
       length=100,
       T_start=273.15 + 60,
@@ -11,10 +10,10 @@ package Examples
         districtHeatingPipe,
       dynamicBalance=true,
       tau=60,
-      allowFlowReversal=false)
+      allowFlowReversal=false,
+      redeclare package Medium = Annex60.Media.Water)
       annotation (Placement(transformation(extent={{-40,0},{-20,20}})));
     DHConnection dHConnection1(
-      redeclare package Medium = Buildings.Media.Water,
       m_flow_nominal=0.5,
       length=1000,
       T_start=273.15 + 60,
@@ -22,10 +21,10 @@ package Examples
         districtHeatingPipe,
       dynamicBalance=true,
       tau=60,
-      allowFlowReversal=false)
+      allowFlowReversal=false,
+      redeclare package Medium = Annex60.Media.Water)
       annotation (Placement(transformation(extent={{-10,0},{10,20}})));
     DHConnection dHConnection2(
-      redeclare package Medium = Buildings.Media.Water,
       m_flow_nominal=0.5,
       length=10000,
       T_start=273.15 + 60,
@@ -33,30 +32,31 @@ package Examples
         districtHeatingPipe,
       dynamicBalance=true,
       tau=60,
-      allowFlowReversal=false)
+      allowFlowReversal=false,
+      redeclare package Medium = Annex60.Media.Water)
       annotation (Placement(transformation(extent={{20,0},{40,20}})));
-    Annex60.Fluid.HeatExchangers.HeaterCooler_T hea(redeclare package Medium =
-          Buildings.Media.Water,
+    Annex60.Fluid.HeatExchangers.HeaterCooler_T hea(
       m_flow_nominal=0.5,
       dp_nominal=20,
       energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
-      allowFlowReversal=false)
+      allowFlowReversal=false,
+      redeclare package Medium = Annex60.Media.Water)
       annotation (Placement(transformation(extent={{-72,6},{-52,26}})));
     Annex60.Fluid.Movers.FlowControlled_m_flow fan(
-      redeclare package Medium = Buildings.Media.Water,
       m_flow_nominal=0.5,
       massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       allowFlowReversal=false,
-      energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+      energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+      redeclare package Medium = Annex60.Media.Water)
       annotation (Placement(transformation(extent={{50,6},{70,26}})));
     Modelica.Blocks.Sources.Constant const(k=273.15 + 70)
       annotation (Placement(transformation(extent={{-94,40},{-74,60}})));
     Modelica.Blocks.Sources.Constant const1(k=0.5)
       annotation (Placement(transformation(extent={{24,40},{44,60}})));
     Annex60.Fluid.Sources.FixedBoundary bou(
-      redeclare package Medium = Buildings.Media.Water,
       use_T=false,
-      nPorts=1)
+      nPorts=1,
+      redeclare package Medium = Annex60.Media.Water)
       annotation (Placement(transformation(extent={{-76,-34},{-56,-14}})));
   equation
     connect(dHConnection.port_b1, dHConnection1.port_a1) annotation (Line(
