@@ -1,5 +1,5 @@
 within DistrictHeating.Pipes.Examples;
-model MSL
+model Pipes
   import DistrictHeating;
   extends Modelica.Icons.Example;
   import IDEAS;
@@ -36,24 +36,6 @@ model MSL
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={60,-30})));
-  Modelica.Fluid.Pipes.DynamicPipe MSL(
-    use_HeatTransfer=true,
-    redeclare package Medium = Annex60.Media.Water,
-    T_start=273.15 + 20,
-    length=50,
-    diameter=0.05,
-    redeclare model HeatTransfer =
-        Modelica.Fluid.Pipes.BaseClasses.HeatTransfer.ConstantFlowHeatTransfer
-        (T_ambient=273.15 + 20, alpha0=0.026*18.6373/(Modelica.Constants.pi*
-            0.05)),
-    nNodes=20)
-    annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
-  Modelica.Thermal.HeatTransfer.Components.ThermalCollector colAllToOne(m=MSL.nNodes)
-    "Connector to assign multiple heat ports to one heat port" annotation (
-      Placement(transformation(
-        extent={{-6,-6},{6,6}},
-        rotation=180,
-        origin={10,-16})));
   Annex60.Fluid.Movers.FlowControlled_m_flow fan1(redeclare package Medium =
         Annex60.Media.Water, m_flow_nominal=0.5)
     annotation (Placement(transformation(extent={{-56,-40},{-36,-20}})));
@@ -74,36 +56,29 @@ model MSL
     width=0,
     offset=0.1)
     annotation (Placement(transformation(extent={{-64,-16},{-56,-8}})));
-  Modelica.Fluid.Pipes.DynamicPipe MSL1(
-    use_HeatTransfer=true,
+  Buildings.Fluid.FixedResistances.Pipe pip(
     redeclare package Medium = Annex60.Media.Water,
-    T_start=273.15 + 20,
-    length=50,
+    m_flow_nominal=0.1,
+    dp_nominal=0,
+    thicknessIns=0.02,
+    lambdaIns=0.026,
     diameter=0.05,
-    redeclare model HeatTransfer =
-        Modelica.Fluid.Pipes.BaseClasses.HeatTransfer.ConstantFlowHeatTransfer
-        (T_ambient=273.15 + 20, alpha0=0.026*18.6373/(Modelica.Constants.pi*
-            0.05)),
-    nNodes=MSL.nNodes)
+    length=100,
+    nSeg=2) annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
+  Buildings.Fluid.FixedResistances.Pipe pip1(
+    redeclare package Medium = Annex60.Media.Water,
+    m_flow_nominal=0.1,
+    dp_nominal=0,
+    nSeg=pip.nSeg,
+    thicknessIns=pip.thicknessIns,
+    lambdaIns=pip.lambdaIns,
+    diameter=pip.diameter,
+    length=pip.length)
     annotation (Placement(transformation(extent={{26,-40},{46,-20}})));
-  Modelica.Thermal.HeatTransfer.Components.ThermalCollector colAllToOne1(m=MSL.nNodes)
-    "Connector to assign multiple heat ports to one heat port" annotation (
-      Placement(transformation(
-        extent={{-6,-6},{6,6}},
-        rotation=180,
-        origin={36,-16})));
 equation
   connect(TMocOut.port_b,bou5. ports[1]) annotation (Line(
       points={{70,-30},{80,-30}},
       color={0,127,255},
-      smooth=Smooth.None));
-  connect(TMocIn.port_b,MSL. port_a) annotation (Line(
-      points={{-10,-30},{0,-30}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(colAllToOne.port_a,MSL. heatPorts) annotation (Line(
-      points={{10,-22},{10,-25.6},{10.1,-25.6}},
-      color={191,0,0},
       smooth=Smooth.None));
   connect(TMocIn.port_a, fan1.port_b) annotation (Line(
       points={{-30,-30},{-36,-30}},
@@ -121,33 +96,33 @@ equation
       points={{-55.6,-12},{-46.2,-12},{-46.2,-18}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(MSL.port_b, MSL1.port_a) annotation (Line(
-      points={{20,-30},{26,-30}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(MSL1.port_b, TMocOut.port_a) annotation (Line(
-      points={{46,-30},{50,-30}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(MSL1.heatPorts, colAllToOne1.port_a) annotation (Line(
-      points={{36.1,-25.6},{36,-25.6},{36,-22}},
-      color={127,0,0},
-      smooth=Smooth.None));
-  connect(fixedTemperature.port, colAllToOne.port_b) annotation (Line(
-      points={{0,10},{10,10},{10,-10}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(fixedTemperature.port, colAllToOne1.port_b) annotation (Line(
-      points={{0,10},{36,10},{36,-10}},
-      color={191,0,0},
-      smooth=Smooth.None));
   connect(pulse.y, idealHeater1.TSet) annotation (Line(
       points={{-76.4,-12},{-88,-12},{-88,-24},{-84,-24}},
       color={0,0,127},
+      smooth=Smooth.None));
+  connect(TMocIn.port_b, pip.port_a) annotation (Line(
+      points={{-10,-30},{0,-30}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(pip.port_b, pip1.port_a) annotation (Line(
+      points={{20,-30},{26,-30}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(TMocOut.port_a, pip1.port_b) annotation (Line(
+      points={{50,-30},{46,-30}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(fixedTemperature.port, pip.heatPort) annotation (Line(
+      points={{0,10},{10,10},{10,-25}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(fixedTemperature.port, pip1.heatPort) annotation (Line(
+      points={{0,10},{36,10},{36,-25}},
+      color={191,0,0},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(extent={{-100,
             -100},{100,100}})),
     experiment(StopTime=604800),
     __Dymola_experimentSetupOutput);
-end MSL;
+end Pipes;

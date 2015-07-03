@@ -1,9 +1,8 @@
-PreinsulatedPipesExample
-PlugFlowTemperaturePipe
 AverageTTest
 AverageTTest2
 MassflowPulse
 TemperaturePulse
 MSL
 PlugFlow
-MixingVolume
+Pipes
+TwinPipes

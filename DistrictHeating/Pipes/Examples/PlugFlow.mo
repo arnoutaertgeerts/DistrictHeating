@@ -8,23 +8,15 @@ model PlugFlow
     p=100000,
     T=273.15 + 70,
     redeclare package Medium = IDEAS.Media.Water.Simple,
-    nPorts=1) annotation (Placement(transformation(
+    nPorts=1,
+    use_T=false)
+              annotation (Placement(transformation(
         extent={{-4,-4},{4,4}},
         rotation=0,
         origin={-94,10})));
-  IDEAS.Fluid.Sources.FixedBoundary bou3(
-    use_T=false,
-    use_p=true,
-    p=100000,
-    nPorts=1,
-    redeclare package Medium = IDEAS.Media.Water.Simple)
-              annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=180,
-        origin={90,10})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort TPlugIn(m_flow_nominal=0.1, redeclare
       package Medium = IDEAS.Media.Water.Simple,
-    tau=1)                                       annotation (Placement(
+    tau=0)                                       annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
@@ -42,7 +34,7 @@ model PlugFlow
     m_flow_nominal=1,
     dp_nominal=0,
     k=0.026,
-    L=50)
+    L=100)
     annotation (Placement(transformation(extent={{-6,0},{14,20}})));
   Buildings.HeatTransfer.Sources.FixedTemperature fixedTemperature(T=273.15 + 20)
     annotation (Placement(transformation(extent={{-94,70},{-74,90}})));
@@ -51,8 +43,8 @@ model PlugFlow
   Annex60.Fluid.Movers.FlowControlled_m_flow fan(
     redeclare package Medium = Annex60.Media.Water,
     m_flow_nominal=0.5,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{-56,0},{-36,20}})));
   Modelica.Blocks.Sources.Pulse pulse(
     width=5,
@@ -72,20 +64,15 @@ model PlugFlow
     offset=0.1)
     annotation (Placement(transformation(extent={{-60,30},{-52,38}})));
   DistrictHeating.Pipes.PlugFlowHeatLosses plug1(
-    D=0.05,
     redeclare package Medium = Annex60.Media.Water,
     m_flow_nominal=1,
     dp_nominal=0,
-    k=0.026,
-    L=50)
-    annotation (Placement(transformation(extent={{22,0},{42,20}})));
-  Modelica.Blocks.Continuous.Filter filter(f_cut=1)
-    annotation (Placement(transformation(extent={{-82,30},{-90,38}})));
+    L=plug.L,
+    D=plug.D,
+    h=plug.h,
+    k=plug.k)
+    annotation (Placement(transformation(extent={{20,0},{40,20}})));
 equation
-  connect(TPlugOut.port_b,bou3. ports[1]) annotation (Line(
-      points={{70,10},{80,10}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(TPlugIn.port_b,plug. port_a) annotation (Line(
       points={{-12,10},{-6,10}},
       color={0,127,255},
@@ -111,28 +98,28 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(plug.port_b, plug1.port_a) annotation (Line(
-      points={{14,10},{22,10}},
+      points={{14,10},{20,10}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(plug1.port_b, TPlugOut.port_a) annotation (Line(
-      points={{42,10},{50,10}},
+      points={{40,10},{50,10}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(plug1.TBoundary, plug.TBoundary) annotation (Line(
-      points={{32.2,15},{32.2,80},{4.2,80},{4.2,15}},
+      points={{30.2,15},{30.2,80},{4.2,80},{4.2,15}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(pulse1.y, fan.m_flow_in) annotation (Line(
       points={{-51.6,34},{-46.2,34},{-46.2,22}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(pulse.y, filter.u) annotation (Line(
-      points={{-76.4,34},{-81.2,34}},
+  connect(pulse.y, idealHeater.TSet) annotation (Line(
+      points={{-76.4,34},{-88,34},{-88,16},{-84,16}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(filter.y, idealHeater.TSet) annotation (Line(
-      points={{-90.4,34},{-94,34},{-94,16},{-84,16}},
-      color={0,0,127},
+  connect(TPlugOut.port_b, idealHeater.port_a) annotation (Line(
+      points={{70,10},{76,10},{76,-20},{-86,-20},{-86,10},{-82,10}},
+      color={0,127,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(extent={{-100,

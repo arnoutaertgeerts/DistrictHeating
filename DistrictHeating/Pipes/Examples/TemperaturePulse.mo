@@ -38,12 +38,12 @@ model TemperaturePulse
         origin={58,0})));
 
   DistrictHeating.Pipes.PlugFlowHeatLosses plug(
-    D=0.05,
     redeclare package Medium = Annex60.Media.Water,
     m_flow_nominal=1,
     dp_nominal=0,
     k=0.026,
-    L=50)
+    L=100,
+    D=0.2)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Buildings.HeatTransfer.Sources.FixedTemperature fixedTemperature(T=273.15 + 20)
     annotation (Placement(transformation(extent={{-96,60},{-76,80}})));
@@ -126,17 +126,6 @@ model TemperaturePulse
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={58,-80})));
-  Annex60.Fluid.MixingVolumes.MixingVolume vol(
-    redeclare package Medium = Annex60.Media.Water,
-    m_flow_nominal=1,
-    nPorts=2,
-    V=plug.V)
-    annotation (Placement(transformation(extent={{46,-80},{26,-60}})));
-  Modelica.Thermal.HeatTransfer.Components.ThermalResistor thermalResistor1(R=
-        plug.r/plug.L) annotation (Placement(transformation(
-        extent={{10,-10},{-10,10}},
-        rotation=90,
-        origin={46,50})));
   Annex60.Fluid.Movers.FlowControlled_m_flow fan(redeclare package Medium =
         Annex60.Media.Water, m_flow_nominal=0.5)
     annotation (Placement(transformation(extent={{-58,-10},{-38,10}})));
@@ -174,12 +163,12 @@ model TemperaturePulse
     offset=0.1)
     annotation (Placement(transformation(extent={{-66,-26},{-58,-18}})));
   DistrictHeating.Pipes.PlugFlowHeatLosses plug1(
-    D=0.05,
     redeclare package Medium = Annex60.Media.Water,
     m_flow_nominal=1,
     dp_nominal=0,
-    k=0.026,
-    L=50)
+    L=plug.L,
+    D=plug.D,
+    k=plug.k)
     annotation (Placement(transformation(extent={{18,-10},{38,10}})));
   Modelica.Fluid.Pipes.DynamicPipe MSL1(
     length=plug.L,
@@ -198,17 +187,24 @@ model TemperaturePulse
         extent={{-6,-6},{6,6}},
         rotation=180,
         origin={34,-26})));
-  Annex60.Fluid.MixingVolumes.MixingVolume vol1(
+  Buildings.Fluid.FixedResistances.Pipe pip(
     redeclare package Medium = Annex60.Media.Water,
-    m_flow_nominal=1,
-    V=plug.V,
-    nPorts=2)
-    annotation (Placement(transformation(extent={{22,-80},{2,-60}})));
-  Modelica.Thermal.HeatTransfer.Components.ThermalResistor thermalResistor2(R=
-        plug.r/plug.L) annotation (Placement(transformation(
-        extent={{10,-10},{-10,10}},
-        rotation=90,
-        origin={22,52})));
+    lambdaIns=plug.k,
+    diameter=plug.D,
+    length=plug.L,
+    m_flow_nominal=0.1,
+    dp_nominal=0,
+    thicknessIns=plug.h/2,
+    nSeg=100) annotation (Placement(transformation(extent={{-6,-90},{14,-70}})));
+  Buildings.Fluid.FixedResistances.Pipe pip1(
+    redeclare package Medium = Annex60.Media.Water,
+    lambdaIns=plug.k,
+    diameter=plug.D,
+    length=plug.L,
+    m_flow_nominal=0.1,
+    nSeg=pip.nSeg,
+    thicknessIns=plug.h/2)
+    annotation (Placement(transformation(extent={{24,-90},{44,-70}})));
 equation
   connect(TPlugOut.port_b, bou3.ports[1]) annotation (Line(
       points={{68,0},{78,0}},
@@ -245,18 +241,6 @@ equation
   connect(TVolOut.port_b, bou7.ports[1]) annotation (Line(
       points={{68,-80},{78,-80}},
       color={0,127,255},
-      smooth=Smooth.None));
-  connect(vol.ports[1], TVolOut.port_a) annotation (Line(
-      points={{38,-80},{48,-80}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(vol.heatPort, thermalResistor1.port_b) annotation (Line(
-      points={{46,-70},{46,40}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(thermalResistor1.port_a, temperatureSensor.port) annotation (Line(
-      points={{46,60},{46,70},{-62,70},{-62,38},{-36,38}},
-      color={191,0,0},
       smooth=Smooth.None));
   connect(fan.port_b, TPlugIn.port_a) annotation (Line(
       points={{-38,0},{-34,0}},
@@ -347,20 +331,24 @@ equation
       points={{34,-20},{34,-16},{8,-16},{8,70},{-62,70},{-62,38},{-36,38}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(TVolIn.port_b, vol1.ports[1]) annotation (Line(
-      points={{-12,-80},{14,-80}},
+  connect(TVolIn.port_b, pip.port_a) annotation (Line(
+      points={{-12,-80},{-6,-80}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(vol1.ports[2], vol.ports[2]) annotation (Line(
-      points={{10,-80},{34,-80}},
+  connect(pip.port_b, pip1.port_a) annotation (Line(
+      points={{14,-80},{24,-80}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(thermalResistor2.port_a, temperatureSensor.port) annotation (Line(
-      points={{22,62},{22,70},{-62,70},{-62,38},{-36,38}},
+  connect(TVolOut.port_a, pip1.port_b) annotation (Line(
+      points={{48,-80},{44,-80}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(pip.heatPort, temperatureSensor.port) annotation (Line(
+      points={{4,-75},{4,-60},{20,-60},{20,70},{-62,70},{-62,38},{-36,38}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(thermalResistor2.port_b, vol1.heatPort) annotation (Line(
-      points={{22,42},{22,-70}},
+  connect(pip1.heatPort, temperatureSensor.port) annotation (Line(
+      points={{34,-75},{34,-60},{20,-60},{20,70},{-62,70},{-62,38},{-36,38}},
       color={191,0,0},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

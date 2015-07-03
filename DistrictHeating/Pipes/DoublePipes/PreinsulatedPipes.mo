@@ -6,7 +6,9 @@ model PreinsulatedPipes
   extends BaseClasses.DistrictHeatingPipe(
     hs=1/hsInvers,
     ha=1/haInvers,
-    Do=0.25);
+    Do=0.25,
+    Pipe1(diameter=Di, lambdaIns=lambdaI),
+    Pipe2(lambdaIns=lambdaI, diameter=Di));
 
   //Parameters
 protected

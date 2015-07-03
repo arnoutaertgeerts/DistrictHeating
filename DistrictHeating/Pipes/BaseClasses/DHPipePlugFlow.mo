@@ -41,6 +41,9 @@ partial model DHPipePlugFlow
     "Half the distance between the center of the pipes";
   final parameter Modelica.SIunits.Mass m=Modelica.Constants.pi*Di*Di/4*L*rho;
 
+  final parameter Real a = (1/hs-1/ha)/(1/hs+1/ha);
+  final parameter Real b = (2/ha)/(1/hs+1/ha);
+
   parameter Types.PressurePerLength dp_nominal=20
     "Nominal pressure drop/meter over the pipe";
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.1;
@@ -71,7 +74,7 @@ partial model DHPipePlugFlow
     m_flow_nominal=m_flow_nominal,
     L=L,
     D=Di,
-    S=Modelica.Constants.pi*(ha + hs))
+    S=Modelica.Constants.pi*(ha + hs)/2)
     annotation (Placement(transformation(extent={{-10,50},{10,70}})));
   PlugFlowHeatLosses plugFlow2(
     redeclare package Medium = Medium,
@@ -79,7 +82,7 @@ partial model DHPipePlugFlow
     L=L,
     D=Di,
     rho=rho,
-    S=Modelica.Constants.pi*(ha + hs))
+    S=Modelica.Constants.pi*(ha + hs)/2)
     annotation (Placement(transformation(extent={{10,-50},{-10,-70}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort T2In(
     redeclare package Medium = Medium, m_flow_nominal=m_flow_nominal)
@@ -102,8 +105,8 @@ equation
   T1Avg = (T1In.T + T1Out.T)/2;
   T2Avg = (T2In.T + T2Out.T)/2;
 
-  T1Bou = T2Avg*(1/hs-1/ha)/(1/hs+1/ha) + Tg*(2/ha)/(1/hs+1/ha);
-  T2Bou = T1Avg*(1/hs-1/ha)/(1/hs+1/ha) + Tg*(2/ha)/(1/hs+1/ha);
+  T1Bou = T2Avg*a + Tg*b;
+  T2Bou = T1Avg*a + Tg*b;
 
   Q1 = plugFlow1.Q_Losses;
   Q2 = plugFlow2.Q_Losses;

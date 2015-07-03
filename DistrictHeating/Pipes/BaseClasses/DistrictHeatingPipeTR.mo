@@ -1,5 +1,5 @@
 within DistrictHeating.Pipes.BaseClasses;
-partial model DistrictHeatingPipe
+partial model DistrictHeatingPipeTR
   "A partial for a return and supply district heating pipe model based on Kvisgaard and Hadvig (1980)"
 
   //Extensions
@@ -47,8 +47,15 @@ partial model DistrictHeatingPipe
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.1;
 
   parameter Integer tau = 120 "Time constant of the temperature sensors";
+
   parameter Real hs "Heat loss factor for the symmetrical problem";
   parameter Real ha "Heat loss factor fot the anti-symmetrical problem";
+
+  parameter Real Rs = 1/(2*Modelica.Constants.pi*lambdaI*hs);
+  parameter Real Ra = 1/(2*Modelica.Constants.pi*lambdaI*ha);
+
+  parameter Real R12 = (4*Ra*Rs)/(2*Rs-Ra);
+  parameter Real Rbou = 2*Rs;
 
   //Inputs
 public
@@ -96,11 +103,6 @@ public
     m_flow_nominal=m2_flow_nominal,
     tau=tau)
     annotation (Placement(transformation(extent={{80,-70},{60,-50}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow Q2Losses annotation (
-     Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=270,
-        origin={0,-34})));
   Buildings.Fluid.FixedResistances.Pipe      Pipe1(
     redeclare package Medium = Medium,
     m_flow_nominal=m1_flow_nominal,
@@ -111,8 +113,9 @@ public
     thicknessIns=0.0001,
     diameter=Di,
     lambdaIns=lambdaI,
-    nSeg=nSeg)
-    annotation (Placement(transformation(extent={{-10,50},{10,70}})));
+    nSeg=nSeg,
+    useMultipleHeatPorts=true)
+    annotation (Placement(transformation(extent={{22,50},{42,70}})));
   Buildings.Fluid.FixedResistances.Pipe      Pipe2(
     redeclare package Medium = Medium,
     massDynamics=massDynamics,
@@ -123,18 +126,32 @@ public
     thicknessIns=0.00001,
     lambdaIns=lambdaI,
     diameter=Di,
-    nSeg=nSeg)
-    annotation (Placement(transformation(extent={{10,-70},{-10,-50}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow Q1Losses annotation (
+    nSeg=nSeg,
+    useMultipleHeatPorts=true)
+    annotation (Placement(transformation(extent={{42,-50},{22,-70}})));
+
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature[nSeg]
+    prescribedTemperature annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=0,
+        origin={-50,0})));
+  Modelica.Thermal.HeatTransfer.Components.ThermalResistor R12m[nSeg](R=R12)
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={32,0})));
+  Modelica.Thermal.HeatTransfer.Components.ThermalResistor R1[nSeg](R=Rbou)
+                                                                    annotation (
      Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
-        origin={0,92})));
-  Modelica.Blocks.Sources.RealExpression SupplyHeatLosses(y=-Q1)
-    annotation (Placement(transformation(extent={{-40,96},{-20,116}})));
-  Modelica.Blocks.Sources.RealExpression ReturnHeatLosses(y=-Q2)
-    annotation (Placement(transformation(extent={{-40,-22},{-20,-2}})));
-
+        origin={0,24})));
+  Modelica.Thermal.HeatTransfer.Components.ThermalResistor R2[nSeg](R=Rbou)
+                                                                    annotation (
+     Placement(transformation(
+        extent={{10,-10},{-10,10}},
+        rotation=270,
+        origin={0,-24})));
 equation
   T1 = (TIn1.T + TOut1.T)/2;
   T2 = (TIn2.T + TOut2.T)/2;
@@ -162,37 +179,52 @@ equation
       points={{80,-60},{100,-60}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(Q2Losses.port, Pipe2.heatPort) annotation (Line(
-      points={{0,-44},{0,-55}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(SupplyHeatLosses.y, Q1Losses.Q_flow) annotation (Line(
-      points={{-19,106},{0,106},{0,102}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(ReturnHeatLosses.y, Q2Losses.Q_flow) annotation (Line(
-      points={{-19,-12},{0,-12},{0,-24}},
-      color={0,0,127},
-      smooth=Smooth.None));
 
   connect(TIn1.port_b, Pipe1.port_a) annotation (Line(
-      points={{-60,60},{-10,60}},
+      points={{-60,60},{22,60}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(Pipe1.port_b, TOut1.port_a) annotation (Line(
-      points={{10,60},{60,60}},
+      points={{42,60},{60,60}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(TOut2.port_a, Pipe2.port_b) annotation (Line(
-      points={{-60,-60},{-10,-60}},
+      points={{-60,-60},{22,-60}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(Pipe2.port_a, TIn2.port_b) annotation (Line(
-      points={{10,-60},{60,-60}},
+      points={{42,-60},{60,-60}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(Q1Losses.port, Pipe1.heatPort) annotation (Line(
-      points={{0,82},{0,65}},
+
+  for n in 1:nSeg loop
+    connect(Tg, prescribedTemperature[n].T) annotation (Line(
+      points={{0,-142},{0,-100},{-88,-100},{-88,0},{-62,0}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  end for;
+  connect(Pipe1.heatPorts, R12m.port_a) annotation (Line(
+      points={{32,55},{32,10}},
+      color={127,0,0},
+      smooth=Smooth.None));
+  connect(Pipe2.heatPorts, R12m.port_b) annotation (Line(
+      points={{32,-55},{32,-10}},
+      color={127,0,0},
+      smooth=Smooth.None));
+  connect(R1.port_a, Pipe1.heatPorts) annotation (Line(
+      points={{0,34},{0,40},{32,40},{32,55}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(R2.port_a, Pipe2.heatPorts) annotation (Line(
+      points={{0,-34},{0,-40},{32,-40},{32,-55}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(R1.port_b, prescribedTemperature.port) annotation (Line(
+      points={{-1.77636e-015,14},{0,14},{0,0},{-40,0}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(prescribedTemperature.port, R2.port_b) annotation (Line(
+      points={{-40,0},{0,0},{0,-10},{1.77636e-015,-10},{1.77636e-015,-14}},
       color={191,0,0},
       smooth=Smooth.None));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-140},
@@ -243,9 +275,9 @@ equation
           lineColor={255,0,0},
           fillColor={255,0,0},
           fillPattern=FillPattern.Sphere)}),
-                                 Diagram(coordinateSystem(extent={{-100,-140},{
-            100,140}},  preserveAspectRatio=false),
+                                 Diagram(coordinateSystem(extent={{-100,-140},{100,
+            140}},      preserveAspectRatio=false),
                     graphics),
               Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -120},{100,120}}), graphics));
-end DistrictHeatingPipe;
+end DistrictHeatingPipeTR;
