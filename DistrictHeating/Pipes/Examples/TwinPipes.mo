@@ -50,8 +50,8 @@ model TwinPipes
     period=86400,
     startTime=7200,
     width=60,
-    offset=0.1,
-    amplitude=-0.099)
+    amplitude=-0.099,
+    offset=0.1)
     annotation (Placement(transformation(extent={{-74,86},{-66,94}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort T1PlugOut(
     m_flow_nominal=0.1,
@@ -365,5 +365,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}}), graphics));
+            -100},{100,100}}), graphics),
+    experiment(StopTime=400000, Interval=10),
+    __Dymola_experimentSetupOutput);
 end TwinPipes;

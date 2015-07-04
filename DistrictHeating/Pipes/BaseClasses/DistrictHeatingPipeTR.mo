@@ -54,7 +54,7 @@ partial model DistrictHeatingPipeTR
   parameter Real Rs = 1/(2*Modelica.Constants.pi*lambdaI*hs);
   parameter Real Ra = 1/(2*Modelica.Constants.pi*lambdaI*ha);
 
-  parameter Real R12 = (4*Ra*Rs)/(2*Rs-Ra);
+  parameter Real R12 = (2*Ra*Rs)/(Rs-Ra);
   parameter Real Rbou = 2*Rs;
 
   //Inputs
