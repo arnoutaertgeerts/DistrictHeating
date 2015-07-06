@@ -63,6 +63,16 @@ partial model DHPipePlugFlow
   final parameter Real a = (1/hs-1/ha)/(1/hs+1/ha);
   final parameter Real b = (2/ha)/(1/hs+1/ha);
 
+  parameter Modelica.SIunits.SpecificHeatCapacity cp=4187
+    "Specific heat of fluid";
+
+  parameter Modelica.SIunits.ThermalConductivity k=0.026 "Heat conductivity";
+  parameter Real S=2*Modelica.Constants.pi/Modelica.Math.log((D+plugFlow1.h)/D)
+    "Shape factor";
+
+  final parameter Modelica.SIunits.ThermalConductivity r=1/(k*S);
+  final parameter Modelica.SIunits.Time tau = m*cp*r;
+
   parameter Types.PressurePerLength dp_nominal=20
     "Nominal pressure drop/meter over the pipe";
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.1;
@@ -79,6 +89,9 @@ partial model DHPipePlugFlow
 
   Modelica.SIunits.Power Q1 "Heat losses from the supply line";
   Modelica.SIunits.Power Q2 "Heat losses from the return line";
+
+  Modelica.SIunits.Time tb = plugFlow1.pDETime.tau;
+  Real exp = Modelica.Math.exp(-tb/tau);
 
   //Interfaces
   Modelica.Blocks.Interfaces.RealInput Tg "Temperature of the ground"
@@ -124,8 +137,9 @@ public
   Modelica.Blocks.Sources.RealExpression ReturnBoundaryTemperature(y=T2BouY)
     annotation (Placement(transformation(extent={{-40,-110},{-20,-90}})));
 equation
-  T1Avg = (T1In.T + T1Out.T)/2;
-  T2Avg = (T2In.T + T2Out.T)/2;
+
+  T1Avg = (T1In.T+T1Out.T)/2;
+  T2Avg = (T2In.T+T2Out.T)/2;
 
   T1Bou = T2Avg*a + Tg*b;
   T2Bou = T1Avg*a + Tg*b;
