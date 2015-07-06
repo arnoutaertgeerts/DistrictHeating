@@ -11,9 +11,28 @@ partial model DHPipePlugFlow
     m1_flow_nominal=m_flow_nominal,
     m2_flow_nominal=m_flow_nominal);
 
+  //Constants
+  constant Real pi=Modelica.Constants.pi;
+
   //Parameters
   parameter Real hs;
   parameter Real ha;
+
+  final parameter Real Rs=1/(2*pi*lambdaI*hs);
+  final parameter Real Ra=1/(2*pi*lambdaI*ha);
+
+  //Resistors of the delta-network
+  final parameter Real R1b=2*Rs;
+  final parameter Real R2b=R2b;
+  final parameter Real R12=(4*Rs*Ra)/(2*Rs-Ra);
+
+  //Resistors of the Y-network
+  final parameter Real R1y=(R1b+R12)/(R1b+R2b+R12);
+  final parameter Real R2y=(R2b+R12)/(R1b+R2b+R12);
+  final parameter Real Ryb=(R1b+R2b)/(R1b+R2b+R12);
+
+  //R value of time constants
+  final parameter Real tauRY = R1y/(R1y+1);
 
   parameter Modelica.SIunits.Length L=10 "Total length of the pipe";
   parameter Modelica.SIunits.Density rho=1000 "Density of the medium";
@@ -52,6 +71,9 @@ partial model DHPipePlugFlow
   Modelica.SIunits.Temperature T1Bou;
   Modelica.SIunits.Temperature T2Bou;
 
+  Modelica.SIunits.Temperature T1BouY;
+  Modelica.SIunits.Temperature T2BouY;
+
   Modelica.SIunits.Temperature T1Avg;
   Modelica.SIunits.Temperature T2Avg;
 
@@ -82,7 +104,7 @@ partial model DHPipePlugFlow
     L=L,
     D=Di,
     rho=rho,
-    S=Modelica.Constants.pi*(ha + hs)/2)
+    S=Modelica.Constants.pi*(ha + hs))
     annotation (Placement(transformation(extent={{10,-50},{-10,-70}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort T2In(
     redeclare package Medium = Medium, m_flow_nominal=m_flow_nominal)
@@ -97,9 +119,9 @@ partial model DHPipePlugFlow
     redeclare package Medium = Medium, m_flow_nominal=m_flow_nominal)
                                     annotation (Placement(transformation(extent={{-40,50},{-20,70}})));
 public
-  Modelica.Blocks.Sources.RealExpression SupplyBoundaryTemperature(y=T1Bou)
+  Modelica.Blocks.Sources.RealExpression SupplyBoundaryTemperature(y=T1BouY)
     annotation (Placement(transformation(extent={{-32,90},{-12,110}})));
-  Modelica.Blocks.Sources.RealExpression ReturnBoundaryTemperature(y=T2Bou)
+  Modelica.Blocks.Sources.RealExpression ReturnBoundaryTemperature(y=T2BouY)
     annotation (Placement(transformation(extent={{-40,-110},{-20,-90}})));
 equation
   T1Avg = (T1In.T + T1Out.T)/2;
@@ -107,6 +129,9 @@ equation
 
   T1Bou = T2Avg*a + Tg*b;
   T2Bou = T1Avg*a + Tg*b;
+
+  T1BouY = R1y/(R1y+1)*((1+Tg)/Ryb + (1+T2Avg)/R2y + 1/R1y);
+  T1BouY = R2y/(R2y+1)*((1+Tg)/Ryb + (1+T1Avg)/R1y + 1/R2y);
 
   Q1 = plugFlow1.Q_Losses;
   Q2 = plugFlow2.Q_Losses;

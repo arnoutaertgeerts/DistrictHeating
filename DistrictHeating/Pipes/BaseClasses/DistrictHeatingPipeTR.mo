@@ -54,8 +54,8 @@ partial model DistrictHeatingPipeTR
   parameter Real Rs = 1/(2*Modelica.Constants.pi*lambdaI*hs);
   parameter Real Ra = 1/(2*Modelica.Constants.pi*lambdaI*ha);
 
-  parameter Real R12 = (4*Ra*Rs)/(2*Rs-Ra);
-  parameter Real Rbou = 2*Rs;
+  parameter Real R12 = (2*Ra*Rs)/(Rs-Ra);
+  parameter Real Rbou = Rs;
 
   //Inputs
 public
@@ -197,36 +197,23 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
 
-  for n in 1:nSeg loop
-    connect(Tg, prescribedTemperature[n].T) annotation (Line(
+  for i in 1:nSeg loop
+    connect(Tg, prescribedTemperature[i].T) annotation (Line(
       points={{0,-142},{0,-100},{-88,-100},{-88,0},{-62,0}},
       color={0,0,127},
       smooth=Smooth.None));
+
+    connect(R12m[i].port_a, Pipe1.heatPorts[nSeg+1-i]);
+    connect(R12m[i].port_b, Pipe2.heatPorts[i]);
+
+    connect(R1[nSeg+1-i].port_a, Pipe1.heatPorts[nSeg+1-i]);
+    connect(R2[i].port_a, Pipe2.heatPorts[i]);
+
+    connect(R1[nSeg+1-i].port_b, prescribedTemperature[i].port);
+    connect(R2[i].port_b, prescribedTemperature[i].port);
+
   end for;
-  connect(Pipe1.heatPorts, R12m.port_a) annotation (Line(
-      points={{32,55},{32,10}},
-      color={127,0,0},
-      smooth=Smooth.None));
-  connect(Pipe2.heatPorts, R12m.port_b) annotation (Line(
-      points={{32,-55},{32,-10}},
-      color={127,0,0},
-      smooth=Smooth.None));
-  connect(R1.port_a, Pipe1.heatPorts) annotation (Line(
-      points={{0,34},{0,40},{32,40},{32,55}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(R2.port_a, Pipe2.heatPorts) annotation (Line(
-      points={{0,-34},{0,-40},{32,-40},{32,-55}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(R1.port_b, prescribedTemperature.port) annotation (Line(
-      points={{-1.77636e-015,14},{0,14},{0,0},{-40,0}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(prescribedTemperature.port, R2.port_b) annotation (Line(
-      points={{-40,0},{0,0},{0,-10},{1.77636e-015,-10},{1.77636e-015,-14}},
-      color={191,0,0},
-      smooth=Smooth.None));
+
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-140},
             {100,140}}), graphics={
         Polygon(
