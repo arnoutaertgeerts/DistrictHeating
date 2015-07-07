@@ -1,6 +1,8 @@
 DistrictHeatingPipe
 DistrictHeatingPipeTR
 DHPipePlugFlow
+DHPipePlugFlow2
 FixedResistanceDpM
 Pipe
 ExponentialDecay
+TwinExponentialDecay

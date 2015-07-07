@@ -2,6 +2,7 @@ Pipe
 PlugFlowLosslessPipe
 PlugFlowPipe
 PlugFlowHeatLosses
+PlugFlowHeatLossTwinPipe
 AvgTempPlugFlowPipe
 DoublePipes
 DoublePlugPipes
