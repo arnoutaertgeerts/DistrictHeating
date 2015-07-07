@@ -8,6 +8,7 @@ model DHConnection
 
   //Parameters
   parameter Modelica.SIunits.Length length;
+  parameter Modelica.SIunits.Length Di = 0.05 "Inner pipe diameter";
   final parameter Modelica.SIunits.Pressure dp_nominal=
     districtHeatingPipe.dp_nominal * districtHeatingPipe.L
     "Nominal pressure losses over the connection";
@@ -21,7 +22,9 @@ model DHConnection
       L=length,
       massDynamics=massDynamics,
       energyDynamics=energyDynamics,
-      tau=tau)
+      tau=tau,
+    m_flow_nominal=m_flow_nominal,
+    Di=Di)
     constrainedby Pipes.BaseClasses.DistrictHeatingPipe(
       redeclare package Medium = Medium,
       massDynamics=massDynamics,

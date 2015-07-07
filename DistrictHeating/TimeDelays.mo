@@ -78,6 +78,25 @@ package TimeDelays
       annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
     Modelica.Blocks.Interfaces.RealOutput tau "Time delay"
       annotation (Placement(transformation(extent={{100,-10},{120,10}})));
+    Modelica.Blocks.Sources.RealExpression realExpression(y=td)
+      annotation (Placement(transformation(extent={{-40,-16},{-20,4}})));
+
+  initial equation
+    td = 1/u;
+
+  equation
+
+    der(td) = 1 - u/delay.y;
+    tau = td;
+
+    connect(realExpression.y, delay.delayTime) annotation (Line(
+        points={{-19,-6},{-12,-6}},
+        color={0,0,127},
+        smooth=Smooth.None));
+    connect(u, delay.u) annotation (Line(
+        points={{-120,0},{-12,0}},
+        color={0,0,127},
+        smooth=Smooth.None));
       annotation (Placement(transformation(extent={{-10,-10},{10,10}})), Icon(
           coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
           graphics={              Rectangle(
@@ -112,25 +131,6 @@ package TimeDelays
             textString="%name")}),
       Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
               100,100}}), graphics));
-    Modelica.Blocks.Sources.RealExpression realExpression(y=td)
-      annotation (Placement(transformation(extent={{-40,-16},{-20,4}})));
-
-  initial equation
-    td = 1/u;
-
-  equation
-
-    der(td) = 1 - u/delay.y;
-    tau = td;
-
-    connect(realExpression.y, delay.delayTime) annotation (Line(
-        points={{-19,-6},{-12,-6}},
-        color={0,0,127},
-        smooth=Smooth.None));
-    connect(u, delay.u) annotation (Line(
-        points={{-120,0},{-12,0}},
-        color={0,0,127},
-        smooth=Smooth.None));
   end DiffTime;
 
   package Examples
@@ -173,7 +173,7 @@ package TimeDelays
                   "DistrictHeating.TimeDelays.Examples.PDETime",
                   stopTime=1000,
                   fixedstepsize=30,
-                  resultFile="PDETime"), file(ensureSimulated=true) =
+                  resultFile="PDETime"), file(ensureSimulated=true)=
             "plot.mos" "plot"));
     end PDETime;
 
