@@ -8,6 +8,7 @@ model DHConnection
 
   //Parameters
   parameter Modelica.SIunits.Length length;
+  parameter Modelica.SIunits.Length diameter "inner pipe diameter";
   final parameter Modelica.SIunits.Pressure dp_nominal=
     districtHeatingPipe.dp_nominal * districtHeatingPipe.L
     "Nominal pressure losses over the connection";
@@ -16,18 +17,20 @@ model DHConnection
   Modelica.SIunits.Power QLosses;
 
   //Components
-  replaceable Pipes.DoublePipes.TwinPipeGround districtHeatingPipe(
+  replaceable Pipes.DoublePipes.TwinPipeGroundTR districtHeatingPipe(
       redeclare package Medium = Medium,
       L=length,
       massDynamics=massDynamics,
       energyDynamics=energyDynamics,
-      tau=tau)
-    constrainedby Pipes.BaseClasses.DistrictHeatingPipe(
+      tau=tau,
+      Di=diameter)
+    constrainedby Pipes.BaseClasses.DistrictHeatingPipeTR(
       redeclare package Medium = Medium,
       massDynamics=massDynamics,
       energyDynamics=energyDynamics,
       L=length,
-      tau=tau)
+      tau=tau,
+      Di=diameter)
     annotation (Placement(transformation(extent={{-50,40},{-30,68}})), choicesAllMatching=true);
 
   IDEAS.Fluid.Interfaces.FlowPort_a flowPortIn(redeclare package Medium =
