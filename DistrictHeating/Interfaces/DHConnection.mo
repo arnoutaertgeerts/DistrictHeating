@@ -24,7 +24,7 @@ model DHConnection
       energyDynamics=energyDynamics,
       tau=tau,
       Di=diameter)
-    constrainedby Pipes.BaseClasses.DistrictHeatingPipeTR(
+    constrainedby Pipes.BaseClasses.DistrictHeatingPipe(
       redeclare package Medium = Medium,
       massDynamics=massDynamics,
       energyDynamics=energyDynamics,
