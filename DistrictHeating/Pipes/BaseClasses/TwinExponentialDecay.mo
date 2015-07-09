@@ -2,11 +2,15 @@ within DistrictHeating.Pipes.BaseClasses;
 model TwinExponentialDecay
   "Calculates decay in temperature for given inlet, delay and boundary conditions"
 
+  //Parameters
   parameter Real C;
   parameter Real Ra;
   parameter Real Rs;
 
   final parameter Real tau=C*sqrt(Ra*Rs);
+
+  //Variables
+  Real lambda;
 
   Modelica.Blocks.Interfaces.RealInput T1 "Inlet temperature at time t-delay"
     annotation (Placement(transformation(extent={{-20,-20},{20,20}},
@@ -31,13 +35,19 @@ model TwinExponentialDecay
   Modelica.Blocks.Interfaces.RealOutput T2Out "Oulet temperature"
     annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
 equation
-  T1Out = Tb
-    + (T1-Tb)*Modelica.Math.exp(-td/tau)
-    + (Rs-Ra)/(Ra+Rs)*((Tb-T2)*Modelica.Math.exp(-2*td/tau)+T2-Tb);
+  lambda = Modelica.Math.exp(td/tau);
 
-  T2Out = Tb
-    + (T2-Tb)*Modelica.Math.exp(-td/tau)
-    + (Rs-Ra)/(Ra+Rs)*((Tb-T1)*Modelica.Math.exp(-2*td/tau)+T1-Tb);
+  T1Out = (
+    Tb*((2*sqrt(Ra*Rs)+2*Ra)*lambda^2-4*lambda*sqrt(Ra*Rs)+2*sqrt(Ra*Rs)-2*Ra)
+    + 4*lambda*sqrt(Ra*Rs)*T1
+    + T2*((Rs-Ra)*lambda^2+Ra-Rs))
+   /((2*sqrt(Ra*Rs)+Ra+Rs)*lambda^2+2*sqrt(Ra*Rs)-Ra-Rs);
+
+  T2Out = (
+    Tb*((2*sqrt(Ra*Rs)+2*Ra)*lambda^2-4*lambda*sqrt(Ra*Rs)+2*sqrt(Ra*Rs)-2*Ra)
+    + 4*lambda*sqrt(Ra*Rs)*T2
+    + T1*((Rs-Ra)*lambda^2+Ra-Rs))
+   /((2*sqrt(Ra*Rs)+Ra+Rs)*lambda^2+2*sqrt(Ra*Rs)-Ra-Rs);
 
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(

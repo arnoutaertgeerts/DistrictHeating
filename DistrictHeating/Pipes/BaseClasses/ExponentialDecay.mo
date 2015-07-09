@@ -5,12 +5,14 @@ model ExponentialDecay
   parameter Real C;
   parameter Real R;
 
+  final parameter Real tau=R*C;
+
   Modelica.Blocks.Interfaces.RealInput TIn "Inlet temperature at time t-delay"
     annotation (Placement(transformation(extent={{-140,-60},{-100,-20}})));
-  Modelica.Blocks.Interfaces.RealInput tDelay
+  Modelica.Blocks.Interfaces.RealInput td
     "Delay time for current package of fluid"
     annotation (Placement(transformation(extent={{-140,20},{-100,60}})));
-  Modelica.Blocks.Interfaces.RealInput TBou
+  Modelica.Blocks.Interfaces.RealInput Tb
     "Boundary temperature - Fluid would cool down to this temperature if it were to stay long enough in pipe"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
@@ -20,7 +22,7 @@ model ExponentialDecay
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
 
 equation
-  TOut = TBou + (TIn - TBou)*Modelica.Math.exp(-tDelay/(C*R));
+  TOut = Tb + (TIn - Tb)*Modelica.Math.exp(-td/tau);
 
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(

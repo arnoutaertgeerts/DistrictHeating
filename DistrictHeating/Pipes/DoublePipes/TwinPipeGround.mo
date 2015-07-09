@@ -2,7 +2,7 @@ within DistrictHeating.Pipes.DoublePipes;
 model TwinPipeGround "Twin pipe model for symmetric pipes in the ground"
 
   //Extensions
-  extends BaseClasses.DistrictHeatingPipe(
+  extends BaseClasses.DHWallenten(
     hs=1/hsInvers,
     ha=1/haInvers);
 

@@ -2,11 +2,9 @@ within DistrictHeating.Pipes.DoublePipes;
 model TwinPipeGroundTR "Twin pipe model for symmetric pipes in the ground"
 
   //Extensions
-  extends BaseClasses.DistrictHeatingPipeTR(
+  extends BaseClasses.DHDeltaCircuit(
     hs=1/hsInvers,
-    ha=1/haInvers,
-    Pipe1(thicknessIns=0.000001),
-    Pipe2(thicknessIns=0.000001));
+    ha=1/haInvers);
 
   //Parameters
   parameter Modelica.SIunits.Length Dc=2.75*Di
@@ -25,9 +23,6 @@ protected
     sigma*Modelica.Math.log((rc^2+D^2)/(rc^2-D^2));
   parameter Real sigma = (lambdaI-lambdaG)/(lambdaI+lambdaG);
 
-equation
-  Qs=(Ts-Tg)*2*Modelica.Constants.pi*lambdaI*hs;
-  Qa=Ta*2*Modelica.Constants.pi*lambdaI*ha;
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-140},
             {100,140}}),
                    graphics={

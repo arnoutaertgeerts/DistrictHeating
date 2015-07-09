@@ -12,7 +12,8 @@ model PlugFlowHeatLosses
   parameter Modelica.SIunits.Length h=0.02 "Insulation thickness";
 
   final constant Real pi = Modelica.Constants.pi;
-  final parameter Modelica.SIunits.Volume V=L*pi*(D/2)^2;
+  final parameter Modelica.SIunits.Area A=pi*(D/2)^2;
+  final parameter Modelica.SIunits.Volume V=L*A;
 
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal;
   parameter Modelica.SIunits.PressureDifference dp_nominal=0;
@@ -24,11 +25,11 @@ model PlugFlowHeatLosses
   parameter Boolean dynamicBalance = true
     "Set to true to use a dynamic balance, which often leads to smaller systems of equations"
     annotation (Evaluate=true, Dialog(tab="Dynamics", group="Equations"));
-  parameter Modelica.SIunits.ThermalConductivity k=0.026 "Heat conductivity";
-  parameter Real S=2*pi/Modelica.Math.log((D+h)/D) "Shape factor";
+  parameter Modelica.SIunits.ThermalConductivity lambdaI=0.026
+    "Heat conductivity";
 
-  final parameter Modelica.SIunits.ThermalConductivity r=1/(k*S);
-  final parameter Real c=rho*pi*(D/2)^2*cp;
+  parameter Modelica.SIunits.ThermalConductivity R=1/(lambdaI*2*pi/Modelica.Math.log((D/2+h)/(D/2)));
+  final parameter Real C=rho*pi*(D/2)^2*cp;
 
   //Variables
   Real u;
@@ -55,7 +56,7 @@ model PlugFlowHeatLosses
     annotation (Placement(transformation(extent={{-28,24},{-8,44}})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=u)
     annotation (Placement(transformation(extent={{-58,24},{-38,44}})));
-  BaseClasses.ExponentialDecay tempDecay(C=c, R=r)
+  BaseClasses.ExponentialDecay tempDecay(C=C, R=R)
     annotation (Placement(transformation(extent={{20,20},{40,40}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTem(m_flow_nominal=m_flow_nominal,
       redeclare package Medium = Medium,
@@ -83,22 +84,6 @@ equation
       points={{-40,0},{-10,0}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(senTem.T, tempDecay.TIn) annotation (Line(
-      points={{0,11},{0,26},{18,26}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(pDETime.tau, tempDecay.tDelay) annotation (Line(
-      points={{-7,34},{18,34}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(TBoundary, tempDecay.TBou) annotation (Line(
-      points={{0,110},{0,66},{30,66},{30,42}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(tempDecay.TOut, idealHeater.TSet) annotation (Line(
-      points={{41,30},{50,30},{50,6},{58,6}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(senTem.port_b, idealHeater.port_a) annotation (Line(
       points={{10,0},{60,0}},
       color={0,127,255},
@@ -106,6 +91,22 @@ equation
   connect(idealHeater.port_b, port_b) annotation (Line(
       points={{80,0},{100,0}},
       color={0,127,255},
+      smooth=Smooth.None));
+  connect(senTem.T, tempDecay.TIn) annotation (Line(
+      points={{0,11},{0,26},{18,26}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(pDETime.tau, tempDecay.td) annotation (Line(
+      points={{-7,34},{18,34}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(tempDecay.TOut, idealHeater.TSet) annotation (Line(
+      points={{41,30},{50,30},{50,6},{58,6}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(TBoundary, tempDecay.Tb) annotation (Line(
+      points={{0,110},{0,60},{30,60},{30,42}},
+      color={0,0,127},
       smooth=Smooth.None));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
             {100,100}}),

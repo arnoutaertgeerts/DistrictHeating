@@ -1,66 +1,11 @@
 within DistrictHeating.Pipes.BaseClasses;
-partial model DistrictHeatingPipe
-  "A partial for a return and supply district heating pipe model based on Kvisgaard and Hadvig (1980)"
+partial model DHWallenten "District heating pipe based on Wallenten"
 
   //Extensions
-  extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
-
-  extends IDEAS.Fluid.Interfaces.PartialFourPortInterface(
-    redeclare final package Medium1=Medium,
-    redeclare final package Medium2=Medium,
-    m1_flow_nominal=m_flow_nominal,
-    m2_flow_nominal=m_flow_nominal);
+  extends PartialDistrictHeatingPipe;
 
   //Parameters
   parameter Integer nSeg=5;
-
-  parameter Modelica.SIunits.Length L=10 "Total length of the pipe";
-  parameter Modelica.SIunits.Density rho=1000 "Density of the medium";
-
-  parameter Modelica.SIunits.ThermalConductivity lambdaG=2
-    "Thermal conductivity of the ground [W/mK]";
-  parameter Modelica.SIunits.ThermalConductivity lambdaI=0.026
-    "Thermal conductivity of the insulation [W/mK]";
-  parameter Modelica.SIunits.ThermalConductivity lambdaGS = 14.6
-    "Thermal conductivity of the ground surface [W/mK]";
-
-  parameter Modelica.SIunits.Length H=2 "Buried depth of the pipe";
-  parameter Modelica.SIunits.Length E=1.25*Di
-    "Horizontal distance between pipes";
-
-  parameter Modelica.SIunits.Length Do=0.2 "Equivalent outer diameter";
-  parameter Modelica.SIunits.Length Di=0.2 "Equivalent inner diameter";
-
-  final parameter Modelica.SIunits.Length Heff=
-    H + lambdaG/lambdaGS "Corrected depth";
-  final parameter Real beta = lambdaG/lambdaI*Modelica.Math.log(ro/ri)
-    "Dimensionless parameter describing the insulation";
-  final parameter Modelica.SIunits.Length ro = Do/2 "Equivalent outer radius";
-  final parameter Modelica.SIunits.Length ri = Di/2 "Equivalent inner radius";
-  final parameter Modelica.SIunits.Length D = E/2
-    "Half the distance between the center of the pipes";
-  final parameter Modelica.SIunits.Mass m= Modelica.Constants.pi*Di*Di/4*L*rho;
-
-  parameter Types.PressurePerLength dp_nominal=20
-    "Nominal pressure drop/meter over the pipe";
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.1;
-
-  parameter Integer tau = 120 "Time constant of the temperature sensors";
-  parameter Real hs "Heat loss factor for the symmetrical problem";
-  parameter Real ha "Heat loss factor fot the anti-symmetrical problem";
-
-  //Inputs
-public
-  Modelica.Blocks.Interfaces.RealInput Tg "Temperature of the ground"
-                                annotation (Placement(
-        transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=90,
-        origin={0,-142}), iconTransformation(
-        extent={{-20,-20},{20,20}},
-        rotation=90,
-        origin={0,-142})));
 
   //Variables
   Modelica.SIunits.Temperature T1;
@@ -248,4 +193,4 @@ equation
                     graphics),
               Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -120},{100,120}}), graphics));
-end DistrictHeatingPipe;
+end DHWallenten;

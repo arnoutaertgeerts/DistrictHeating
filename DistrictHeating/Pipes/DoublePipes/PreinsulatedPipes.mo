@@ -3,7 +3,7 @@ model PreinsulatedPipes
   "A symmetrical preinsulated pipe model where each pipe has its own insulation"
 
   //Extensions
-  extends BaseClasses.DistrictHeatingPipe(
+  extends BaseClasses.DHWallenten(
     hs=1/hsInvers,
     ha=1/haInvers,
     Do=0.25,

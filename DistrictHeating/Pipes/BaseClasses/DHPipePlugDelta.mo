@@ -1,5 +1,5 @@
 within DistrictHeating.Pipes.BaseClasses;
-partial model DHPipePlugFlow
+partial model DHPipePlugDelta
 
   //Extensions
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(
@@ -17,22 +17,6 @@ partial model DHPipePlugFlow
   //Parameters
   parameter Real hs;
   parameter Real ha;
-
-  final parameter Real Rs=1/(2*pi*lambdaI*hs);
-  final parameter Real Ra=1/(2*pi*lambdaI*ha);
-
-  //Resistors of the delta-network
-  final parameter Real R1b=2*Rs;
-  final parameter Real R2b=R1b;
-  final parameter Real R12=(4*Rs*Ra)/(2*Rs-Ra);
-
-  //Resistors of the Y-network
-  final parameter Real R1y=(R1b+R12)/(R1b+R2b+R12);
-  final parameter Real R2y=(R2b+R12)/(R1b+R2b+R12);
-  final parameter Real Ryb=(R1b+R2b)/(R1b+R2b+R12);
-
-  //R value of time constants
-  final parameter Real tauRY = R1y/(R1y+1);
 
   parameter Modelica.SIunits.Length L=10 "Total length of the pipe";
   parameter Modelica.SIunits.Density rho=1000 "Density of the medium";
@@ -60,25 +44,12 @@ partial model DHPipePlugFlow
     "Half the distance between the center of the pipes";
   final parameter Modelica.SIunits.Mass m=Modelica.Constants.pi*Di*Di/4*L*rho;
 
-  final parameter Real a = (1/hs-1/ha)/(1/hs+1/ha);
-  final parameter Real b = 1-a;
-
   parameter Types.PressurePerLength dp_nominal=20
     "Nominal pressure drop/meter over the pipe";
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.1;
 
   //Variables
-  Modelica.SIunits.Temperature T1Bou;
-  Modelica.SIunits.Temperature T2Bou;
-
-  Modelica.SIunits.Temperature T1BouY;
-  Modelica.SIunits.Temperature T2BouY;
-
-  Modelica.SIunits.Temperature T1Avg;
-  Modelica.SIunits.Temperature T2Avg;
-
-  Modelica.SIunits.Power Q1 "Heat losses from the supply line";
-  Modelica.SIunits.Power Q2 "Heat losses from the return line";
+  Modelica.SIunits.Power Q "Heat Losses";
 
   //Interfaces
   Modelica.Blocks.Interfaces.RealInput Tg "Temperature of the ground"
@@ -91,89 +62,38 @@ partial model DHPipePlugFlow
         rotation=90,
         origin={0,-142})));
   //Components
-  PlugFlowHeatLosses plugFlow1(
+  PlugFlowHeatLossTwinPipe plugFlowHeatLossTwinPipe(
     redeclare package Medium = Medium,
-    m_flow_nominal=m_flow_nominal,
     L=L,
-    D=Di,
-    S=Modelica.Constants.pi*(ha + hs)/2)
-    annotation (Placement(transformation(extent={{-10,50},{10,70}})));
-  PlugFlowHeatLosses plugFlow2(
-    redeclare package Medium = Medium,
+    ha=ha,
+    hs=hs,
     m_flow_nominal=m_flow_nominal,
-    L=L,
-    D=Di,
-    rho=rho,
-    S=Modelica.Constants.pi*(ha + hs))
-    annotation (Placement(transformation(extent={{10,-50},{-10,-70}})));
-  IDEAS.Fluid.Sensors.TemperatureTwoPort T2In(
-    redeclare package Medium = Medium, m_flow_nominal=m_flow_nominal)
-    annotation (Placement(transformation(extent={{-20,-70},{-40,-50}})));
-  IDEAS.Fluid.Sensors.TemperatureTwoPort T2Out(
-    redeclare package Medium=Medium, m_flow_nominal=m_flow_nominal)
-    annotation (Placement(transformation(extent={{40,-70},{20,-50}})));
-  IDEAS.Fluid.Sensors.TemperatureTwoPort T1Out(
-    redeclare package Medium=Medium, m_flow_nominal=m_flow_nominal)
-    annotation (Placement(transformation(extent={{20,50},{40,70}})));
-  IDEAS.Fluid.Sensors.TemperatureTwoPort T1In(
-    redeclare package Medium = Medium, m_flow_nominal=m_flow_nominal)
-                                    annotation (Placement(transformation(extent={{-40,50},{-20,70}})));
-public
-  Modelica.Blocks.Sources.RealExpression SupplyBoundaryTemperature(y=T1Bou)
-    annotation (Placement(transformation(extent={{-32,90},{-12,110}})));
-  Modelica.Blocks.Sources.RealExpression ReturnBoundaryTemperature(y=T2Bou)
-    annotation (Placement(transformation(extent={{-40,-110},{-20,-90}})));
+    k=lambdaI,
+    dp_nominal=dp_nominal,
+    D=Di)
+    annotation (Placement(transformation(extent={{-30,-30},{30,30}})));
 equation
-  T1Avg = (T1In.T + T1Out.T)/2;
-  T2Avg = (T2In.T + T2Out.T)/2;
 
-  T1Bou = T2Avg*a + Tg*b;
-  T2Bou = T1Avg*a + Tg*b;
+  Q = plugFlowHeatLossTwinPipe.Q_Losses;
 
-  T1BouY = R1y/(R1y+1)*((1+Tg)/Ryb + (1+T2Avg)/R2y + 1/R1y);
-  T2BouY = R2y/(R2y+1)*((1+Tg)/Ryb + (1+T1Avg)/R1y + 1/R2y);
-
-  Q1 = plugFlow1.Q_Losses;
-  Q2 = plugFlow2.Q_Losses;
-
-  connect(plugFlow2.port_b, T2In.port_a) annotation (Line(
-      points={{-10,-60},{-20,-60}},
+  connect(port_a1, plugFlowHeatLossTwinPipe.port_a1) annotation (Line(
+      points={{-100,60},{-60,60},{-60,18},{-30,18}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(T2Out.port_b, plugFlow2.port_a) annotation (Line(
-      points={{20,-60},{10,-60}},
+  connect(plugFlowHeatLossTwinPipe.port_b1, port_b1) annotation (Line(
+      points={{30,18},{60,18},{60,60},{100,60}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(T2In.port_b, port_b2) annotation (Line(
-      points={{-40,-60},{-100,-60}},
+  connect(plugFlowHeatLossTwinPipe.port_b2, port_b2) annotation (Line(
+      points={{-30,-18},{-60,-18},{-60,-60},{-100,-60}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(T2Out.port_a, port_a2) annotation (Line(
-      points={{40,-60},{100,-60}},
+  connect(plugFlowHeatLossTwinPipe.port_a2, port_a2) annotation (Line(
+      points={{30,-18},{60,-18},{60,-60},{100,-60}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(plugFlow1.port_b, T1Out.port_a) annotation (Line(
-      points={{10,60},{20,60}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(T1Out.port_b, port_b1) annotation (Line(
-      points={{40,60},{100,60}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(T1In.port_b, plugFlow1.port_a) annotation (Line(
-      points={{-20,60},{-10,60}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(port_a1, T1In.port_a) annotation (Line(
-      points={{-100,60},{-40,60}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(SupplyBoundaryTemperature.y, plugFlow1.TBoundary) annotation (Line(
-      points={{-11,100},{0.2,100},{0.2,65}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(ReturnBoundaryTemperature.y, plugFlow2.TBoundary) annotation (Line(
-      points={{-19,-100},{-0.2,-100},{-0.2,-65}},
+  connect(Tg, plugFlowHeatLossTwinPipe.TBoundary) annotation (Line(
+      points={{0,-142},{0,-44},{50,-44},{50,54},{0,54},{0,30}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Icon(coordinateSystem(extent={{-100,-140},{100,140}}), graphics={
@@ -230,4 +150,4 @@ equation
           fillColor={255,0,0},
           fillPattern=FillPattern.Sphere)}), Diagram(coordinateSystem(extent={{-100,
             -140},{100,140}}, preserveAspectRatio=false), graphics));
-end DHPipePlugFlow;
+end DHPipePlugDelta;

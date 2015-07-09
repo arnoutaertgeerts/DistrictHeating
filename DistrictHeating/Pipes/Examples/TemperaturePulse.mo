@@ -43,7 +43,7 @@ model TemperaturePulse
     dp_nominal=0,
     k=0.026,
     L=100,
-    D=0.2)
+    D=0.05)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Buildings.HeatTransfer.Sources.FixedTemperature fixedTemperature(T=273.15 + 20)
     annotation (Placement(transformation(extent={{-96,60},{-76,80}})));
@@ -88,7 +88,7 @@ model TemperaturePulse
     redeclare model HeatTransfer =
         Modelica.Fluid.Pipes.BaseClasses.HeatTransfer.ConstantFlowHeatTransfer
         (T_ambient=273.15 + 20, alpha0=plug.k*plug.S/(plug.pi*plug.D)),
-    nNodes=5)
+    nNodes=pip.nSeg)
     annotation (Placement(transformation(extent={{-2,-50},{18,-30}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalCollector colAllToOne(m=MSL.nNodes)
     "Connector to assign multiple heat ports to one heat port" annotation (
@@ -139,7 +139,7 @@ model TemperaturePulse
     width=5,
     period=86400,
     offset=273.15 + 50,
-    amplitude=20)
+    amplitude=35)
     annotation (Placement(transformation(extent={{-70,-26},{-78,-18}})));
   Annex60.Fluid.HeatExchangers.HeaterCooler_T    idealHeater(
     dp_nominal=0,
@@ -160,7 +160,7 @@ model TemperaturePulse
     period=86400,
     amplitude=0,
     width=0,
-    offset=0.1)
+    offset=0.2)
     annotation (Placement(transformation(extent={{-66,-26},{-58,-18}})));
   DistrictHeating.Pipes.PlugFlowHeatLosses plug1(
     redeclare package Medium = Annex60.Media.Water,
@@ -179,7 +179,7 @@ model TemperaturePulse
     redeclare model HeatTransfer =
         Modelica.Fluid.Pipes.BaseClasses.HeatTransfer.ConstantFlowHeatTransfer
         (T_ambient=273.15 + 20, alpha0=plug.k*plug.S/(plug.pi*plug.D)),
-    nNodes=5)
+    nNodes=pip.nSeg)
     annotation (Placement(transformation(extent={{24,-50},{44,-30}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalCollector colAllToOne1(m=MSL.nNodes)
     "Connector to assign multiple heat ports to one heat port" annotation (
@@ -194,8 +194,9 @@ model TemperaturePulse
     length=plug.L,
     m_flow_nominal=0.1,
     dp_nominal=0,
-    thicknessIns=plug.h/2,
-    nSeg=100) annotation (Placement(transformation(extent={{-6,-90},{14,-70}})));
+    nSeg=50,
+    thicknessIns=plug.h)
+              annotation (Placement(transformation(extent={{-6,-90},{14,-70}})));
   Buildings.Fluid.FixedResistances.Pipe pip1(
     redeclare package Medium = Annex60.Media.Water,
     lambdaIns=plug.k,
@@ -203,7 +204,7 @@ model TemperaturePulse
     length=plug.L,
     m_flow_nominal=0.1,
     nSeg=pip.nSeg,
-    thicknessIns=plug.h/2)
+    thicknessIns=plug.h)
     annotation (Placement(transformation(extent={{24,-90},{44,-70}})));
 equation
   connect(TPlugOut.port_b, bou3.ports[1]) annotation (Line(
@@ -344,11 +345,13 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(pip.heatPort, temperatureSensor.port) annotation (Line(
-      points={{4,-75},{4,-60},{20,-60},{20,70},{-62,70},{-62,38},{-36,38}},
+      points={{4,-75},{4,-64},{20,-64},{20,-16},{8,-16},{8,70},{-62,70},{-62,38},
+          {-36,38}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(pip1.heatPort, temperatureSensor.port) annotation (Line(
-      points={{34,-75},{34,-60},{20,-60},{20,70},{-62,70},{-62,38},{-36,38}},
+      points={{34,-75},{34,-64},{20,-64},{20,-16},{8,-16},{8,70},{-62,70},{-62,
+          38},{-36,38}},
       color={191,0,0},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
