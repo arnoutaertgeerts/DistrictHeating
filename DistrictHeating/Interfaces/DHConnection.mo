@@ -50,10 +50,12 @@ model DHConnection
     annotation (Placement(transformation(extent={{-14,10},{-34,30}})));
   outer IDEAS.SimInfoManager sim
     annotation (Placement(transformation(extent={{-40,-60},{-20,-40}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a3
+  Modelica.Fluid.Interfaces.FluidPort_a port_a3(redeclare package Medium =
+        Medium)
     "Fluid connector a2 (positive design flow direction is from port_a2 to port_b2)"
     annotation (Placement(transformation(extent={{-30,90},{-10,110}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b3
+  Modelica.Fluid.Interfaces.FluidPort_b port_b3(redeclare package Medium =
+        Medium)
     "Fluid connector b1 (positive design flow direction is from port_a1 to port_b1)"
     annotation (Placement(transformation(extent={{10,90},{30,110}})));
 equation
