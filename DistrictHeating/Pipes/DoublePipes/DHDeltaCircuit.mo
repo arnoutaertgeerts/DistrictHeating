@@ -64,8 +64,8 @@ model DHDeltaCircuit
         origin={-20,-24})));
 equation
 
-   Q1 = sum(R1.Q_flow[1,nSeg]) + sum(R12m.Q_flow[1,nSeg]);
-   Q2 = sum(R2.Q_flow[1,nSeg]) - sum(R12m.Q_flow[1,nSeg]);
+   Q1 = sum(R1.Q_flow) + sum(R12m.Q_flow);
+   Q2 = sum(R2.Q_flow) - sum(R12m.Q_flow);
 
   for i in 1:nSeg loop
     connect(Tg, prescribedTemperature[i].T) annotation (Line(
