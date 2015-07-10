@@ -13,7 +13,7 @@ model DHConnection
     "Nominal pressure losses over the connection";
   parameter Integer tau = 120 "Time constant of the temperature sensors";
 
-  Modelica.SIunits.Power QLosses;
+ // Modelica.SIunits.Power QLosses;
 
   //Components
   replaceable Pipes.DoublePipes.TwinPipeGround districtHeatingPipe(
@@ -21,7 +21,8 @@ model DHConnection
       L=length,
       massDynamics=massDynamics,
       energyDynamics=energyDynamics,
-      tau=tau)
+      tau=tau,
+      Di=diameter)
     constrainedby Pipes.BaseClasses.PartialDistrictHeatingPipe(
       redeclare package Medium = Medium,
       massDynamics=massDynamics,
@@ -45,7 +46,7 @@ model DHConnection
     annotation (Placement(transformation(extent={{-40,-60},{-20,-40}})));
 equation
 
-  der(QLosses) = districtHeatingPipe.Q1 + districtHeatingPipe.Q2;
+//  der(QLosses) = districtHeatingPipe.Q1 + districtHeatingPipe.Q2;
 
   connect(realExpression.y, districtHeatingPipe.Tg) annotation (Line(
       points={{-35,20},{-40,20},{-40,39.8}},
