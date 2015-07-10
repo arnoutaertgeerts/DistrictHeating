@@ -14,9 +14,6 @@ model DHWallenten "District heating pipe based on Wallenten"
   Modelica.SIunits.Temperature Ts "Temperature of the symmetrical problem";
   Modelica.SIunits.Temperature Ta "Temperature of the asymmetrical problem";
 
-  //Modelica.SIunits.Power Q1 "Heat losses of pipe 1";
-  //Modelica.SIunits.Power Q2 "Heat losses of pipe 2";
-
   Types.PowerPerLength Qs "Symmetrical heat losses";
   Types.PowerPerLength Qa "Assymmetrical heat losses";
 
@@ -87,8 +84,8 @@ equation
   Ts = (T1 + T2)/2;
   Ta = (T1 - T2)/2;
 
-  Qs=(Ts-Tg)*2*Modelica.Constants.pi*lambdaG*hs;
-  Qa=Ta*2*Modelica.Constants.pi*lambdaG*ha;
+  Qs=(Ts-Tg)*2*Modelica.Constants.pi*lambdaI*hs;
+  Qa=Ta*2*Modelica.Constants.pi*lambdaI*ha;
 
   Q1 = (Qs + Qa)*L;
   Q2 = (Qs - Qa)*L;
