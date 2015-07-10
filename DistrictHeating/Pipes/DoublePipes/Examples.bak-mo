@@ -4,12 +4,6 @@ package Examples
     //Extensions
     extends Modelica.Icons.Example;
 
-    TwinPipeGround pipe1(
-      redeclare package Medium = Annex60.Media.Water,
-      L=100,
-      Pipe1(lambdaIns=0.026),
-      Pipe2(lambdaIns=0.026),
-      nSeg=150) annotation (Placement(transformation(extent={{-10,0},{10,28}})));
     IDEAS.Fluid.Sources.FixedBoundary bou2(
       T=273.15 + 70,
       redeclare package Medium = IDEAS.Media.Water.Simple,
@@ -85,24 +79,12 @@ package Examples
         points={{-68,42},{-62,42}},
         color={0,127,255},
         smooth=Smooth.None));
-    connect(T1In.port_b, pipe1.port_a1) annotation (Line(
-        points={{-18,42},{-14,42},{-14,20},{-10,20}},
-        color={0,127,255},
-        smooth=Smooth.None));
     connect(pulse.y, idealHeater.TSet) annotation (Line(
         points={{-90.4,66},{-96,66},{-96,48},{-90,48}},
         color={0,0,127},
         smooth=Smooth.None));
-    connect(pipe1.port_b2, T2Out.port_a) annotation (Line(
-        points={{-10,8},{-16,8}},
-        color={0,127,255},
-        smooth=Smooth.None));
     connect(const.y, idealHeater1.TSet) annotation (Line(
         points={{69.6,40},{54.4,40},{54.4,26},{60,26}},
-        color={0,0,127},
-        smooth=Smooth.None));
-    connect(const1.y, pipe1.Tg) annotation (Line(
-        points={{2.22045e-016,-9.6},{0,-9.6},{0,-0.2}},
         color={0,0,127},
         smooth=Smooth.None));
     connect(T1Out.port_b, idealHeater1.port_a) annotation (Line(
@@ -123,14 +105,6 @@ package Examples
         smooth=Smooth.None));
     connect(bou2.ports[1], idealHeater.port_a) annotation (Line(
         points={{-80,-4},{-80,8},{-90,8},{-90,42},{-88,42}},
-        color={0,127,255},
-        smooth=Smooth.None));
-    connect(pipe1.port_b1, T1Out.port_a) annotation (Line(
-        points={{10,20},{22,20}},
-        color={0,127,255},
-        smooth=Smooth.None));
-    connect(pipe1.port_a2, T2In.port_b) annotation (Line(
-        points={{10,8},{20,8},{20,-14},{34,-14}},
         color={0,127,255},
         smooth=Smooth.None));
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
