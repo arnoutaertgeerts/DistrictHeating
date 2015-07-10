@@ -116,7 +116,7 @@ equation
           lineColor={0,0,255},
           fillPattern=FillPattern.HorizontalCylinder),
         Rectangle(
-          extent={{-28,88},{28,28}},
+          extent={{-28,90},{28,30}},
           lineColor={255,0,0},
           fillPattern=FillPattern.HorizontalCylinder,
           fillColor={255,0,0})}),            Diagram(coordinateSystem(extent={{-100,

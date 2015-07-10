@@ -6,33 +6,18 @@ partial model PartialDistrictHeatingPipe
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
 
+  extends DistrictHeatingPipeParameters;
+
   extends IDEAS.Fluid.Interfaces.PartialFourPortInterface(
     redeclare final package Medium1=Medium,
     redeclare final package Medium2=Medium,
-    m1_flow_nominal=m_flow_nominal,
-    m2_flow_nominal=m_flow_nominal);
+    final m1_flow_nominal=m_flow_nominal,
+    final m2_flow_nominal=m_flow_nominal);
 
-  //Parameters
-  parameter Modelica.SIunits.Length L=10 "Total length of the pipe";
   parameter Modelica.SIunits.Density rho=1000 "Density of the medium";
-
-  parameter Modelica.SIunits.Length H=2 "Buried depth of the pipe";
-  parameter Modelica.SIunits.Length E=1.25*Di
-    "Horizontal distance between pipes";
-  parameter Modelica.SIunits.Length Do=Di "Equivalent outer diameter";
-  parameter Modelica.SIunits.Length Di=0.2 "Equivalent inner diameter";
-  parameter Modelica.SIunits.Length Dc=2.5*Di "Diameter of circumscribing pipe";
-
   parameter Types.PressurePerLength dp_nominal=20
     "Nominal pressure drop/meter over the pipe";
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.1;
-
-  parameter Modelica.SIunits.ThermalConductivity lambdaG=2
-    "Thermal conductivity of the ground [W/mK]";
-  parameter Modelica.SIunits.ThermalConductivity lambdaI=0.026
-    "Thermal conductivity of the insulation [W/mK]";
-  parameter Modelica.SIunits.ThermalConductivity lambdaGS = 14.6
-    "Thermal conductivity of the ground surface [W/mK]";
 
   final parameter Modelica.SIunits.Mass m= Modelica.Constants.pi*Di*Di/4*L*rho;
 
@@ -57,7 +42,7 @@ partial model PartialDistrictHeatingPipe
         origin={0,-142})));
 
   //Components
-  replaceable Configurations.TwinPipeSeparate  baseConfiguration(
+  replaceable DoublePipes.Configurations.TwinPipeSeparate baseConfiguration(
     H=H,
     E=E,
     Do=Do,
@@ -65,7 +50,7 @@ partial model PartialDistrictHeatingPipe
     Dc=Dc,
     lambdaG=lambdaG,
     lambdaI=lambdaI,
-    lambdaGS=lambdaGS) constrainedby Configurations.BaseConfiguration(
+    lambdaGS=lambdaGS) constrainedby BaseConfiguration(
     H=H,
     E=E,
     Do=Do,
@@ -73,44 +58,54 @@ partial model PartialDistrictHeatingPipe
     Dc=Dc,
     lambdaG=lambdaG,
     lambdaI=lambdaI,
-    lambdaGS=lambdaGS)
-    annotation (Placement(transformation(extent={{70,108},{90,128}})), choicesAllMatching=true);
+    lambdaGS=lambdaGS) annotation (Placement(transformation(extent={{70,108},{90,
+            128}})), choicesAllMatching=true);
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-140},
             {100,140}}), graphics={
+        Rectangle(
+          extent={{-100,-20},{100,-100}},
+          lineColor={175,175,175},
+          fillPattern=FillPattern.Forward,
+          fillColor={255,255,255}),
+        Rectangle(
+          extent={{-100,100},{100,20}},
+          lineColor={175,175,175},
+          fillPattern=FillPattern.Forward,
+          fillColor={255,255,255}),
         Polygon(
-          points={{32,110},{62,100},{32,88},{32,110}},
+          points={{30,18},{60,8},{30,-4},{30,18}},
           smooth=Smooth.None,
           fillColor={255,0,0},
           fillPattern=FillPattern.HorizontalCylinder,
           pattern=LinePattern.None,
           lineColor={0,0,0}),
         Polygon(
-          points={{32,106},{54,100},{32,92},{32,106}},
+          points={{30,14},{52,8},{30,0},{30,14}},
           smooth=Smooth.None,
           fillColor={255,255,255},
           fillPattern=FillPattern.HorizontalCylinder,
           pattern=LinePattern.None,
           lineColor={0,0,0}),
         Line(
-          points={{-60,100},{56,100}},
+          points={{-60,8},{56,8}},
           color={255,0,0},
           smooth=Smooth.None),
         Polygon(
-          points={{-32,-96},{-62,-106},{-32,-118},{-32,-96}},
+          points={{-30,4},{-60,-6},{-30,-18},{-30,4}},
           smooth=Smooth.None,
           fillColor={0,0,255},
           fillPattern=FillPattern.HorizontalCylinder,
           pattern=LinePattern.None,
           lineColor={0,0,0}),
         Polygon(
-          points={{-32,-100},{-54,-106},{-32,-114},{-32,-100}},
+          points={{-30,0},{-52,-6},{-30,-14},{-30,0}},
           smooth=Smooth.None,
           fillColor={255,255,255},
           fillPattern=FillPattern.HorizontalCylinder,
           pattern=LinePattern.None,
           lineColor={0,0,0}),
         Line(
-          points={{58,-106},{-60,-106}},
+          points={{60,-6},{-58,-6}},
           color={0,0,255},
           smooth=Smooth.None),
         Rectangle(
@@ -119,7 +114,7 @@ partial model PartialDistrictHeatingPipe
           fillPattern=FillPattern.HorizontalCylinder,
           fillColor={0,127,255}),
         Rectangle(
-          extent={{-100,88},{100,28}},
+          extent={{-100,90},{100,30}},
           lineColor={0,0,0},
           fillPattern=FillPattern.HorizontalCylinder,
           fillColor={255,128,0})}),
@@ -128,4 +123,5 @@ partial model PartialDistrictHeatingPipe
                     graphics),
               Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -120},{100,120}}), graphics));
+
 end PartialDistrictHeatingPipe;

@@ -1,6 +1,7 @@
 PartialDistrictHeatingPipe
+DistrictHeatingPipeParameters
+BaseConfiguration
 FixedResistanceDpM
 Pipe
 ExponentialDecay
 TwinExponentialDecay
-TwinExponential

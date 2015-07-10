@@ -6,12 +6,12 @@ package Examples
       m_flow_nominal=0.5,
       length=100,
       T_start=273.15 + 60,
-      redeclare DistrictHeating.Pipes.DoublePipes.TwinPipeGround
-        districtHeatingPipe,
       dynamicBalance=true,
       tau=60,
       allowFlowReversal=false,
-      redeclare package Medium = Annex60.Media.Water)
+      redeclare package Medium = Annex60.Media.Water,
+      redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta
+        districtHeatingPipe)
       annotation (Placement(transformation(extent={{-40,0},{-20,20}})));
     DHConnection dHConnection1(
       m_flow_nominal=0.5,

@@ -218,11 +218,16 @@ package TimeDelays
   end Examples;
   annotation (Icon(graphics={
         Rectangle(
-          lineColor={175,175,175},
+          lineColor={200,200,200},
           fillColor={248,248,248},
           fillPattern=FillPattern.HorizontalCylinder,
           extent={{-100,-100},{100,100}},
-          radius=25),
+          radius=25.0),
+        Rectangle(
+          lineColor={128,128,128},
+          fillPattern=FillPattern.None,
+          extent={{-100,-100},{100,100}},
+          radius=25.0),
     Line(points={{-92,0},{-80.7,34.2},{-73.5,53.1},{-67.1,66.4},{-61.4,74.6},{
               -55.8,79.1},{-50.2,79.8},{-44.6,76.6},{-38.9,69.7},{-33.3,59.4},{
               -26.9,44.1},{-18.83,21.2},{-1.9,-30.8},{5.3,-50.2},{11.7,-64.2},{

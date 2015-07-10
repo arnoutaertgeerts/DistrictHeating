@@ -5,9 +5,9 @@ model DHConnection
   extends IDEAS.Fluid.BaseCircuits.Interfaces.CircuitInterface(
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
+  extends DistrictHeating.Pipes.BaseClasses.DistrictHeatingPipeParameters;
 
   //Parameters
-  parameter Modelica.SIunits.Length length;
   final parameter Modelica.SIunits.Pressure dp_nominal=
     districtHeatingPipe.dp_nominal * districtHeatingPipe.L
     "Nominal pressure losses over the connection";
@@ -16,17 +16,33 @@ model DHConnection
   Modelica.SIunits.Power QLosses;
 
   //Components
-  replaceable Pipes.DoublePipes.TwinPipeGround districtHeatingPipe(
+  replaceable Pipes.BaseClasses.PartialDistrictHeatingPipe districtHeatingPipe(
       redeclare package Medium = Medium,
-      L=length,
-      massDynamics=massDynamics,
-      energyDynamics=energyDynamics,
+      final L=L,
+      final H=H,
+      final E=E,
+      final Do=Do,
+      final Di=Di,
+      final Dc=Dc,
+      final lambdaG=lambdaG,
+      final lambdaI=lambdaI,
+      final lambdaGS=lambdaGS,
+      final massDynamics=massDynamics,
+      final energyDynamics=energyDynamics,
       tau=tau)
     constrainedby Pipes.BaseClasses.PartialDistrictHeatingPipe(
       redeclare package Medium = Medium,
-      massDynamics=massDynamics,
-      energyDynamics=energyDynamics,
-      L=length,
+      final massDynamics=massDynamics,
+      final energyDynamics=energyDynamics,
+      final L=L,
+      final H=H,
+      final E=E,
+      final Do=Do,
+      final Di=Di,
+      final Dc=Dc,
+      final lambdaG=lambdaG,
+      final lambdaI=lambdaI,
+      final lambdaGS=lambdaGS,
       tau=tau)
     annotation (Placement(transformation(extent={{-50,40},{-30,68}})), choicesAllMatching=true);
 

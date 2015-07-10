@@ -171,7 +171,7 @@ model TwinPipes
     m_flow_nominal=0.1)
     annotation (Placement(transformation(extent={{-88,-66},{-68,-46}})));
   DoublePipes.DHPlugWallenten dHPlugWallenten(
-    redeclare DistrictHeating.Pipes.Configurations.TwinPipeGround
+    redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
       baseConfiguration,
     redeclare package Medium = IDEAS.Media.Water.Simple,
     L=100,
@@ -179,7 +179,7 @@ model TwinPipes
     m1_flow_nominal=0.1,
     m2_flow_nominal=0.1)
     annotation (Placement(transformation(extent={{-10,42},{10,70}})));
-  DoublePipes.DHPipePlugDelta dHPipePlugDelta(
+  DoublePipes.DHPlugDelta dHPipePlugDelta(
     redeclare package Medium = IDEAS.Media.Water.Simple,
     m1_flow_nominal=dHPlugWallenten.m1_flow_nominal,
     m2_flow_nominal=dHPlugWallenten.m1_flow_nominal,
@@ -196,7 +196,7 @@ model TwinPipes
     lambdaI=dHPlugWallenten.lambdaI,
     lambdaGS=dHPlugWallenten.lambdaGS,
     tau=dHPlugWallenten.tau,
-    redeclare DistrictHeating.Pipes.Configurations.TwinPipeGround
+    redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
       baseConfiguration)
     annotation (Placement(transformation(extent={{-10,-22},{10,6}})));
   DoublePipes.DHDeltaCircuit dHDeltaCircuit(redeclare package Medium =
@@ -216,7 +216,7 @@ model TwinPipes
     lambdaI=dHPlugWallenten.lambdaI,
     lambdaGS=dHPlugWallenten.lambdaGS,
     tau=dHPlugWallenten.tau,
-    redeclare DistrictHeating.Pipes.Configurations.TwinPipeGround
+    redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
       baseConfiguration,
     nSeg=100)
     annotation (Placement(transformation(extent={{-10,-86},{10,-58}})));
