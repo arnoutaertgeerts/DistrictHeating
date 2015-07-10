@@ -64,8 +64,8 @@ equation
   T1Bou = T2Avg*a + Tg*b;
   T2Bou = T1Avg*a + Tg*b;
 
-  Q1 = plugFlow1.Q_Losses;
-  Q2 = plugFlow2.Q_Losses;
+  Q1 = plugFlow1.Q_Losses*L;
+  Q2 = plugFlow2.Q_Losses*L;
 
   connect(plugFlow2.port_b, T2In.port_a) annotation (Line(
       points={{-10,-60},{-20,-60}},

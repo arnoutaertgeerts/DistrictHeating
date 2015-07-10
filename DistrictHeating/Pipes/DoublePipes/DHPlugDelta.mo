@@ -16,8 +16,8 @@ model DHPlugDelta "Delta circuit DH pipe with plug flow"
     D=Di)
     annotation (Placement(transformation(extent={{-30,-30},{30,30}})));
 equation
-  Q1 = plugFlowHeatLossTwinPipe.Q_1;
-  Q2 = plugFlowHeatLossTwinPipe.Q_2;
+  Q1 = plugFlowHeatLossTwinPipe.Q_1*L;
+  Q2 = plugFlowHeatLossTwinPipe.Q_2*L;
 
   connect(port_a1, plugFlowHeatLossTwinPipe.port_a1) annotation (Line(
       points={{-100,60},{-60,60},{-60,18},{-30,18}},
