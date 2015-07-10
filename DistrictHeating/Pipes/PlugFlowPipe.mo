@@ -64,12 +64,12 @@ equation
           fillPattern=FillPattern.HorizontalCylinder,
           fillColor={192,192,192}),
         Rectangle(
-          extent={{-100,24},{100,-22}},
+          extent={{-100,32},{100,-26}},
           lineColor={0,0,0},
           fillPattern=FillPattern.HorizontalCylinder,
           fillColor={0,127,255}),
         Rectangle(
-          extent={{-26,24},{30,-22}},
+          extent={{-26,32},{30,-26}},
           lineColor={0,0,255},
           fillPattern=FillPattern.HorizontalCylinder)}));
 end PlugFlowPipe;

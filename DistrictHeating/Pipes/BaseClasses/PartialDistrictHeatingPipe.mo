@@ -37,9 +37,9 @@ partial model PartialDistrictHeatingPipe
   final parameter Modelica.SIunits.Mass m= Modelica.Constants.pi*Di*Di/4*L*rho;
 
   parameter Integer tau = 120 "Time constant of the temperature sensors";
-  parameter Real hs=baseConfiguration.hs
+  final parameter Real hs=baseConfiguration.hs
     "Heat loss factor for the symmetrical problem";
-  parameter Real ha=baseConfiguration.ha
+  final parameter Real ha=baseConfiguration.ha
     "Heat loss factor fot the anti-symmetrical problem";
 
   final parameter Types.ThermalResistanceLength Rs = 1/(2*Modelica.Constants.pi*lambdaI*hs);
@@ -78,51 +78,51 @@ partial model PartialDistrictHeatingPipe
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-140},
             {100,140}}), graphics={
         Polygon(
-          points={{30,22},{60,12},{30,0},{30,22}},
+          points={{32,110},{62,100},{32,88},{32,110}},
           smooth=Smooth.None,
           fillColor={255,0,0},
           fillPattern=FillPattern.HorizontalCylinder,
           pattern=LinePattern.None,
           lineColor={0,0,0}),
-        Ellipse(
-          extent={{30,-92},{-30,-32}},
-          lineColor={0,0,255},
-          fillColor={0,0,255},
-          fillPattern=FillPattern.Sphere),
         Polygon(
-          points={{30,18},{52,12},{30,4},{30,18}},
+          points={{32,106},{54,100},{32,92},{32,106}},
           smooth=Smooth.None,
           fillColor={255,255,255},
           fillPattern=FillPattern.HorizontalCylinder,
           pattern=LinePattern.None,
           lineColor={0,0,0}),
         Line(
-          points={{-60,12},{56,12}},
+          points={{-60,100},{56,100}},
           color={255,0,0},
           smooth=Smooth.None),
         Polygon(
-          points={{-28,0},{-58,-10},{-28,-22},{-28,0}},
+          points={{-32,-96},{-62,-106},{-32,-118},{-32,-96}},
           smooth=Smooth.None,
           fillColor={0,0,255},
           fillPattern=FillPattern.HorizontalCylinder,
           pattern=LinePattern.None,
           lineColor={0,0,0}),
         Polygon(
-          points={{-28,-4},{-50,-10},{-28,-18},{-28,-4}},
+          points={{-32,-100},{-54,-106},{-32,-114},{-32,-100}},
           smooth=Smooth.None,
           fillColor={255,255,255},
           fillPattern=FillPattern.HorizontalCylinder,
           pattern=LinePattern.None,
           lineColor={0,0,0}),
         Line(
-          points={{62,-10},{-50,-10}},
+          points={{58,-106},{-60,-106}},
           color={0,0,255},
           smooth=Smooth.None),
-        Ellipse(
-          extent={{30,30},{-30,90}},
-          lineColor={255,0,0},
-          fillColor={255,0,0},
-          fillPattern=FillPattern.Sphere)}),
+        Rectangle(
+          extent={{-100,-30},{100,-90}},
+          lineColor={0,0,0},
+          fillPattern=FillPattern.HorizontalCylinder,
+          fillColor={0,127,255}),
+        Rectangle(
+          extent={{-100,88},{100,28}},
+          lineColor={0,0,0},
+          fillPattern=FillPattern.HorizontalCylinder,
+          fillColor={255,128,0})}),
                                  Diagram(coordinateSystem(extent={{-100,-140},{
             100,140}},  preserveAspectRatio=false),
                     graphics),

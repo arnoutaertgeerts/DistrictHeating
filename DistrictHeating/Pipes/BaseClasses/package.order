@@ -1,8 +1,4 @@
 PartialDistrictHeatingPipe
-DHWallenten
-DHDeltaCircuit
-DHPlugWallenten
-DHPipePlugDelta
 FixedResistanceDpM
 Pipe
 ExponentialDecay

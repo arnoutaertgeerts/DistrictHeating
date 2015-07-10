@@ -2,11 +2,6 @@ within DistrictHeating.Pipes.Examples;
 model TwinPipes
 
   extends Modelica.Icons.Example;
-  DoublePlugPipes.TwinPipeGround plug(
-    redeclare package Medium = Annex60.Media.Water,
-    Do=plug.Di,
-    Di=0.01,
-    L=100)   annotation (Placement(transformation(extent={{-10,38},{10,66}})));
   IDEAS.Fluid.Sources.FixedBoundary bou2(
     T=273.15 + 70,
     redeclare package Medium = IDEAS.Media.Water.Simple,
@@ -124,16 +119,6 @@ model TwinPipes
         extent={{10,-10},{-10,10}},
         rotation=0,
         origin={-30,-28})));
-  DoublePipes.TwinPipeGroundTR pipeTR(
-    redeclare package Medium = Annex60.Media.Water,
-    Pipe1(lambdaIns=0.026),
-    Pipe2(lambdaIns=0.026),
-    L=plug.L,
-    lambdaI=plug.lambdaI,
-    Di=plug.Di,
-    Do=plug.Di,
-    nSeg=100)
-    annotation (Placement(transformation(extent={{-10,-86},{10,-58}})));
   IDEAS.Fluid.Sources.FixedBoundary bou3(
     T=273.15 + 70,
     redeclare package Medium = IDEAS.Media.Water.Simple,
@@ -173,14 +158,6 @@ model TwinPipes
         extent={{10,-10},{-10,10}},
         rotation=0,
         origin={-30,-90})));
-  DoublePlugPipes.TwinPipeGround2 plug2(
-    redeclare package Medium = Annex60.Media.Water,
-    Do=plug.Di,
-    L=plug.L,
-    rho=plug.rho,
-    lambdaI=plug.lambdaI,
-    Di=plug.Di)
-             annotation (Placement(transformation(extent={{-10,-22},{10,6}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort T1TRIn(
     m_flow_nominal=0.1,
     redeclare package Medium = IDEAS.Media.Water.Simple,
@@ -193,6 +170,56 @@ model TwinPipes
     redeclare package Medium = Annex60.Media.Water,
     m_flow_nominal=0.1)
     annotation (Placement(transformation(extent={{-88,-66},{-68,-46}})));
+  DoublePipes.DHPlugWallenten dHPlugWallenten(
+    redeclare DistrictHeating.Pipes.Configurations.TwinPipeGround
+      baseConfiguration,
+    redeclare package Medium = IDEAS.Media.Water.Simple,
+    L=100,
+    Do=Di,
+    Di=0.02,
+    m1_flow_nominal=0.1,
+    m2_flow_nominal=0.1)
+    annotation (Placement(transformation(extent={{-10,42},{10,70}})));
+  DoublePipes.DHPipePlugDelta dHPipePlugDelta(
+    redeclare package Medium = IDEAS.Media.Water.Simple,
+    m1_flow_nominal=dHPlugWallenten.m1_flow_nominal,
+    m2_flow_nominal=dHPlugWallenten.m1_flow_nominal,
+    L=dHPlugWallenten.L,
+    rho=dHPlugWallenten.rho,
+    H=dHPlugWallenten.H,
+    E=dHPlugWallenten.E,
+    Do=dHPlugWallenten.Do,
+    Di=dHPlugWallenten.Di,
+    Dc=dHPlugWallenten.Dc,
+    dp_nominal=dHPlugWallenten.dp_nominal,
+    m_flow_nominal=dHPlugWallenten.m_flow_nominal,
+    lambdaG=dHPlugWallenten.lambdaG,
+    lambdaI=dHPlugWallenten.lambdaI,
+    lambdaGS=dHPlugWallenten.lambdaGS,
+    tau=dHPlugWallenten.tau,
+    redeclare DistrictHeating.Pipes.Configurations.TwinPipeGround
+      baseConfiguration)
+    annotation (Placement(transformation(extent={{-10,-22},{10,6}})));
+  DoublePipes.DHDeltaCircuit dHDeltaCircuit(redeclare package Medium =
+        IDEAS.Media.Water.Simple,
+        m1_flow_nominal=dHPlugWallenten.m1_flow_nominal,
+    m2_flow_nominal=dHPlugWallenten.m1_flow_nominal,
+    L=dHPlugWallenten.L,
+    rho=dHPlugWallenten.rho,
+    H=dHPlugWallenten.H,
+    E=dHPlugWallenten.E,
+    Do=dHPlugWallenten.Do,
+    Di=dHPlugWallenten.Di,
+    Dc=dHPlugWallenten.Dc,
+    dp_nominal=dHPlugWallenten.dp_nominal,
+    m_flow_nominal=dHPlugWallenten.m_flow_nominal,
+    lambdaG=dHPlugWallenten.lambdaG,
+    lambdaI=dHPlugWallenten.lambdaI,
+    lambdaGS=dHPlugWallenten.lambdaGS,
+    tau=dHPlugWallenten.tau,
+    redeclare DistrictHeating.Pipes.Configurations.TwinPipeGround
+      baseConfiguration)
+    annotation (Placement(transformation(extent={{-10,-86},{10,-58}})));
 equation
 
   connect(fan.port_b, T1PlugIn.port_a) annotation (Line(
@@ -201,22 +228,6 @@ equation
       smooth=Smooth.None));
   connect(idealHeater.port_b,fan. port_a) annotation (Line(
       points={{-68,70},{-64,70}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(T1PlugIn.port_b, plug.port_a1) annotation (Line(
-      points={{-20,70},{-14,70},{-14,58},{-10,58}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(T2PlugIn.port_b, plug.port_a2) annotation (Line(
-      points={{20,38},{14,38},{14,46},{10,46}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(plug.port_b1, T1PlugOut.port_a) annotation (Line(
-      points={{10,58},{14,58},{14,70},{20,70}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(plug.port_b2, T2PlugOut.port_a) annotation (Line(
-      points={{-10,46},{-14,46},{-14,40},{-20,40}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(const.y,idealHeater1. TSet) annotation (Line(
@@ -255,10 +266,6 @@ equation
       points={{-40,-28},{-90,-28},{-90,6},{-88,6}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(const1.y, plug.Tg) annotation (Line(
-      points={{-7.6,20},{0,20},{0,37.8}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(idealHeater2.TSet, idealHeater.TSet) annotation (Line(
       points={{-90,12},{-96,12},{-96,76},{-90,76}},
       color={0,0,127},
@@ -271,10 +278,6 @@ equation
       points={{-80,-24},{-80,-28},{-90,-28},{-90,6},{-88,6}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(pipeTR.port_b2, T2TROut.port_a) annotation (Line(
-      points={{-10,-78},{-16,-78},{-16,-90},{-20,-90}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(T1TROut.port_b, idealHeater5.port_a) annotation (Line(
       points={{40,-56},{62,-56}},
       color={0,127,255},
@@ -282,18 +285,6 @@ equation
   connect(idealHeater5.port_b, T2TRIn.port_a) annotation (Line(
       points={{82,-56},{88,-56},{88,-86},{40,-86}},
       color={0,127,255},
-      smooth=Smooth.None));
-  connect(pipeTR.port_b1, T1TROut.port_a) annotation (Line(
-      points={{10,-66},{14,-66},{14,-56},{20,-56}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(pipeTR.port_a2, T2TRIn.port_b) annotation (Line(
-      points={{10,-78},{18,-78},{18,-86},{20,-86}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(pipeTR.Tg, plug.Tg) annotation (Line(
-      points={{0,-86.2},{0,-94},{14,-94},{14,20},{0,20},{0,37.8}},
-      color={0,0,127},
       smooth=Smooth.None));
   connect(const.y, idealHeater3.TSet) annotation (Line(
       points={{50.4,62},{56,62},{56,12},{62,12}},
@@ -303,36 +294,12 @@ equation
       points={{60,-50},{56,-50},{56,12},{62,12}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(T1PipeIn.port_b, plug2.port_a1) annotation (Line(
-      points={{-20,6},{-16,6},{-16,-2},{-10,-2}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(T2PipeOut.port_a, plug2.port_b2) annotation (Line(
-      points={{-20,-28},{-14,-28},{-14,-14},{-10,-14}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(plug2.port_b1, T1PipeOut.port_a) annotation (Line(
-      points={{10,-2},{16,-2},{16,6},{20,6}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(plug2.port_a2, T2PipeIn.port_b) annotation (Line(
-      points={{10,-14},{16,-14},{16,-24},{20,-24}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(plug2.Tg, plug.Tg) annotation (Line(
-      points={{0,-22.2},{0,-30},{14,-30},{14,20},{0,20},{0,37.8}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(fan1.m_flow_in, fan.m_flow_in) annotation (Line(
       points={{-54.2,18},{-54.2,26},{-62,26},{-62,90},{-54.2,90},{-54.2,82}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(fan2.port_b, T1TRIn.port_a) annotation (Line(
       points={{-44,-56},{-40,-56}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(T1TRIn.port_b, pipeTR.port_a1) annotation (Line(
-      points={{-20,-56},{-16,-56},{-16,-66},{-10,-66}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(idealHeater4.TSet, idealHeater.TSet) annotation (Line(
@@ -357,11 +324,71 @@ equation
       smooth=Smooth.None));
   connect(fan2.m_flow_in, fan.m_flow_in) annotation (Line(
       points={{-54.2,-44},{-54.2,-34},{-62,-34},{-62,90},{-54.2,90},{-54.2,82}},
-
       color={0,0,127},
       smooth=Smooth.None));
+
   connect(pulse1.y, fan.m_flow_in) annotation (Line(
       points={{-69.6,90},{-54.2,90},{-54.2,82}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(T1TRIn.port_b, dHDeltaCircuit.port_a1) annotation (Line(
+      points={{-20,-56},{-16,-56},{-16,-66},{-10,-66}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(T2TROut.port_a, dHDeltaCircuit.port_b2) annotation (Line(
+      points={{-20,-90},{-14,-90},{-14,-78},{-10,-78}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(dHDeltaCircuit.port_b1, T1TROut.port_a) annotation (Line(
+      points={{10,-66},{16,-66},{16,-56},{20,-56}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(dHDeltaCircuit.port_a2, T2TRIn.port_b) annotation (Line(
+      points={{10,-78},{16,-78},{16,-86},{20,-86}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(T1PipeIn.port_b, dHPipePlugDelta.port_a1) annotation (Line(
+      points={{-20,6},{-16,6},{-16,-2},{-10,-2}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(T2PipeOut.port_a, dHPipePlugDelta.port_b2) annotation (Line(
+      points={{-20,-28},{-14,-28},{-14,-14},{-10,-14}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(dHPipePlugDelta.port_b1, T1PipeOut.port_a) annotation (Line(
+      points={{10,-2},{16,-2},{16,6},{20,6}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(dHPipePlugDelta.port_a2, T2PipeIn.port_b) annotation (Line(
+      points={{10,-14},{16,-14},{16,-24},{20,-24}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(T1PlugIn.port_b, dHPlugWallenten.port_a1) annotation (Line(
+      points={{-20,70},{-16,70},{-16,62},{-10,62}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(T2PlugOut.port_a, dHPlugWallenten.port_b2) annotation (Line(
+      points={{-20,40},{-14,40},{-14,50},{-10,50}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(dHPlugWallenten.port_b1, T1PlugOut.port_a) annotation (Line(
+      points={{10,62},{16,62},{16,70},{20,70}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(dHPlugWallenten.port_a2, T2PlugIn.port_b) annotation (Line(
+      points={{10,50},{14,50},{14,38},{20,38}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(const1.y, dHPlugWallenten.Tg) annotation (Line(
+      points={{-7.6,20},{0,20},{0,41.8}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(const1.y, dHPipePlugDelta.Tg) annotation (Line(
+      points={{-7.6,20},{14,20},{14,-30},{0,-30},{0,-22.2}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(dHDeltaCircuit.Tg, dHPipePlugDelta.Tg) annotation (Line(
+      points={{0,-86.2},{0,-94},{14,-94},{14,-30},{0,-30},{0,-22.2}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
