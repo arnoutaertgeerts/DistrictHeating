@@ -46,19 +46,17 @@ model DHConnection
       final m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{-50,40},{-30,68}})), choicesAllMatching=true);
 
-  IDEAS.Fluid.Interfaces.FlowPort_a flowPortIn(redeclare package Medium =
-        Medium) "Return line from the building"
-    annotation (Placement(transformation(extent={{-30,90},{-10,110}}),
-        iconTransformation(extent={{-30,90},{-10,110}})));
-  IDEAS.Fluid.Interfaces.FlowPort_b flowPortOut(redeclare package Medium =
-        Medium) "Supply line to the building"
-    annotation (Placement(transformation(extent={{10,90},{30,110}}),
-        iconTransformation(extent={{10,90},{30,110}})));
 
   Modelica.Blocks.Sources.RealExpression realExpression(y=sim.Tground)
     annotation (Placement(transformation(extent={{-14,10},{-34,30}})));
   outer IDEAS.SimInfoManager sim
     annotation (Placement(transformation(extent={{-40,-60},{-20,-40}})));
+  Modelica.Fluid.Interfaces.FluidPort_a port_a3
+    "Fluid connector a2 (positive design flow direction is from port_a2 to port_b2)"
+    annotation (Placement(transformation(extent={{-30,90},{-10,110}})));
+  Modelica.Fluid.Interfaces.FluidPort_b port_b3
+    "Fluid connector b1 (positive design flow direction is from port_a1 to port_b1)"
+    annotation (Placement(transformation(extent={{10,90},{30,110}})));
 equation
 
   der(QLosses) = districtHeatingPipe.Q1 + districtHeatingPipe.Q2;
@@ -76,10 +74,6 @@ equation
       points={{-30,60},{100,60}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(flowPortOut, port_b1) annotation (Line(
-      points={{20,100},{20,60},{100,60}},
-      color={0,0,0},
-      smooth=Smooth.None));
   connect(districtHeatingPipe.port_a2, port_a2) annotation (Line(
       points={{-30,48},{0,48},{0,-60},{100,-60}},
       color={0,127,255},
@@ -88,9 +82,21 @@ equation
       points={{-50,48},{-60,48},{-60,-60},{-100,-60}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(flowPortIn, port_a2) annotation (Line(
-      points={{-20,100},{-20,48},{0,48},{0,-60},{100,-60}},
-      color={0,0,0},
+  connect(port_a2, port_a2) annotation (Line(
+      points={{100,-60},{100,-60}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(port_a2, port_a3) annotation (Line(
+      points={{100,-60},{0,-60},{0,48},{-20,48},{-20,100}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(port_b1, port_b1) annotation (Line(
+      points={{100,60},{100,60}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(port_b1, port_b3) annotation (Line(
+      points={{100,60},{20,60},{20,100}},
+      color={0,127,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
