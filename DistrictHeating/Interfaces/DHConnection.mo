@@ -32,35 +32,33 @@ model DHConnection
       final m_flow_nominal=m_flow_nominal)
     constrainedby Pipes.BaseClasses.PartialDistrictHeatingPipe(
       redeclare package Medium = Medium,
-      massDynamics=massDynamics,
-      energyDynamics=energyDynamics,
-      L=L,
-      H=H,
-      E=E,
-      Do=Do,
-      Di=Di,
-      Dc=Dc,
-      lambdaG=lambdaG,
-      lambdaI=lambdaI,
-      lambdaGS=lambdaGS,
-      m_flow_nominal=m_flow_nominal)
+       massDynamics=massDynamics,
+       energyDynamics=energyDynamics,
+       L=L,
+       H=H,
+       E=E,
+       Do=Do,
+       Di=Di,
+       Dc=Dc,
+       lambdaG=lambdaG,
+       lambdaI=lambdaI,
+       lambdaGS=lambdaGS,
+       m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{-50,40},{-30,68}})), choicesAllMatching=true);
 
   Modelica.Blocks.Sources.RealExpression realExpression(y=sim.Tground)
     annotation (Placement(transformation(extent={{-14,10},{-34,30}})));
   outer IDEAS.SimInfoManager sim
     annotation (Placement(transformation(extent={{-40,-60},{-20,-40}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a3(redeclare package Medium =
-        Medium)
+  Modelica.Fluid.Interfaces.FluidPort_a port_a3
     "Fluid connector a2 (positive design flow direction is from port_a2 to port_b2)"
     annotation (Placement(transformation(extent={{-30,90},{-10,110}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b3(redeclare package Medium =
-        Medium)
+  Modelica.Fluid.Interfaces.FluidPort_b port_b3
     "Fluid connector b1 (positive design flow direction is from port_a1 to port_b1)"
     annotation (Placement(transformation(extent={{10,90},{30,110}})));
 equation
 
-  QLosses = districtHeatingPipe.QLosses;
+  der(QLosses) = districtHeatingPipe.Q1 + districtHeatingPipe.Q2;
 
   connect(realExpression.y, districtHeatingPipe.Tg) annotation (Line(
       points={{-35,20},{-40,20},{-40,39.8}},
