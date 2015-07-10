@@ -32,18 +32,18 @@ model DHConnection
       final m_flow_nominal=m_flow_nominal)
     constrainedby Pipes.BaseClasses.PartialDistrictHeatingPipe(
       redeclare package Medium = Medium,
-      final massDynamics=massDynamics,
-      final energyDynamics=energyDynamics,
-      final L=L,
-      final H=H,
-      final E=E,
-      final Do=Do,
-      final Di=Di,
-      final Dc=Dc,
-      final lambdaG=lambdaG,
-      final lambdaI=lambdaI,
-      final lambdaGS=lambdaGS,
-      final m_flow_nominal=m_flow_nominal)
+      massDynamics=massDynamics,
+      energyDynamics=energyDynamics,
+      L=L,
+      H=H,
+      E=E,
+      Do=Do,
+      Di=Di,
+      Dc=Dc,
+      lambdaG=lambdaG,
+      lambdaI=lambdaI,
+      lambdaGS=lambdaGS,
+      m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{-50,40},{-30,68}})), choicesAllMatching=true);
 
   Modelica.Blocks.Sources.RealExpression realExpression(y=sim.Tground)
