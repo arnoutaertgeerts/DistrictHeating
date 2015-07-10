@@ -32,6 +32,7 @@ partial model PartialDistrictHeatingPipe
 
   Modelica.SIunits.Power Q1;
   Modelica.SIunits.Power Q2;
+  Modelica.SIunits.Power QLosses;
 
   //Inputs
   Modelica.Blocks.Interfaces.RealInput Tg "Temperature of the ground"
@@ -126,5 +127,8 @@ partial model PartialDistrictHeatingPipe
                     graphics),
               Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -120},{100,120}}), graphics));
+
+equation
+  QLosses = Q1 + Q2;
 
 end PartialDistrictHeatingPipe;
