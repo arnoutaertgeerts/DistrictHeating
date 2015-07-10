@@ -64,6 +64,10 @@ partial model PartialDistrictHeatingPipe
     lambdaI=lambdaI,
     lambdaGS=lambdaGS) annotation (Placement(transformation(extent={{70,108},{90,
             128}})), choicesAllMatching=true);
+
+equation
+  QLosses = Q1 + Q2;
+
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-140},
             {100,140}}), graphics={
         Rectangle(
@@ -127,8 +131,4 @@ partial model PartialDistrictHeatingPipe
                     graphics),
               Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -120},{100,120}}), graphics));
-
-equation
-  QLosses = Q1 + Q2;
-
 end PartialDistrictHeatingPipe;
