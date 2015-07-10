@@ -1,64 +1,8 @@
 within DistrictHeating.Pipes.BaseClasses;
-partial model DHPlugWallenten
+model DHPlugWallenten "Wallenten based DH pipe with plug flow"
 
   //Extensions
-  extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
-
-  extends IDEAS.Fluid.Interfaces.PartialFourPortInterface(
-    redeclare final package Medium1=Medium,
-    redeclare final package Medium2=Medium,
-    m1_flow_nominal=m_flow_nominal,
-    m2_flow_nominal=m_flow_nominal);
-
-  //Constants
-  constant Real pi=Modelica.Constants.pi;
-
-  //Parameters
-  parameter Real hs;
-  parameter Real ha;
-
-  final parameter Real Rs=1/(2*pi*lambdaI*hs);
-  final parameter Real Ra=1/(2*pi*lambdaI*ha);
-
-  //Resistors of the delta-network
-  final parameter Real R1b=2*Rs;
-  final parameter Real R2b=R1b;
-  final parameter Real R12=(4*Rs*Ra)/(2*Rs-Ra);
-
-  //Resistors of the Y-network
-  final parameter Real R1y=(R1b+R12)/(R1b+R2b+R12);
-  final parameter Real R2y=(R2b+R12)/(R1b+R2b+R12);
-  final parameter Real Ryb=(R1b+R2b)/(R1b+R2b+R12);
-
-  //R value of time constants
-  final parameter Real tauRY = R1y/(R1y+1);
-
-  parameter Modelica.SIunits.Length L=10 "Total length of the pipe";
-  parameter Modelica.SIunits.Density rho=1000 "Density of the medium";
-
-  parameter Modelica.SIunits.ThermalConductivity lambdaG=2
-    "Thermal conductivity of the ground [W/mK]";
-  parameter Modelica.SIunits.ThermalConductivity lambdaI=0.026
-    "Thermal conductivity of the insulation [W/mK]";
-  parameter Modelica.SIunits.ThermalConductivity lambdaGS = 14.6
-    "Thermal conductivity of the ground surface [W/mK]";
-
-  parameter Modelica.SIunits.Length H=2 "Buried depth of the pipe";
-  parameter Modelica.SIunits.Length E=1.25*Di
-    "Horizontal distance between pipes";
-  parameter Modelica.SIunits.Length Do=0.2 "Equivalent outer diameter";
-  parameter Modelica.SIunits.Length Di=0.2 "Equivalent inner diameter";
-
-  final parameter Modelica.SIunits.Length Heff=H + lambdaG/lambdaGS
-    "Corrected depth";
-  final parameter Real beta = lambdaG/lambdaI*Modelica.Math.log(ro/ri)
-    "Dimensionless parameter describing the insulation";
-  final parameter Modelica.SIunits.Length ro = Do/2 "Equivalent outer radius";
-  final parameter Modelica.SIunits.Length ri = Di/2 "Equivalent inner radius";
-  final parameter Modelica.SIunits.Length D = E/2
-    "Half the distance between the center of the pipes";
-  final parameter Modelica.SIunits.Mass m=Modelica.Constants.pi*Di*Di/4*L*rho;
+  extends PartialDistrictHeatingPipe;
 
   final parameter Real a = (Rs-Ra)/(Ra+Rs);
   final parameter Real b = 1-a;
@@ -73,25 +17,9 @@ partial model DHPlugWallenten
   Modelica.SIunits.Temperature T1Bou;
   Modelica.SIunits.Temperature T2Bou;
 
-  Modelica.SIunits.Temperature T1BouY;
-  Modelica.SIunits.Temperature T2BouY;
-
   Modelica.SIunits.Temperature T1Avg;
   Modelica.SIunits.Temperature T2Avg;
 
-  Modelica.SIunits.Power Q1 "Heat losses from the supply line";
-  Modelica.SIunits.Power Q2 "Heat losses from the return line";
-
-  //Interfaces
-  Modelica.Blocks.Interfaces.RealInput Tg "Temperature of the ground"
-                                annotation (Placement(
-        transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=90,
-        origin={0,-142}), iconTransformation(
-        extent={{-20,-20},{20,20}},
-        rotation=90,
-        origin={0,-142})));
   //Components
   PlugFlowHeatLosses plugFlow1(
     redeclare package Medium = Medium,
@@ -135,12 +63,6 @@ equation
 
   T1Bou = T2Avg*a + Tg*b;
   T2Bou = T1Avg*a + Tg*b;
-
-  T1BouY = R1y/(R1y+1)*((1+Tg)/Ryb + (1+T2Avg)/R2y + 1/R1y);
-  T2BouY = R2y/(R2y+1)*((1+Tg)/Ryb + (1+T1Avg)/R1y + 1/R2y);
-
-  Q1 = plugFlow1.Q_Losses;
-  Q2 = plugFlow2.Q_Losses;
 
   connect(plugFlow2.port_b, T2In.port_a) annotation (Line(
       points={{-10,-60},{-20,-60}},

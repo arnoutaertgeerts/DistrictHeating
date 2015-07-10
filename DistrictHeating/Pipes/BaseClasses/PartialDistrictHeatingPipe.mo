@@ -19,6 +19,9 @@ partial model PartialDistrictHeatingPipe
   parameter Modelica.SIunits.Length H=2 "Buried depth of the pipe";
   parameter Modelica.SIunits.Length E=1.25*Di
     "Horizontal distance between pipes";
+  parameter Modelica.SIunits.Length Do=0.2 "Equivalent outer diameter";
+  parameter Modelica.SIunits.Length Di=0.2 "Equivalent inner diameter";
+  parameter Modelica.SIunits.Length Dc=2.5*Di "Diameter of circumscribing pipe";
 
   parameter Types.PressurePerLength dp_nominal=20
     "Nominal pressure drop/meter over the pipe";
@@ -31,25 +34,18 @@ partial model PartialDistrictHeatingPipe
   parameter Modelica.SIunits.ThermalConductivity lambdaGS = 14.6
     "Thermal conductivity of the ground surface [W/mK]";
 
-  parameter Modelica.SIunits.Length Do=0.2 "Equivalent outer diameter";
-  parameter Modelica.SIunits.Length Di=0.2 "Equivalent inner diameter";
-
-  final parameter Modelica.SIunits.Length Heff=
-    H + lambdaG/lambdaGS "Corrected depth";
-  final parameter Real beta = lambdaG/lambdaI*Modelica.Math.log(ro/ri)
-    "Dimensionless parameter describing the insulation";
-  final parameter Modelica.SIunits.Length ro = Do/2 "Equivalent outer radius";
-  final parameter Modelica.SIunits.Length ri = Di/2 "Equivalent inner radius";
-  final parameter Modelica.SIunits.Length D = E/2
-    "Half the distance between the center of the pipes";
   final parameter Modelica.SIunits.Mass m= Modelica.Constants.pi*Di*Di/4*L*rho;
 
   parameter Integer tau = 120 "Time constant of the temperature sensors";
-  parameter Real hs "Heat loss factor for the symmetrical problem";
-  parameter Real ha "Heat loss factor fot the anti-symmetrical problem";
+  parameter Real hs=baseConfiguration.hs
+    "Heat loss factor for the symmetrical problem";
+  parameter Real ha=baseConfiguration.ha
+    "Heat loss factor fot the anti-symmetrical problem";
+
+  final parameter Types.ThermalResistanceLength Rs = 1/(2*Modelica.Constants.pi*lambdaI*hs);
+  final parameter Types.ThermalResistanceLength Ra = 1/(2*Modelica.Constants.pi*lambdaI*ha);
 
   //Inputs
-public
   Modelica.Blocks.Interfaces.RealInput Tg "Temperature of the ground"
                                 annotation (Placement(
         transformation(
@@ -59,6 +55,26 @@ public
         extent={{-20,-20},{20,20}},
         rotation=90,
         origin={0,-142})));
+
+  //Components
+  replaceable Configurations.TwinPipeSeparate  baseConfiguration(
+    H=H,
+    E=E,
+    Do=Do,
+    Di=Di,
+    Dc=Dc,
+    lambdaG=lambdaG,
+    lambdaI=lambdaI,
+    lambdaGS=lambdaGS) constrainedby Configurations.BaseConfiguration(
+    H=H,
+    E=E,
+    Do=Do,
+    Di=Di,
+    Dc=Dc,
+    lambdaG=lambdaG,
+    lambdaI=lambdaI,
+    lambdaGS=lambdaGS)
+    annotation (Placement(transformation(extent={{70,108},{90,128}})), choicesAllMatching=true);
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-140},
             {100,140}}), graphics={
         Polygon(

@@ -109,11 +109,11 @@ equation
       color={0,0,0},
       smooth=Smooth.None));
   connect(idealHeater.port_b, pumpSupply_dp.port_a1) annotation (Line(
-      points={{28,16},{0,16}},
+      points={{28,10},{14,10},{14,16},{0,16}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(pumpSupply_dp.port_b2, idealHeater.port_a) annotation (Line(
-      points={{0,4},{28,4}},
+      points={{0,4},{24,4},{24,10},{48,10}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(boundary.ports[1], pumpSupply_dp.port_a1) annotation (Line(

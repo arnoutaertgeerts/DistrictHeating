@@ -1,5 +1,5 @@
 within DistrictHeating.Pipes.BaseClasses;
-partial model DHDeltaCircuit
+model DHDeltaCircuit
   "District heating pipe model based on the resistor delta circuit"
 
   //Extensions
@@ -7,9 +7,6 @@ partial model DHDeltaCircuit
 
   //Parameters
   parameter Integer nSeg=5;
-
-  final parameter Types.ThermalResistanceLength Rs = 1/(2*Modelica.Constants.pi*lambdaI*hs);
-  final parameter Types.ThermalResistanceLength Ra = 1/(2*Modelica.Constants.pi*lambdaI*ha);
 
   final parameter Types.ThermalResistanceLength R12 = (2*Ra*Rs)/(Rs-Ra);
   final parameter Types.ThermalResistanceLength Rbou = Rs;
@@ -69,7 +66,7 @@ equation
 
   for i in 1:nSeg loop
     connect(Tg, prescribedTemperature[i].T) annotation (Line(
-      points={{0,-142},{0,-100},{-88,-100},{-88,0},{-62,0}},
+      points={{0,-142},{0,-100},{-80,-100},{-80,0},{-62,0}},
       color={0,0,127},
       smooth=Smooth.None));
   end for;

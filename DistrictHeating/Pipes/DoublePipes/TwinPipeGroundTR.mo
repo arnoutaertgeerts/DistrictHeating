@@ -1,6 +1,5 @@
 within DistrictHeating.Pipes.DoublePipes;
-model TwinPipeGroundTR
-  "Twin pipe model for symmetric pipes in the ground with resistance model"
+model TwinPipeGroundTR "Twin pipe model for symmetric pipes in the ground"
 
   //Extensions
   extends BaseClasses.DHDeltaCircuit(

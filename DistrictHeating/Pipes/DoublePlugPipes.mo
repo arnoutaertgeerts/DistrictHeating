@@ -3,7 +3,7 @@ package DoublePlugPipes
   model TwinPipeGround "Twin pipe model for symmetric pipes in the ground"
 
     //Extensions
-    extends BaseClasses.DHPipePlugFlow(
+    extends BaseClasses.DHPlugWallenten(
       hs=1/hsInvers,
       ha=1/haInvers);
 
@@ -91,7 +91,7 @@ package DoublePlugPipes
   model TwinPipeGround2 "Twin pipe model for symmetric pipes in the ground"
 
     //Extensions
-    extends BaseClasses.DHPipePlugFlow2(
+    extends BaseClasses.DHPipePlugDelta(
       hs=1/hsInvers,
       ha=1/haInvers);
 
@@ -179,7 +179,7 @@ package DoublePlugPipes
   model TwinPipeAir "Twin pipe model for symmetric pipes above the ground"
 
     //Extensions
-    extends BaseClasses.DHPipePlugFlow(
+    extends BaseClasses.DHPlugWallenten(
       hs=1/hsInvers,
       ha=1/haInvers);
 
@@ -267,7 +267,7 @@ package DoublePlugPipes
     "A symmetrical preinsulated pipe model where each pipe has its own insulation"
 
     //Extensions
-    extends BaseClasses.DHPipePlugFlow(
+    extends BaseClasses.DHPlugWallenten(
       hs=1/hsInvers,
       ha=1/haInvers,
       Do=0.25);

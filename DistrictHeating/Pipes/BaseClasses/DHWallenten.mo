@@ -1,5 +1,5 @@
 within DistrictHeating.Pipes.BaseClasses;
-partial model DHWallenten "District heating pipe based on Wallenten"
+model DHWallenten "District heating pipe based on Wallenten"
 
   //Extensions
   extends PartialDistrictHeatingPipe;
@@ -86,6 +86,9 @@ equation
 
   Ts = (T1 + T2)/2;
   Ta = (T1 - T2)/2;
+
+  Qs=(Ts-Tg)*2*Modelica.Constants.pi*lambdaG*hs;
+  Qa=Ta*2*Modelica.Constants.pi*lambdaG*ha;
 
   Q1 = (Qs + Qa)*L;
   Q2 = (Qs - Qa)*L;

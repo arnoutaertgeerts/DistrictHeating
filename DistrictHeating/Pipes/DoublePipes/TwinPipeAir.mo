@@ -21,9 +21,6 @@ protected
     Modelica.Math.log(2*D/ri) -
     Modelica.Math.log((rc^2+D^2)/(rc^2-D^2));
 
-equation
-  Qs=(Ts-Tg)*2*Modelica.Constants.pi*lambdaI*hs;
-  Qa=Ta*2*Modelica.Constants.pi*lambdaI*ha;
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-140},
             {100,140}}),
                    graphics={

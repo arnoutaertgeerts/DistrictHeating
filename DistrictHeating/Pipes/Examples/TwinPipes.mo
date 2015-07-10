@@ -5,8 +5,8 @@ model TwinPipes
   DoublePlugPipes.TwinPipeGround plug(
     redeclare package Medium = Annex60.Media.Water,
     Do=plug.Di,
-    L=1000,
-    Di=0.01) annotation (Placement(transformation(extent={{-10,38},{10,66}})));
+    Di=0.01,
+    L=100)   annotation (Placement(transformation(extent={{-10,38},{10,66}})));
   IDEAS.Fluid.Sources.FixedBoundary bou2(
     T=273.15 + 70,
     redeclare package Medium = IDEAS.Media.Water.Simple,
@@ -34,9 +34,9 @@ model TwinPipes
     annotation (Placement(transformation(extent={{-64,60},{-44,80}})));
   Modelica.Blocks.Sources.Pulse pulse(
     period=86400,
-    amplitude=20,
+    width=4,
     offset=273.15 + 50,
-    width=4)
+    amplitude=20)
     annotation (Placement(transformation(extent={{-86,86},{-94,94}})));
   Annex60.Fluid.HeatExchangers.HeaterCooler_T    idealHeater(
     dp_nominal=0,
@@ -52,8 +52,8 @@ model TwinPipes
     period=86400,
     startTime=7200,
     width=60,
-    amplitude=-0.024,
-    offset=0.025)
+    amplitude=0,
+    offset=0.0025)
     annotation (Placement(transformation(extent={{-78,86},{-70,94}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort T1PlugOut(
     m_flow_nominal=0.1,
@@ -68,9 +68,9 @@ model TwinPipes
         extent={{10,-10},{-10,10}},
         rotation=0,
         origin={-30,40})));
-  Modelica.Blocks.Sources.Constant const(k=273.15 + 40)
+  Modelica.Blocks.Sources.Constant const(k=273.15 + 10)
     annotation (Placement(transformation(extent={{42,58},{50,66}})));
-  Modelica.Blocks.Sources.Constant const1(k=273.15 + 10) annotation (
+  Modelica.Blocks.Sources.Constant const1(k=273.15 + 5)  annotation (
       Placement(transformation(
         extent={{-4,-4},{4,4}},
         rotation=0,

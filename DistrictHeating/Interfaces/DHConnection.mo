@@ -8,7 +8,6 @@ model DHConnection
 
   //Parameters
   parameter Modelica.SIunits.Length length;
-  parameter Modelica.SIunits.Length diameter "inner pipe diameter";
   final parameter Modelica.SIunits.Pressure dp_nominal=
     districtHeatingPipe.dp_nominal * districtHeatingPipe.L
     "Nominal pressure losses over the connection";
@@ -17,20 +16,18 @@ model DHConnection
   Modelica.SIunits.Power QLosses;
 
   //Components
-  replaceable Pipes.DoublePipes.TwinPipeGroundTR districtHeatingPipe(
+  replaceable Pipes.DoublePipes.TwinPipeGround districtHeatingPipe(
       redeclare package Medium = Medium,
       L=length,
       massDynamics=massDynamics,
       energyDynamics=energyDynamics,
-      tau=tau,
-      Di=diameter)
-    constrainedby Pipes.BaseClasses.DistrictHeatingPipeTR(
+      tau=tau)
+    constrainedby Pipes.BaseClasses.PartialDistrictHeatingPipe(
       redeclare package Medium = Medium,
       massDynamics=massDynamics,
       energyDynamics=energyDynamics,
       L=length,
-      tau=tau,
-      Di=diameter)
+      tau=tau)
     annotation (Placement(transformation(extent={{-50,40},{-30,68}})), choicesAllMatching=true);
 
   IDEAS.Fluid.Interfaces.FlowPort_a flowPortIn(redeclare package Medium =
@@ -95,7 +92,7 @@ equation
           fillPattern=FillPattern.HorizontalCylinder,
           pattern=LinePattern.None,
           lineColor={0,0,0},
-          origin={23,-45},
+          origin={-19,-45},
           rotation=90),
         Polygon(
           points={{15,11},{-15,1},{15,-11},{15,11}},
@@ -113,7 +110,7 @@ equation
           fillPattern=FillPattern.HorizontalCylinder,
           pattern=LinePattern.None,
           lineColor={0,0,0},
-          origin={23,-39},
+          origin={-19,-41},
           rotation=90),
         Polygon(
           points={{-15,9},{15,-1},{-15,-11},{-15,9}},
@@ -178,20 +175,10 @@ equation
           fillColor={255,0,0},
           fillPattern=FillPattern.Solid),
         Ellipse(
-          extent={{20,-58},{24,-62}},
+          extent={{-22,-58},{-18,-62}},
           lineColor={0,0,255},
           fillColor={0,0,255},
           fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-64,70},{-24,50}},
-          lineColor={255,0,0},
-          fillColor={255,0,0},
-          fillPattern=FillPattern.HorizontalCylinder),
-        Rectangle(
-          extent={{-46,-50},{-6,-70}},
-          lineColor={0,0,255},
-          fillColor={0,0,255},
-          fillPattern=FillPattern.HorizontalCylinder),
         Text(
           extent={{-42,-18},{114,14}},
           lineColor={135,135,135},
@@ -212,11 +199,7 @@ equation
           color={255,0,0},
           smooth=Smooth.None),
         Line(
-          points={{22,20},{22,-60}},
-          color={0,0,255},
-          smooth=Smooth.None),
-        Line(
-          points={{-20,20},{22,20}},
+          points={{-20,20},{-20,-60}},
           color={0,0,255},
           smooth=Smooth.None)}));
 end DHConnection;
