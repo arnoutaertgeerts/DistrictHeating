@@ -30,6 +30,9 @@ partial model PartialDistrictHeatingPipe
   final parameter Types.ThermalResistanceLength Rs = 1/(2*Modelica.Constants.pi*lambdaI*hs);
   final parameter Types.ThermalResistanceLength Ra = 1/(2*Modelica.Constants.pi*lambdaI*ha);
 
+  Modelica.SIunits.Power Q1;
+  Modelica.SIunits.Power Q2;
+
   //Inputs
   Modelica.Blocks.Interfaces.RealInput Tg "Temperature of the ground"
                                 annotation (Placement(
