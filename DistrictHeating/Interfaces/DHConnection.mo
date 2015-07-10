@@ -58,7 +58,7 @@ model DHConnection
     annotation (Placement(transformation(extent={{10,90},{30,110}})));
 equation
 
-  QLosses = districtHeatingPipe.QLosses;
+  der(QLosses) = districtHeatingPipe.Q1 + districtHeatingPipe.Q2;
 
   connect(realExpression.y, districtHeatingPipe.Tg) annotation (Line(
       points={{-35,20},{-40,20},{-40,39.8}},
