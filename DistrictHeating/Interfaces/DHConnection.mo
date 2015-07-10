@@ -46,7 +46,6 @@ model DHConnection
       final m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{-50,40},{-30,68}})), choicesAllMatching=true);
 
-
   Modelica.Blocks.Sources.RealExpression realExpression(y=sim.Tground)
     annotation (Placement(transformation(extent={{-14,10},{-34,30}})));
   outer IDEAS.SimInfoManager sim
@@ -59,7 +58,7 @@ model DHConnection
     annotation (Placement(transformation(extent={{10,90},{30,110}})));
 equation
 
-  der(QLosses) = districtHeatingPipe.Q1 + districtHeatingPipe.Q2;
+  QLosses = districtHeatingPipe.QLosses;
 
   connect(realExpression.y, districtHeatingPipe.Tg) annotation (Line(
       points={{-35,20},{-40,20},{-40,39.8}},
