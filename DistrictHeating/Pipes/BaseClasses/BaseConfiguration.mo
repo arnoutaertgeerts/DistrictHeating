@@ -1,5 +1,5 @@
 within DistrictHeating.Pipes.BaseClasses;
-partial model BaseConfiguration
+partial model BaseConfiguration "Base for DH configuration models"
 
   //Shape factors
   parameter Real hs;

@@ -10,8 +10,12 @@ package Examples
       tau=60,
       allowFlowReversal=false,
       redeclare package Medium = Annex60.Media.Water,
-      redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta
-        districtHeatingPipe)
+      redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeAir
+        twinPipeGround,
+      redeclare DistrictHeating.Pipes.DoublePipes.DHDeltaCircuit
+        districtHeatingPipe(redeclare
+          DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
+          baseConfiguration))
       annotation (Placement(transformation(extent={{-40,0},{-20,20}})));
     DHConnection dHConnection1(
       m_flow_nominal=0.5,

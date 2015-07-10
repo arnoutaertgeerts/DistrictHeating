@@ -29,7 +29,7 @@ model DHConnection
       final lambdaGS=lambdaGS,
       final massDynamics=massDynamics,
       final energyDynamics=energyDynamics,
-      tau=tau)
+      final m_flow_nominal=m_flow_nominal)
     constrainedby Pipes.BaseClasses.PartialDistrictHeatingPipe(
       redeclare package Medium = Medium,
       final massDynamics=massDynamics,
@@ -43,7 +43,7 @@ model DHConnection
       final lambdaG=lambdaG,
       final lambdaI=lambdaI,
       final lambdaGS=lambdaGS,
-      tau=tau)
+      final m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{-50,40},{-30,68}})), choicesAllMatching=true);
 
   IDEAS.Fluid.Interfaces.FlowPort_a flowPortIn(redeclare package Medium =
