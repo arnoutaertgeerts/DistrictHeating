@@ -26,7 +26,8 @@ package Examples
       dynamicBalance=true,
       tau=60,
       allowFlowReversal=false,
-      redeclare package Medium = Annex60.Media.Water)
+      redeclare package Medium = Annex60.Media.Water,
+      L=100)
       annotation (Placement(transformation(extent={{-10,0},{10,20}})));
     DHConnection dHConnection2(
       m_flow_nominal=0.5,

@@ -200,7 +200,7 @@ equation
           lineColor={135,135,135},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid,
-          textString="%length m
+          textString="%L m
 "),     Polygon(
           points={{11,7},{-11,1},{11,-7},{11,7}},
           smooth=Smooth.None,
