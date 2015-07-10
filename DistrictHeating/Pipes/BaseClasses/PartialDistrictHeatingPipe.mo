@@ -19,7 +19,7 @@ partial model PartialDistrictHeatingPipe
   parameter Modelica.SIunits.Length H=2 "Buried depth of the pipe";
   parameter Modelica.SIunits.Length E=1.25*Di
     "Horizontal distance between pipes";
-  parameter Modelica.SIunits.Length Do=0.2 "Equivalent outer diameter";
+  parameter Modelica.SIunits.Length Do=Di "Equivalent outer diameter";
   parameter Modelica.SIunits.Length Di=0.2 "Equivalent inner diameter";
   parameter Modelica.SIunits.Length Dc=2.5*Di "Diameter of circumscribing pipe";
 

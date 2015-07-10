@@ -175,7 +175,6 @@ model TwinPipes
       baseConfiguration,
     redeclare package Medium = IDEAS.Media.Water.Simple,
     L=100,
-    Do=Di,
     Di=0.02,
     m1_flow_nominal=0.1,
     m2_flow_nominal=0.1)
@@ -218,7 +217,8 @@ model TwinPipes
     lambdaGS=dHPlugWallenten.lambdaGS,
     tau=dHPlugWallenten.tau,
     redeclare DistrictHeating.Pipes.Configurations.TwinPipeGround
-      baseConfiguration)
+      baseConfiguration,
+    nSeg=100)
     annotation (Placement(transformation(extent={{-10,-86},{10,-58}})));
 equation
 
