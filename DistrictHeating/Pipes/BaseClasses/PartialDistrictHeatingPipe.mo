@@ -66,7 +66,7 @@ partial model PartialDistrictHeatingPipe
             128}})), choicesAllMatching=true);
 
 equation
-  QLosses = Q1 + Q2;
+  QLosses = der(Q1 + Q2);
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-140},
             {100,140}}), graphics={
