@@ -28,8 +28,8 @@ model DHPlugWallenten "Wallenten based DH pipe with plug flow"
     D=Di,
     rho=rho,
     lambdaI=lambdaI,
-    dp_nominal=0,
-    R=R)
+    R=R,
+    dp_nominal=dp_nominal*L)
     annotation (Placement(transformation(extent={{-10,50},{10,70}})));
   PlugFlowHeatLosses plugFlow2(
     redeclare package Medium = Medium,
@@ -38,7 +38,8 @@ model DHPlugWallenten "Wallenten based DH pipe with plug flow"
     D=Di,
     rho=rho,
     lambdaI=lambdaI,
-    R=R)
+    R=R,
+    dp_nominal=dp_nominal*L)
     annotation (Placement(transformation(extent={{10,-50},{-10,-70}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort T2In(
     redeclare package Medium = Medium, m_flow_nominal=m_flow_nominal)

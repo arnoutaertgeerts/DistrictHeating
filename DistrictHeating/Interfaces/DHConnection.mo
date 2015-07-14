@@ -8,12 +8,11 @@ model DHConnection
   extends DistrictHeating.Pipes.BaseClasses.DistrictHeatingPipeParameters;
 
   //Parameters
-  final parameter Modelica.SIunits.Pressure dp_nominal=
-    districtHeatingPipe.dp_nominal * districtHeatingPipe.L
-    "Nominal pressure losses over the connection";
+  parameter Types.PressurePerLength dp_nominal=20
+    "Nominal pressure drop/meter over the pipe";
   parameter Integer tau = 120 "Time constant of the temperature sensors";
 
-  Modelica.SIunits.Power QLosses;
+  Modelica.SIunits.Energy QLosses;
 
   //Components
   replaceable Pipes.BaseClasses.PartialDistrictHeatingPipe districtHeatingPipe(
@@ -29,7 +28,8 @@ model DHConnection
       final lambdaGS=lambdaGS,
       final massDynamics=massDynamics,
       final energyDynamics=energyDynamics,
-      final m_flow_nominal=m_flow_nominal)
+      final m_flow_nominal=m_flow_nominal,
+      final dp_nominal=dp_nominal)
     constrainedby Pipes.BaseClasses.PartialDistrictHeatingPipe(
       redeclare package Medium = Medium,
        massDynamics=massDynamics,
@@ -43,7 +43,8 @@ model DHConnection
        lambdaG=lambdaG,
        lambdaI=lambdaI,
        lambdaGS=lambdaGS,
-       m_flow_nominal=m_flow_nominal)
+       m_flow_nominal=m_flow_nominal,
+       dp_nominal=dp_nominal)
     annotation (Placement(transformation(extent={{-50,40},{-30,68}})), choicesAllMatching=true);
 
   Modelica.Blocks.Sources.RealExpression realExpression(y=sim.Tground)
