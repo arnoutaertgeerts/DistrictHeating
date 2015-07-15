@@ -8,7 +8,7 @@ model DHConnection
   extends DistrictHeating.Pipes.BaseClasses.DistrictHeatingPipeParameters;
 
   //Parameters
-  parameter Types.PressurePerLength dp_nominal=20
+  parameter DistrictHeating.Pipes.Types.PressurePerLength dp_nominal=20
     "Nominal pressure drop/meter over the pipe";
   parameter Integer tau = 120 "Time constant of the temperature sensors";
 
