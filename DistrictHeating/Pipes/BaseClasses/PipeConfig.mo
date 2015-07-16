@@ -4,18 +4,18 @@ package PipeConfig
 
   record PipeData "Contains pipe properties from catalogs"
 
-    parameter Modelica.SIunits.Length Di=0.1 "Equivalent inner diameter";
-    parameter Modelica.SIunits.Length Do=Di "Equivalent outer diameter";
+    final parameter Modelica.SIunits.Length Di=0.1 "Equivalent inner diameter";
+    final parameter Modelica.SIunits.Length Do=Di "Equivalent outer diameter";
 
-    parameter Modelica.SIunits.Length h=Di
+    final parameter Modelica.SIunits.Length h=Di
       "Horizontal distance between pipe walls";
-    parameter Modelica.SIunits.Length Dc=2.5*Di
+    final parameter Modelica.SIunits.Length Dc=2.5*Di
       "Diameter of circumscribing pipe";
 
     final parameter Modelica.SIunits.Length E=h + Di
       "Horizontal distance between pipe centers";
 
-    parameter Modelica.SIunits.ThermalConductivity lambdaI=0.026
+    final parameter Modelica.SIunits.ThermalConductivity lambdaI=0.026
       "Thermal conductivity of pipe insulation material";
 
   end PipeData;
