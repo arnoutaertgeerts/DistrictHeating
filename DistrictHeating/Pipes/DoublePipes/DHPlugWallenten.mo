@@ -3,7 +3,7 @@ model DHPlugWallenten "Wallenten based DH pipe with plug flow"
 
   //Extensions
   extends BaseClasses.PartialDistrictHeatingPipe(
-    final energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
 
   final parameter Real a = (Rs-Ra)/(Ra+Rs);
   final parameter Real b = 1-a;
