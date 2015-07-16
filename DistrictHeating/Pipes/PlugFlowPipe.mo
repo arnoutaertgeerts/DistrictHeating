@@ -13,12 +13,17 @@ model PlugFlowPipe
     L=pipeLength,
     D=pipeDiameter,
     m_flow_nominal=m_flow_nominal,
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    allowFlowReversal=allowFlowReversal)
     annotation (Placement(transformation(extent={{40,-10},{60,10}})));
-  IDEAS.Fluid.FixedResistances.FixedResistanceDpM res(
+  Annex60.Fluid.FixedResistances.FixedResistanceDpM
+                                                  res(
     m_flow_nominal=m_flow_nominal,
     dp_nominal=dp_nominal,
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    allowFlowReversal=allowFlowReversal,
+    from_dp=from_dp,
+    linearized=linearizeFlowResistance)
     annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
 
 equation
