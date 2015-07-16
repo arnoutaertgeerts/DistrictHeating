@@ -3,21 +3,27 @@ partial model PartialDistrictHeatingPipe
   "Partial model for a district heating pipe"
 
   //Extensions
-  extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(
+   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
 
   extends DistrictHeatingPipeParameters;
+  extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
+    dp_nominal=dp_nominal_meter*L);
 
   extends IDEAS.Fluid.Interfaces.PartialFourPortInterface(
     redeclare final package Medium1=Medium,
     redeclare final package Medium2=Medium,
     final m1_flow_nominal=m_flow_nominal,
-    final m2_flow_nominal=m_flow_nominal);
+    final m2_flow_nominal=m_flow_nominal,
+    final allowFlowReversal1=allowFlowReversal,
+    final allowFlowReversal2=allowFlowReversal);
 
   parameter Modelica.SIunits.Density rho=1000 "Density of the medium";
-  parameter Types.PressurePerLength dp_nominal=20
+  parameter Types.PressurePerLength dp_nominal_meter=20
     "Nominal pressure drop/meter over the pipe";
+
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.1;
+  parameter Boolean allowFlowReversal=false annotation(Dialog(tab="Assumptions"), Evaluate=true);
 
   final parameter Modelica.SIunits.Mass m= Modelica.Constants.pi*Di*Di/4*L*rho;
 

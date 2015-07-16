@@ -3,12 +3,14 @@ model DHConnection
 
   //Extensions
   extends IDEAS.Fluid.BaseCircuits.Interfaces.CircuitInterface(
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
   extends DistrictHeating.Pipes.BaseClasses.DistrictHeatingPipeParameters;
 
+  extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
+    dp_nominal=dp_nominal_meter*L);
+
   //Parameters
-  parameter DistrictHeating.Pipes.Types.PressurePerLength dp_nominal=20
+  parameter DistrictHeating.Pipes.Types.PressurePerLength dp_nominal_meter=20
     "Nominal pressure drop/meter over the pipe";
   parameter Integer tau = 120 "Time constant of the temperature sensors";
 
@@ -29,7 +31,12 @@ model DHConnection
       final massDynamics=massDynamics,
       final energyDynamics=energyDynamics,
       final m_flow_nominal=m_flow_nominal,
-      final dp_nominal=dp_nominal)
+      final dp_nominal=dp_nominal,
+    computeFlowResistance=computeFlowResistance,
+    from_dp=from_dp,
+    linearizeFlowResistance=linearizeFlowResistance,
+    deltaM=deltaM,
+    allowFlowReversal=allowFlowReversal)
     constrainedby Pipes.BaseClasses.PartialDistrictHeatingPipe(
       redeclare package Medium = Medium,
        massDynamics=massDynamics,

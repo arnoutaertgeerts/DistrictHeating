@@ -4,13 +4,18 @@ model PlugFlowHeatLossTwinPipe
 
   //Extensions
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    final energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
+
+  extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters;
 
   extends IDEAS.Fluid.Interfaces.PartialFourPortInterface(
     redeclare final package Medium1=Medium,
     redeclare final package Medium2=Medium,
-    m1_flow_nominal=m_flow_nominal,
-    m2_flow_nominal=m_flow_nominal);
+    final m1_flow_nominal=m_flow_nominal,
+    final m2_flow_nominal=m_flow_nominal,
+    final allowFlowReversal1=allowFlowReversal,
+    final allowFlowReversal2=allowFlowReversal);
 
   //Parameters
   parameter Modelica.SIunits.Length L;
@@ -22,7 +27,7 @@ model PlugFlowHeatLossTwinPipe
   final parameter Modelica.SIunits.Volume V=L*pi*(D/2)^2;
 
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal;
-  parameter Modelica.SIunits.PressureDifference dp_nominal=0;
+  parameter Boolean allowFlowReversal annotation(Dialog(tab="Assumptions"), Evaluate=true);
 
   parameter Modelica.SIunits.Density rho = 1000 "Mass density of fluid";
   parameter Modelica.SIunits.SpecificHeatCapacity cp=4187
@@ -50,7 +55,11 @@ model PlugFlowHeatLossTwinPipe
     pipeDiameter=D,
     m_flow_nominal=m_flow_nominal,
     dp_nominal=dp_nominal,
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    allowFlowReversal=allowFlowReversal,
+    from_dp=from_dp,
+    linearizeFlowResistance=linearizeFlowResistance,
+    deltaM=deltaM)
     annotation (Placement(transformation(extent={{-60,50},{-40,70}})));
 
   Modelica.Blocks.Interfaces.RealInput TBoundary annotation (Placement(
@@ -68,32 +77,43 @@ model PlugFlowHeatLossTwinPipe
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTem1(
     m_flow_nominal=m_flow_nominal,
     redeclare package Medium = Medium,
-    tau=0) annotation (Placement(transformation(extent={{-24,70},{-4,50}})));
+    tau=0,
+    allowFlowReversal=allowFlowReversal)
+           annotation (Placement(transformation(extent={{-24,70},{-4,50}})));
   Annex60.Fluid.MixingVolumes.MixingVolume    idealHeater1(
     m_flow_nominal=m_flow_nominal,
     redeclare package Medium = Medium,
     nPorts=2,
     final energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    V=V)
+    V=V,
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    allowFlowReversal=allowFlowReversal)
     annotation (Placement(transformation(extent={{60,60},{80,40}})));
   DistrictHeating.Pipes.PlugFlowPipe pipe2(
     pipeLength=L,
     pipeDiameter=D,
     m_flow_nominal=m_flow_nominal,
     dp_nominal=dp_nominal,
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    allowFlowReversal=allowFlowReversal,
+    from_dp=from_dp,
+    linearizeFlowResistance=linearizeFlowResistance,
+    deltaM=deltaM)
     annotation (Placement(transformation(extent={{80,-70},{60,-50}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTem2(
                                                 m_flow_nominal=m_flow_nominal,
       redeclare package Medium = Medium,
-    tau=0)
+    tau=0,
+    allowFlowReversal=allowFlowReversal)
     annotation (Placement(transformation(extent={{10,-70},{-10,-50}})));
   Annex60.Fluid.MixingVolumes.MixingVolume       idealHeater2(
     m_flow_nominal=m_flow_nominal,
     redeclare package Medium = Medium,
     nPorts=2,
     final energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    V=V)
+    V=V,
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    allowFlowReversal=allowFlowReversal)
     annotation (Placement(transformation(extent={{-60,-60},{-80,-40}})));
   BaseClasses.TwinExponentialDecay twinExponentialDecay(
     C=C,

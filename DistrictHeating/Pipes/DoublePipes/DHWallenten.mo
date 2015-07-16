@@ -20,23 +20,27 @@ model DHWallenten "District heating pipe based on Wallenten"
   //Components
   IDEAS.Fluid.Sensors.TemperatureTwoPort TIn1(
     redeclare package Medium=Medium,
-    m_flow_nominal=m1_flow_nominal,
-    tau=tau)
+    tau=tau,
+    allowFlowReversal=allowFlowReversal,
+    m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{-80,50},{-60,70}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort TOut1(
     redeclare package Medium=Medium,
-    m_flow_nominal=m1_flow_nominal,
-    tau=tau)
+    tau=tau,
+    allowFlowReversal=allowFlowReversal,
+    m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{60,50},{80,70}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort TOut2(
     redeclare package Medium=Medium,
-    m_flow_nominal=m2_flow_nominal,
-    tau=tau)
+    tau=tau,
+    allowFlowReversal=allowFlowReversal,
+    m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{-60,-70},{-80,-50}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort TIn2(
     redeclare package Medium=Medium,
-    m_flow_nominal=m2_flow_nominal,
-    tau=tau)
+    tau=tau,
+    allowFlowReversal=allowFlowReversal,
+    m_flow_nominal=m_flow_nominal)
     annotation (Placement(transformation(extent={{80,-70},{60,-50}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow Q2Losses annotation (
      Placement(transformation(
@@ -45,27 +49,35 @@ model DHWallenten "District heating pipe based on Wallenten"
         origin={0,-34})));
   Buildings.Fluid.FixedResistances.Pipe      Pipe1(
     redeclare package Medium = Medium,
-    m_flow_nominal=m1_flow_nominal,
-    dp_nominal=dp_nominal*L,
     massDynamics=massDynamics,
     energyDynamics=energyDynamics,
     length=L,
-    thicknessIns=0.0001,
     diameter=Di,
     lambdaIns=lambdaI,
-    nSeg=nSeg)
+    nSeg=nSeg,
+    allowFlowReversal=allowFlowReversal,
+    m_flow_nominal=m_flow_nominal,
+    from_dp=from_dp,
+    linearizeFlowResistance=linearizeFlowResistance,
+    deltaM=deltaM,
+    thicknessIns=0.000001,
+    dp_nominal=dp_nominal)
     annotation (Placement(transformation(extent={{-10,50},{10,70}})));
   Buildings.Fluid.FixedResistances.Pipe      Pipe2(
     redeclare package Medium = Medium,
     massDynamics=massDynamics,
     energyDynamics=energyDynamics,
-    m_flow_nominal=m2_flow_nominal,
-    dp_nominal=dp_nominal*L,
     length=L,
-    thicknessIns=0.00001,
     lambdaIns=lambdaI,
     diameter=Di,
-    nSeg=nSeg)
+    nSeg=nSeg,
+    allowFlowReversal=allowFlowReversal,
+    m_flow_nominal=m_flow_nominal,
+    from_dp=from_dp,
+    linearizeFlowResistance=linearizeFlowResistance,
+    deltaM=deltaM,
+    thicknessIns=0.000001,
+    dp_nominal=dp_nominal)
     annotation (Placement(transformation(extent={{10,-70},{-10,-50}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow Q1Losses annotation (
      Placement(transformation(
@@ -143,8 +155,7 @@ equation
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-140},
             {100,140}}), graphics),
                                  Diagram(coordinateSystem(extent={{-100,-140},{
-            100,140}},  preserveAspectRatio=false),
-                    graphics),
+            100,140}},  preserveAspectRatio=false)),
               Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -120},{100,120}}), graphics));
 end DHWallenten;

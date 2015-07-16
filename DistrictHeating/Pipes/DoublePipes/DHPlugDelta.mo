@@ -2,7 +2,8 @@ within DistrictHeating.Pipes.DoublePipes;
 model DHPlugDelta "Delta circuit DH pipe with plug flow"
 
   //Extensions
-  extends BaseClasses.PartialDistrictHeatingPipe;
+  extends BaseClasses.PartialDistrictHeatingPipe(
+    final energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
 
   //Components
   PlugFlowHeatLossTwinPipe plugFlowHeatLossTwinPipe(
@@ -13,7 +14,12 @@ model DHPlugDelta "Delta circuit DH pipe with plug flow"
     m_flow_nominal=m_flow_nominal,
     k=lambdaI,
     D=Di,
-    dp_nominal=dp_nominal*L)
+    computeFlowResistance=computeFlowResistance,
+    from_dp=from_dp,
+    dp_nominal=dp_nominal,
+    linearizeFlowResistance=linearizeFlowResistance,
+    deltaM=deltaM,
+    allowFlowReversal=allowFlowReversal)
     annotation (Placement(transformation(extent={{-30,-30},{30,30}})));
 equation
   Q1 = plugFlowHeatLossTwinPipe.Q_1*L;

@@ -3,7 +3,8 @@ model DHDeltaCircuit
   "District heating pipe model based on the resistor delta circuit"
 
   //Extensions
-  extends BaseClasses.PartialDistrictHeatingPipe;
+  extends BaseClasses.PartialDistrictHeatingPipe(
+    final allowFlowReversal=true);
 
   //Parameters
   parameter Integer nSeg=5;
@@ -14,8 +15,6 @@ model DHDeltaCircuit
   //Components
   Buildings.Fluid.FixedResistances.Pipe      Pipe1(
     redeclare package Medium = Medium,
-    m_flow_nominal=m1_flow_nominal,
-    dp_nominal=dp_nominal*L,
     massDynamics=massDynamics,
     energyDynamics=energyDynamics,
     length=L,
@@ -23,20 +22,30 @@ model DHDeltaCircuit
     nSeg=nSeg,
     useMultipleHeatPorts=true,
     lambdaIns=lambdaI,
-    thicknessIns=10e-10)
+    thicknessIns=10e-10,
+    allowFlowReversal=allowFlowReversal,
+    from_dp=from_dp,
+    linearizeFlowResistance=linearizeFlowResistance,
+    deltaM=deltaM,
+    m_flow_nominal=m_flow_nominal,
+    dp_nominal=dp_nominal)
     annotation (Placement(transformation(extent={{10,50},{-10,70}})));
   Buildings.Fluid.FixedResistances.Pipe      Pipe2(
     redeclare package Medium = Medium,
     massDynamics=massDynamics,
     energyDynamics=energyDynamics,
-    m_flow_nominal=m2_flow_nominal,
-    dp_nominal=dp_nominal*L,
     length=L,
     diameter=Di,
     nSeg=nSeg,
     useMultipleHeatPorts=true,
     lambdaIns=lambdaI,
-    thicknessIns=10e-10)
+    thicknessIns=10e-10,
+    from_dp=from_dp,
+    linearizeFlowResistance=linearizeFlowResistance,
+    deltaM=deltaM,
+    m_flow_nominal=m_flow_nominal,
+    dp_nominal=dp_nominal,
+    allowFlowReversal=true)
     annotation (Placement(transformation(extent={{10,-50},{-10,-70}})));
 
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature[nSeg]
@@ -122,8 +131,7 @@ equation
           fillPattern=FillPattern.HorizontalCylinder,
           smooth=Smooth.None,
           fillColor={0,127,0})}),Diagram(coordinateSystem(extent={{-100,-140},{100,
-            140}},      preserveAspectRatio=false),
-                    graphics),
+            140}},      preserveAspectRatio=false)),
               Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -120},{100,120}}), graphics));
 end DHDeltaCircuit;

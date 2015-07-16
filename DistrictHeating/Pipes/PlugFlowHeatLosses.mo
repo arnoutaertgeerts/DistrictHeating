@@ -4,7 +4,9 @@ model PlugFlowHeatLosses
 
   //Extensions
   extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface;
-  extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations;
+  extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(
+    final energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
+  extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters;
 
   //Parameters
   parameter Modelica.SIunits.Length L;
@@ -14,9 +16,6 @@ model PlugFlowHeatLosses
   final constant Real pi = Modelica.Constants.pi;
   final parameter Modelica.SIunits.Area A=pi*(D/2)^2;
   final parameter Modelica.SIunits.Volume V=L*A;
-
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal;
-  parameter Modelica.SIunits.PressureDifference dp_nominal=0;
 
   parameter Modelica.SIunits.Density rho = 1000 "Mass density of fluid";
   parameter Modelica.SIunits.SpecificHeatCapacity cp=4187
@@ -41,7 +40,11 @@ model PlugFlowHeatLosses
     pipeDiameter=D,
     m_flow_nominal=m_flow_nominal,
     dp_nominal=dp_nominal,
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    allowFlowReversal=allowFlowReversal,
+    from_dp=from_dp,
+    linearizeFlowResistance=linearizeFlowResistance,
+    deltaM=deltaM)
     annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
 
   Modelica.Blocks.Interfaces.RealInput TBoundary annotation (Placement(
@@ -67,7 +70,10 @@ model PlugFlowHeatLosses
     redeclare package Medium = Medium,
     nPorts=2,
     final energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    V=V) annotation (Placement(transformation(extent={{62,0},{82,20}})));
+    V=V,
+    massDynamics=massDynamics,
+    allowFlowReversal=allowFlowReversal)
+    annotation (Placement(transformation(extent={{62,0},{82,20}})));
   Buildings.HeatTransfer.Sources.PrescribedTemperature prescribedTemperature1
     annotation (Placement(transformation(extent={{46,4},{58,16}})));
 equation

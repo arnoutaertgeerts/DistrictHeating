@@ -2,15 +2,14 @@ within DistrictHeating.Pipes.DoublePipes;
 model DHPlugWallenten "Wallenten based DH pipe with plug flow"
 
   //Extensions
-  extends BaseClasses.PartialDistrictHeatingPipe;
+  extends BaseClasses.PartialDistrictHeatingPipe(
+    final energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
 
   final parameter Real a = (Rs-Ra)/(Ra+Rs);
   final parameter Real b = 1-a;
 
   final parameter Real R = (2*Rs*Ra)/(Rs+Ra);
 
-  parameter Types.PressurePerLength dp_nominal=20
-    "Nominal pressure drop/meter over the pipe";
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.1;
 
   //Variables
@@ -29,7 +28,13 @@ model DHPlugWallenten "Wallenten based DH pipe with plug flow"
     rho=rho,
     lambdaI=lambdaI,
     R=R,
-    dp_nominal=dp_nominal*L)
+    allowFlowReversal=allowFlowReversal,
+    massDynamics=massDynamics,
+    computeFlowResistance=computeFlowResistance,
+    from_dp=from_dp,
+    dp_nominal=dp_nominal,
+    linearizeFlowResistance=linearizeFlowResistance,
+    deltaM=deltaM)
     annotation (Placement(transformation(extent={{-10,50},{10,70}})));
   PlugFlowHeatLosses plugFlow2(
     redeclare package Medium = Medium,
@@ -39,19 +44,29 @@ model DHPlugWallenten "Wallenten based DH pipe with plug flow"
     rho=rho,
     lambdaI=lambdaI,
     R=R,
-    dp_nominal=dp_nominal*L)
+    allowFlowReversal=allowFlowReversal,
+    massDynamics=massDynamics,
+    computeFlowResistance=computeFlowResistance,
+    from_dp=from_dp,
+    dp_nominal=dp_nominal,
+    linearizeFlowResistance=linearizeFlowResistance,
+    deltaM=deltaM)
     annotation (Placement(transformation(extent={{10,-50},{-10,-70}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort T2In(
-    redeclare package Medium = Medium, m_flow_nominal=m_flow_nominal)
+    redeclare package Medium = Medium, m_flow_nominal=m_flow_nominal,
+    allowFlowReversal=allowFlowReversal)
     annotation (Placement(transformation(extent={{-20,-70},{-40,-50}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort T2Out(
-    redeclare package Medium=Medium, m_flow_nominal=m_flow_nominal)
+    redeclare package Medium=Medium, m_flow_nominal=m_flow_nominal,
+    allowFlowReversal=allowFlowReversal)
     annotation (Placement(transformation(extent={{40,-70},{20,-50}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort T1Out(
-    redeclare package Medium=Medium, m_flow_nominal=m_flow_nominal)
+    redeclare package Medium=Medium, m_flow_nominal=m_flow_nominal,
+    allowFlowReversal=allowFlowReversal)
     annotation (Placement(transformation(extent={{20,50},{40,70}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort T1In(
-    redeclare package Medium = Medium, m_flow_nominal=m_flow_nominal)
+    redeclare package Medium = Medium, m_flow_nominal=m_flow_nominal,
+    allowFlowReversal=allowFlowReversal)
                                     annotation (Placement(transformation(extent={{-40,50},{-20,70}})));
 public
   Modelica.Blocks.Sources.RealExpression SupplyBoundaryTemperature(y=T1Bou)
@@ -124,5 +139,5 @@ equation
           lineColor={255,0,0},
           fillPattern=FillPattern.HorizontalCylinder,
           fillColor={255,0,0})}),            Diagram(coordinateSystem(extent={{-100,
-            -140},{100,140}}, preserveAspectRatio=false), graphics));
+            -140},{100,140}}, preserveAspectRatio=false)));
 end DHPlugWallenten;

@@ -2,14 +2,11 @@ within DistrictHeating.Pipes;
 model PlugFlowPipe
   //Extensions
   extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface;
-  extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
-    final computeFlowResistance=true, dp_nominal = 0);
+  extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters;
 
   //Parameters
   parameter Modelica.SIunits.Length pipeLength;
   parameter Modelica.SIunits.Length pipeDiameter;
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal;
-  parameter Modelica.SIunits.PressureDifference dp_nominal=0;
 
   //Components
   DistrictHeating.Pipes.PlugFlowLosslessPipe plug(
