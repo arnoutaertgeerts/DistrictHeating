@@ -4,8 +4,7 @@ model PlugFlowHeatLossTwinPipe
 
   //Extensions
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    final energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
 
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters;
 
