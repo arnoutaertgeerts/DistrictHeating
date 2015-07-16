@@ -57,20 +57,23 @@ model PlugFlowHeatLosses
   Modelica.Blocks.Sources.RealExpression realExpression(y=u)
     annotation (Placement(transformation(extent={{-58,24},{-38,44}})));
   BaseClasses.ExponentialDecay tempDecay(C=C, R=R)
-    annotation (Placement(transformation(extent={{20,20},{40,40}})));
+    annotation (Placement(transformation(extent={{12,20},{32,40}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTem(m_flow_nominal=m_flow_nominal,
       redeclare package Medium = Medium,
     tau=0)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
-  Annex60.Fluid.HeatExchangers.HeaterCooler_T    idealHeater(
+  Annex60.Fluid.MixingVolumes.MixingVolume idealHeater(
     m_flow_nominal=m_flow_nominal,
     redeclare package Medium = Medium,
-    dp_nominal=0)
-    annotation (Placement(transformation(extent={{60,-10},{80,10}})));
+    nPorts=2,
+    final energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    V=V) annotation (Placement(transformation(extent={{62,0},{82,20}})));
+  Buildings.HeatTransfer.Sources.PrescribedTemperature prescribedTemperature1
+    annotation (Placement(transformation(extent={{46,4},{58,16}})));
 equation
   //Normalized speed of the fluid [1/s]
   u = port_a.m_flow/(rho*V);
-  Q_Losses = -idealHeater.Q_flow/L;
+  Q_Losses = -idealHeater.heatPort.Q_flow/L;
 
   connect(port_a, plugFlowPipe.port_a) annotation (Line(
       points={{-100,0},{-60,0}},
@@ -84,30 +87,26 @@ equation
       points={{-40,0},{-10,0}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(senTem.port_b, idealHeater.port_a) annotation (Line(
-      points={{10,0},{60,0}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(idealHeater.port_b, port_b) annotation (Line(
-      points={{80,0},{100,0}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(senTem.T, tempDecay.TIn) annotation (Line(
-      points={{0,11},{0,26},{18,26}},
+      points={{0,11},{0,26},{10,26}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(pDETime.tau, tempDecay.td) annotation (Line(
-      points={{-7,34},{18,34}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(tempDecay.TOut, idealHeater.TSet) annotation (Line(
-      points={{41,30},{50,30},{50,6},{58,6}},
+      points={{-7,34},{10,34}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(TBoundary, tempDecay.Tb) annotation (Line(
-      points={{0,110},{0,60},{30,60},{30,42}},
+      points={{0,110},{0,60},{22,60},{22,42}},
       color={0,0,127},
       smooth=Smooth.None));
+  connect(idealHeater.heatPort, prescribedTemperature1.port)
+    annotation (Line(points={{62,10},{58,10}}, color={191,0,0}));
+  connect(senTem.port_b, idealHeater.ports[1])
+    annotation (Line(points={{10,0},{70,0}}, color={0,127,255}));
+  connect(idealHeater.ports[2], port_b)
+    annotation (Line(points={{74,0},{74,0},{100,0}}, color={0,127,255}));
+  connect(tempDecay.TOut, prescribedTemperature1.T) annotation (Line(points={{33,
+          30},{40,30},{40,10},{44.8,10}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
             {100,100}}),
                    graphics={
@@ -162,5 +161,5 @@ equation
           fillColor={255,255,255},
           fillPattern=FillPattern.Backward)}),
                            Diagram(coordinateSystem(preserveAspectRatio=false,
-          extent={{-100,-100},{100,100}}), graphics));
+          extent={{-100,-100},{100,100}})));
 end PlugFlowHeatLosses;
