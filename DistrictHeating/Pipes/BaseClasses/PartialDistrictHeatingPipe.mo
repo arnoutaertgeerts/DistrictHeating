@@ -52,7 +52,9 @@ partial model PartialDistrictHeatingPipe
         origin={0,-142})));
 
   //Components
-  replaceable DoublePipes.Configurations.TwinPipeSeparate baseConfiguration(
+  replaceable DoublePipes.Configurations.TwinPipeSeparate baseConfiguration
+                         annotation (Placement(transformation(extent={{70,108},{90,
+            128}})), choicesAllMatching=true);                              /*(
     H=H,
     E=E,
     Do=Do,
@@ -68,8 +70,7 @@ partial model PartialDistrictHeatingPipe
     Dc=Dc,
     lambdaG=lambdaG,
     lambdaI=lambdaI,
-    lambdaGS=lambdaGS) annotation (Placement(transformation(extent={{70,108},{90,
-            128}})), choicesAllMatching=true);
+    lambdaGS=lambdaGS)*/
 
 equation
   QLosses = Q1 + Q2;

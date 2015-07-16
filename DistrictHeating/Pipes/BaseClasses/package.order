@@ -5,3 +5,4 @@ FixedResistanceDpM
 Pipe
 ExponentialDecay
 TwinExponentialDecay
+PipeConfig
