@@ -3,16 +3,15 @@ partial model PartialDistrictHeatingPipe
   "Partial model for a district heating pipe"
 
   //Extensions
-   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
+  extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
 
   extends DistrictHeatingPipeParameters;
-  extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(
-    dp_nominal=dp_nominal_meter*L);
+  extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters(dp_nominal=
+        dp_nominal_meter*L);
 
   extends IDEAS.Fluid.Interfaces.PartialFourPortInterface(
-    redeclare final package Medium1=Medium,
-    redeclare final package Medium2=Medium,
+    redeclare final package Medium1 = Medium,
+    redeclare final package Medium2 = Medium,
     final m1_flow_nominal=m_flow_nominal,
     final m2_flow_nominal=m_flow_nominal,
     final allowFlowReversal1=allowFlowReversal,
@@ -23,18 +22,21 @@ partial model PartialDistrictHeatingPipe
     "Nominal pressure drop/meter over the pipe";
 
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.1;
-  parameter Boolean allowFlowReversal=false annotation(Dialog(tab="Assumptions"), Evaluate=true);
+  parameter Boolean allowFlowReversal=false
+    annotation (Dialog(tab="Assumptions"), Evaluate=true);
 
-  final parameter Modelica.SIunits.Mass m= Modelica.Constants.pi*Di*Di/4*L*rho;
+  final parameter Modelica.SIunits.Mass m=Modelica.Constants.pi*Di*Di/4*L*rho;
 
-  parameter Integer tau = 120 "Time constant of the temperature sensors";
+  parameter Integer tau=120 "Time constant of the temperature sensors";
   final parameter Real hs=baseConfiguration.hs
     "Heat loss factor for the symmetrical problem";
   final parameter Real ha=baseConfiguration.ha
     "Heat loss factor fot the anti-symmetrical problem";
 
-  final parameter Types.ThermalResistanceLength Rs = 1/(2*Modelica.Constants.pi*lambdaI*hs);
-  final parameter Types.ThermalResistanceLength Ra = 1/(2*Modelica.Constants.pi*lambdaI*ha);
+  final parameter Types.ThermalResistanceLength Rs=1/(2*Modelica.Constants.pi*
+      lambdaI*hs);
+  final parameter Types.ThermalResistanceLength Ra=1/(2*Modelica.Constants.pi*
+      lambdaI*ha);
 
   Modelica.SIunits.Power Q1;
   Modelica.SIunits.Power Q2;
@@ -42,8 +44,7 @@ partial model PartialDistrictHeatingPipe
 
   //Inputs
   Modelica.Blocks.Interfaces.RealInput Tg "Temperature of the ground"
-                                annotation (Placement(
-        transformation(
+    annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=90,
         origin={0,-142}), iconTransformation(
@@ -68,8 +69,9 @@ partial model PartialDistrictHeatingPipe
     Dc=Dc,
     lambdaG=lambdaG,
     lambdaI=lambdaI,
-    lambdaGS=lambdaGS)   annotation (Placement(transformation(extent={{70,108},{90,
-            128}})), choicesAllMatching=true);                              /*(
+    lambdaGS=lambdaGS) annotation (Placement(transformation(extent={{70,108},{
+            90,128}})), choicesAllMatching=true);
+  /*(
     H=H,
     E=E,
     Do=Do,
@@ -90,8 +92,9 @@ partial model PartialDistrictHeatingPipe
 equation
   QLosses = Q1 + Q2;
 
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-140},
-            {100,140}}), graphics={
+  annotation (
+    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-140},{100,
+            140}}), graphics={
         Rectangle(
           extent={{-100,-20},{100,-100}},
           lineColor={175,175,175},
@@ -148,9 +151,8 @@ equation
           lineColor={0,0,0},
           fillPattern=FillPattern.HorizontalCylinder,
           fillColor={255,128,0})}),
-                                 Diagram(coordinateSystem(extent={{-100,-140},{
-            100,140}},  preserveAspectRatio=false),
-                    graphics),
-              Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -120},{100,120}}), graphics));
+    Diagram(coordinateSystem(extent={{-100,-140},{100,140}},
+          preserveAspectRatio=false), graphics),
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-120},{
+            100,120}}), graphics));
 end PartialDistrictHeatingPipe;
