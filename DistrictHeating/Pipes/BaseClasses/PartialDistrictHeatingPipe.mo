@@ -52,8 +52,23 @@ partial model PartialDistrictHeatingPipe
         origin={0,-142})));
 
   //Components
-  replaceable DoublePipes.Configurations.TwinPipeSeparate baseConfiguration
-                         annotation (Placement(transformation(extent={{70,108},{90,
+  replaceable DoublePipes.Configurations.TwinPipeSeparate baseConfiguration(
+    H=H,
+    E=E,
+    Do=Do,
+    Di=Di,
+    Dc=Dc,
+    lambdaG=lambdaG,
+    lambdaI=lambdaI,
+    lambdaGS=lambdaGS) constrainedby BaseConfiguration(
+    H=H,
+    E=E,
+    Do=Do,
+    Di=Di,
+    Dc=Dc,
+    lambdaG=lambdaG,
+    lambdaI=lambdaI,
+    lambdaGS=lambdaGS)   annotation (Placement(transformation(extent={{70,108},{90,
             128}})), choicesAllMatching=true);                              /*(
     H=H,
     E=E,
