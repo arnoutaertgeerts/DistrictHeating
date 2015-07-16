@@ -3,7 +3,7 @@ model DHPlugDelta "Delta circuit DH pipe with plug flow"
 
   //Extensions
   extends BaseClasses.PartialDistrictHeatingPipe(
-    final energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
 
   //Components
   PlugFlowHeatLossTwinPipe plugFlowHeatLossTwinPipe(

@@ -5,7 +5,7 @@ model PlugFlowHeatLosses
   //Extensions
   extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface;
   extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(
-    final energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
   extends IDEAS.Fluid.Interfaces.TwoPortFlowResistanceParameters;
 
   //Parameters
