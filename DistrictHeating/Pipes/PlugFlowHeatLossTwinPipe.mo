@@ -69,11 +69,13 @@ model PlugFlowHeatLossTwinPipe
     m_flow_nominal=m_flow_nominal,
     redeclare package Medium = Medium,
     tau=0) annotation (Placement(transformation(extent={{-24,70},{-4,50}})));
-  Annex60.Fluid.HeatExchangers.HeaterCooler_T idealHeater1(
+  Annex60.Fluid.MixingVolumes.MixingVolume    idealHeater1(
     m_flow_nominal=m_flow_nominal,
     redeclare package Medium = Medium,
-    dp_nominal=0)
-    annotation (Placement(transformation(extent={{60,70},{80,50}})));
+    nPorts=2,
+    final energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    V=V)
+    annotation (Placement(transformation(extent={{60,60},{80,40}})));
   DistrictHeating.Pipes.PlugFlowPipe pipe2(
     pipeLength=L,
     pipeDiameter=D,
@@ -86,22 +88,28 @@ model PlugFlowHeatLossTwinPipe
       redeclare package Medium = Medium,
     tau=0)
     annotation (Placement(transformation(extent={{10,-70},{-10,-50}})));
-  Annex60.Fluid.HeatExchangers.HeaterCooler_T    idealHeater2(
+  Annex60.Fluid.MixingVolumes.MixingVolume       idealHeater2(
     m_flow_nominal=m_flow_nominal,
     redeclare package Medium = Medium,
-    dp_nominal=0)
-    annotation (Placement(transformation(extent={{-60,-70},{-80,-50}})));
+    nPorts=2,
+    final energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    V=V)
+    annotation (Placement(transformation(extent={{-60,-60},{-80,-40}})));
   BaseClasses.TwinExponentialDecay twinExponentialDecay(
     C=C,
     Ra=Ra,
     Rs=Rs)
     annotation (Placement(transformation(extent={{12,0},{32,20}})));
+  Buildings.HeatTransfer.Sources.PrescribedTemperature prescribedTemperature
+    annotation (Placement(transformation(extent={{-44,-56},{-56,-44}})));
+  Buildings.HeatTransfer.Sources.PrescribedTemperature prescribedTemperature1
+    annotation (Placement(transformation(extent={{44,44},{56,56}})));
 equation
   //Normalized speed of the fluid [1/s]
   u = port_a1.m_flow/(rho*V);
-  Q_Losses = -idealHeater1.Q_flow/L -idealHeater2.Q_flow/L;
-  Q_1 = -idealHeater1.Q_flow/L;
-  Q_2 = -idealHeater2.Q_flow/L;
+  Q_Losses = -idealHeater1.heatPort.Q_flow/L -idealHeater2.heatPort.Q_flow/L;
+  Q_1 = -idealHeater1.heatPort.Q_flow/L;
+  Q_2 = -idealHeater2.heatPort.Q_flow/L;
 
   connect(pDETime.u, realExpression.y) annotation (Line(
       points={{-52,18},{-59,18}},
@@ -111,32 +119,16 @@ equation
       points={{-40,60},{-24,60}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(senTem1.port_b, idealHeater1.port_a) annotation (Line(
-      points={{-4,60},{60,60}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(pipe1.port_a, port_a1) annotation (Line(
       points={{-60,60},{-100,60}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(idealHeater1.port_b, port_b1) annotation (Line(
-      points={{80,60},{100,60}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(pipe2.port_b, senTem2.port_a) annotation (Line(
       points={{60,-60},{10,-60}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(senTem2.port_b, idealHeater2.port_a) annotation (Line(
-      points={{-10,-60},{-60,-60}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(pipe2.port_a, port_a2) annotation (Line(
       points={{80,-60},{100,-60}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(idealHeater2.port_b, port_b2) annotation (Line(
-      points={{-80,-60},{-100,-60}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(pDETime.tau, twinExponentialDecay.td) annotation (Line(
@@ -155,14 +147,23 @@ equation
       points={{0,-49},{0,4},{10,4}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(twinExponentialDecay.T1Out, idealHeater1.TSet) annotation (Line(
-      points={{33,14},{48,14},{48,54},{58,54}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(twinExponentialDecay.T2Out, idealHeater2.TSet) annotation (Line(
-      points={{33,6},{48,6},{48,-40},{-40,-40},{-40,-54},{-58,-54}},
-      color={0,0,127},
-      smooth=Smooth.None));
+  connect(senTem1.port_b, idealHeater1.ports[1])
+    annotation (Line(points={{-4,60},{68,60}}, color={0,127,255}));
+  connect(idealHeater1.ports[2], port_b1)
+    annotation (Line(points={{72,60},{72,60},{100,60}}, color={0,127,255}));
+  connect(senTem2.port_b, idealHeater2.ports[1])
+    annotation (Line(points={{-10,-60},{-68,-60}}, color={0,127,255}));
+  connect(idealHeater2.ports[2], port_b2) annotation (Line(points={{-72,-60},{-72,
+          -60},{-100,-60}}, color={0,127,255}));
+  connect(idealHeater2.heatPort, prescribedTemperature.port)
+    annotation (Line(points={{-60,-50},{-56,-50}}, color={191,0,0}));
+  connect(idealHeater1.heatPort, prescribedTemperature1.port)
+    annotation (Line(points={{60,50},{56,50}}, color={191,0,0}));
+  connect(twinExponentialDecay.T1Out, prescribedTemperature1.T) annotation (
+      Line(points={{33,14},{40,14},{40,50},{42.8,50}}, color={0,0,127}));
+  connect(prescribedTemperature.T, twinExponentialDecay.T2Out) annotation (Line(
+        points={{-42.8,-50},{-34,-50},{-34,-40},{40,-40},{40,6},{33,6}}, color={
+          0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
             {100,100}}),
                    graphics={
@@ -240,5 +241,5 @@ equation
           color={175,175,175},
           smooth=Smooth.None)}),
                            Diagram(coordinateSystem(preserveAspectRatio=false,
-          extent={{-100,-100},{100,100}}), graphics));
+          extent={{-100,-100},{100,100}})));
 end PlugFlowHeatLossTwinPipe;
