@@ -2,7 +2,7 @@ within DistrictHeating.Pipes.BaseClasses;
 package PipeConfig
   "Contains different configuration records of district heating pipes"
 
-  partial record PipeData "Contains pipe properties from catalogs"
+  record PipeData "Contains pipe properties from catalogs"
 
     parameter Modelica.SIunits.Length Di=0.1 "Equivalent inner diameter";
     parameter Modelica.SIunits.Length Do=Di "Equivalent outer diameter";
