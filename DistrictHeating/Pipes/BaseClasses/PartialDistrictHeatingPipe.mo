@@ -69,32 +69,15 @@ partial model PartialDistrictHeatingPipe
     Dc=Dc,
     lambdaG=lambdaG,
     lambdaI=lambdaI,
-    lambdaGS=lambdaGS) annotation (Placement(transformation(extent={{70,108},{
-            90,128}})), choicesAllMatching=true);
-  /*(
-    H=H,
-    E=E,
-    Do=Do,
-    Di=Di,
-    Dc=Dc,
-    lambdaG=lambdaG,
-    lambdaI=lambdaI,
-    lambdaGS=lambdaGS) constrainedby BaseConfiguration(
-    H=H,
-    E=E,
-    Do=Do,
-    Di=Di,
-    Dc=Dc,
-    lambdaG=lambdaG,
-    lambdaI=lambdaI,
-    lambdaGS=lambdaGS)*/
+    lambdaGS=lambdaGS) annotation (Placement(transformation(extent={{70,108},{90,
+            128}})), choicesAllMatching=true);
 
 equation
   QLosses = Q1 + Q2;
 
   annotation (
-    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-140},{100,
-            140}}), graphics={
+    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-140},{100,140}}),
+        graphics={
         Rectangle(
           extent={{-100,-20},{100,-100}},
           lineColor={175,175,175},
@@ -153,6 +136,6 @@ equation
           fillColor={255,128,0})}),
     Diagram(coordinateSystem(extent={{-100,-140},{100,140}},
           preserveAspectRatio=false), graphics),
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-120},{
-            100,120}}), graphics));
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-120},{100,
+            120}}), graphics));
 end PartialDistrictHeatingPipe;

@@ -20,17 +20,6 @@ package PipeConfig
 
   end PipeData;
 
-
-
-
-
-
-
-
-
-
-
-
   package IsoPlusDoubleStandard "IsoPlus standard double pipes"
 
     record IsoPlusDR20S "Standard DN 20 IsoPlus double pipe"
@@ -135,7 +124,6 @@ package PipeConfig
 
   package IsoPlusDoubleReinforced "IsoPlus reinforced double pipes"
 
-
     record IsoPlusDR20S "Reinforced DN 20 IsoPlus double pipe"
       import DistrictHeating;
       extends DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDouble(
@@ -162,7 +150,6 @@ package PipeConfig
         Do=42.4e-3,
         Dc=180e-3);
     end IsoPlusDR32S;
-
 
     record IsoPlusDR40S "Reinforced DN 40 IsoPlus double pipe"
       import DistrictHeating;
