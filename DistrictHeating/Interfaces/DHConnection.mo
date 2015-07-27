@@ -32,11 +32,11 @@ model DHConnection
       final energyDynamics=energyDynamics,
       final m_flow_nominal=m_flow_nominal,
       final dp_nominal=dp_nominal,
-    computeFlowResistance=computeFlowResistance,
-    from_dp=from_dp,
-    linearizeFlowResistance=linearizeFlowResistance,
-    deltaM=deltaM,
-    allowFlowReversal=allowFlowReversal)
+      computeFlowResistance=computeFlowResistance,
+      from_dp=from_dp,
+      linearizeFlowResistance=linearizeFlowResistance,
+      deltaM=deltaM,
+      allowFlowReversal=allowFlowReversal)
     constrainedby Pipes.BaseClasses.PartialDistrictHeatingPipe(
       redeclare package Medium = Medium,
        massDynamics=massDynamics,
@@ -51,7 +51,12 @@ model DHConnection
        lambdaI=lambdaI,
        lambdaGS=lambdaGS,
        m_flow_nominal=m_flow_nominal,
-       dp_nominal=dp_nominal)
+       dp_nominal=dp_nominal,
+       computeFlowResistance=computeFlowResistance,
+       from_dp=from_dp,
+       linearizeFlowResistance=linearizeFlowResistance,
+       deltaM=deltaM,
+       allowFlowReversal=allowFlowReversal)
     annotation (Placement(transformation(extent={{-50,40},{-30,68}})), choicesAllMatching=true);
 
   Modelica.Blocks.Sources.RealExpression realExpression(y=sim.Tground)

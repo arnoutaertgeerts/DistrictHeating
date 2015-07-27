@@ -12,8 +12,8 @@ partial model BaseConfiguration "Base for DH configuration models"
 
   //Calculated parameters
 protected
-  final parameter Modelica.SIunits.Length Heff=H + lambdaG/lambdaGS
-    "Corrected depth";
+  final parameter Modelica.SIunits.Length Heff=H "Corrected depth";
+                                                 //+ lambdaI/lambdaGS
   final parameter Modelica.SIunits.Length ro = Do/2 "Equivalent outer radius";
   final parameter Modelica.SIunits.Length ri = Di/2 "Equivalent inner radius";
   final parameter Modelica.SIunits.Length rc = Dc/2 "Circumscribing radius";

@@ -1,7 +1,15 @@
 within DistrictHeating.Pipes.Examples;
 model TwinPipes
 
+  //Extensions
   extends Modelica.Icons.Example;
+
+  //Variables
+  Modelica.SIunits.Energy WallPlugEn;
+  Modelica.SIunits.Energy DeltaEn;
+  Modelica.SIunits.Energy DeltaPlugEn;
+
+  //Components
   IDEAS.Fluid.Sources.FixedBoundary bou2(
     T=273.15 + 70,
     use_T=false,
@@ -32,8 +40,8 @@ model TwinPipes
   Modelica.Blocks.Sources.Pulse pulse(
     period=86400,
     width=4,
-    offset=273.15 + 50,
-    amplitude=20)
+    amplitude=0,
+    offset=273.15 + 70)
     annotation (Placement(transformation(extent={{-86,86},{-94,94}})));
   Annex60.Fluid.HeatExchangers.HeaterCooler_T    idealHeater(
     dp_nominal=0,
@@ -48,9 +56,9 @@ model TwinPipes
   Modelica.Blocks.Sources.Pulse pulse1(
     period=86400,
     startTime=7200,
-    width=60,
     amplitude=-0.09,
-    offset=0.1)
+    offset=0.1,
+    width=0)
     annotation (Placement(transformation(extent={{-80,86},{-72,94}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort T1PlugOut(
     m_flow_nominal=0.1,
@@ -66,7 +74,7 @@ model TwinPipes
         extent={{10,-10},{-10,10}},
         rotation=0,
         origin={-30,40})));
-  Modelica.Blocks.Sources.Constant const(k=273.15 + 10)
+  Modelica.Blocks.Sources.Constant const(k=273.15 + 60)
     annotation (Placement(transformation(extent={{42,58},{50,66}})));
   Modelica.Blocks.Sources.Constant const1(k=273.15 + 5)  annotation (
       Placement(transformation(
@@ -179,19 +187,36 @@ model TwinPipes
     redeclare package Medium = Annex60.Media.Water)
     annotation (Placement(transformation(extent={{-88,-66},{-68,-46}})));
   DoublePipes.DHPlugWallenten dHPlugWallenten(
-    redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
-      baseConfiguration,
+    redeclare package Medium = Annex60.Media.Water,
     L=100,
-    Di=0.05,
-    redeclare package Medium = Annex60.Media.Water)
+    lambdaG=1.2,
+    H=0.6,
+    redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
+      baseConfiguration,
+    redeclare
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR20S
+      dim)
     annotation (Placement(transformation(extent={{-10,42},{10,70}})));
-  DoublePipes.DHPlugDelta dHPipePlugDelta(
+  DoublePipes.DHPlugDelta dHPlugDelta(
     L=dHPlugWallenten.L,
     rho=dHPlugWallenten.rho,
-    H=dHPlugWallenten.H,
+    dp_nominal=dHPlugWallenten.dp_nominal,
+    m_flow_nominal=dHPlugWallenten.m_flow_nominal,
+    lambdaG=dHPlugWallenten.lambdaG,
+    lambdaI=dHPlugWallenten.lambdaI,
+    lambdaGS=dHPlugWallenten.lambdaGS,
+    tau=dHPlugWallenten.tau,
+    redeclare package Medium = Annex60.Media.Water,
+    redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
+      baseConfiguration,
+    redeclare
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR20S
+      dim) annotation (Placement(transformation(extent={{-10,-22},{10,6}})));
+  DoublePipes.DHDeltaCircuit dHDelta(
+    L=dHPlugWallenten.L,
+    rho=dHPlugWallenten.rho,
     E=dHPlugWallenten.E,
     Do=dHPlugWallenten.Do,
-    Di=dHPlugWallenten.Di,
     Dc=dHPlugWallenten.Dc,
     dp_nominal=dHPlugWallenten.dp_nominal,
     m_flow_nominal=dHPlugWallenten.m_flow_nominal,
@@ -199,30 +224,18 @@ model TwinPipes
     lambdaI=dHPlugWallenten.lambdaI,
     lambdaGS=dHPlugWallenten.lambdaGS,
     tau=dHPlugWallenten.tau,
-    redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
-      baseConfiguration,
-    redeclare package Medium = Annex60.Media.Water)
-    annotation (Placement(transformation(extent={{-10,-22},{10,6}})));
-  DoublePipes.DHDeltaCircuit dHDeltaCircuit(
-    L=dHPlugWallenten.L,
-    rho=dHPlugWallenten.rho,
-    H=dHPlugWallenten.H,
-    E=dHPlugWallenten.E,
-    Do=dHPlugWallenten.Do,
-    Di=dHPlugWallenten.Di,
-    Dc=dHPlugWallenten.Dc,
-    dp_nominal=dHPlugWallenten.dp_nominal,
-    m_flow_nominal=dHPlugWallenten.m_flow_nominal,
-    lambdaG=dHPlugWallenten.lambdaG,
-    lambdaI=dHPlugWallenten.lambdaI,
-    lambdaGS=dHPlugWallenten.lambdaGS,
-    tau=dHPlugWallenten.tau,
-    redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
-      baseConfiguration,
     nSeg=100,
-    redeclare package Medium = Annex60.Media.Water)
-    annotation (Placement(transformation(extent={{-10,-86},{10,-58}})));
+    redeclare package Medium = Annex60.Media.Water,
+    redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
+      baseConfiguration,
+    redeclare
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR20S
+      dim) annotation (Placement(transformation(extent={{-10,-86},{10,-58}})));
 equation
+
+  der(WallPlugEn) = dHPlugWallenten.QLosses;
+  der(DeltaPlugEn) = dHPlugDelta.QLosses;
+  der(DeltaEn) = dHDelta.QLosses;
 
   connect(fan.port_b, T1PlugIn.port_a) annotation (Line(
       points={{-44,70},{-40,70}},
@@ -333,35 +346,35 @@ equation
       points={{-71.6,90},{-54.2,90},{-54.2,82}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(T1TRIn.port_b, dHDeltaCircuit.port_a1) annotation (Line(
+  connect(T1TRIn.port_b, dHDelta.port_a1) annotation (Line(
       points={{-20,-56},{-16,-56},{-16,-66},{-10,-66}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(T2TROut.port_a, dHDeltaCircuit.port_b2) annotation (Line(
+  connect(T2TROut.port_a, dHDelta.port_b2) annotation (Line(
       points={{-20,-90},{-14,-90},{-14,-78},{-10,-78}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(dHDeltaCircuit.port_b1, T1TROut.port_a) annotation (Line(
+  connect(dHDelta.port_b1, T1TROut.port_a) annotation (Line(
       points={{10,-66},{16,-66},{16,-56},{20,-56}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(dHDeltaCircuit.port_a2, T2TRIn.port_b) annotation (Line(
+  connect(dHDelta.port_a2, T2TRIn.port_b) annotation (Line(
       points={{10,-78},{16,-78},{16,-86},{20,-86}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(T1PipeIn.port_b, dHPipePlugDelta.port_a1) annotation (Line(
+  connect(T1PipeIn.port_b, dHPlugDelta.port_a1) annotation (Line(
       points={{-20,6},{-16,6},{-16,-2},{-10,-2}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(T2PipeOut.port_a, dHPipePlugDelta.port_b2) annotation (Line(
+  connect(T2PipeOut.port_a, dHPlugDelta.port_b2) annotation (Line(
       points={{-20,-28},{-14,-28},{-14,-14},{-10,-14}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(dHPipePlugDelta.port_b1, T1PipeOut.port_a) annotation (Line(
+  connect(dHPlugDelta.port_b1, T1PipeOut.port_a) annotation (Line(
       points={{10,-2},{16,-2},{16,6},{20,6}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(dHPipePlugDelta.port_a2, T2PipeIn.port_b) annotation (Line(
+  connect(dHPlugDelta.port_a2, T2PipeIn.port_b) annotation (Line(
       points={{10,-14},{16,-14},{16,-24},{20,-24}},
       color={0,127,255},
       smooth=Smooth.None));
@@ -385,11 +398,11 @@ equation
       points={{-7.6,20},{0,20},{0,41.8}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(const1.y, dHPipePlugDelta.Tg) annotation (Line(
+  connect(const1.y, dHPlugDelta.Tg) annotation (Line(
       points={{-7.6,20},{14,20},{14,-30},{0,-30},{0,-22.2}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(dHDeltaCircuit.Tg, dHPipePlugDelta.Tg) annotation (Line(
+  connect(dHDelta.Tg, dHPlugDelta.Tg) annotation (Line(
       points={{0,-86.2},{0,-94},{14,-94},{14,-30},{0,-30},{0,-22.2}},
       color={0,0,127},
       smooth=Smooth.None));
