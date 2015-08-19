@@ -57,8 +57,8 @@ model TwinPipes
     period=86400,
     startTime=7200,
     amplitude=-0.09,
-    offset=0.1,
-    width=0)
+    width=0,
+    offset=0.1)
     annotation (Placement(transformation(extent={{-80,86},{-72,94}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort T1PlugOut(
     m_flow_nominal=0.1,
@@ -194,8 +194,9 @@ model TwinPipes
     redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
       baseConfiguration,
     redeclare
-      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR20S
-      dim)
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleReinforced.IsoPlusDR100S
+      dim,
+    m_flow_nominal=1)
     annotation (Placement(transformation(extent={{-10,42},{10,70}})));
   DoublePipes.DHPlugDelta dHPlugDelta(
     L=dHPlugWallenten.L,
@@ -210,8 +211,10 @@ model TwinPipes
     redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
       baseConfiguration,
     redeclare
-      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR20S
-      dim) annotation (Placement(transformation(extent={{-10,-22},{10,6}})));
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleReinforced.IsoPlusDR100S
+      dim,
+    H=dHPlugWallenten.H)
+           annotation (Placement(transformation(extent={{-10,-22},{10,6}})));
   DoublePipes.DHDeltaCircuit dHDelta(
     L=dHPlugWallenten.L,
     rho=dHPlugWallenten.rho,
@@ -224,13 +227,14 @@ model TwinPipes
     lambdaI=dHPlugWallenten.lambdaI,
     lambdaGS=dHPlugWallenten.lambdaGS,
     tau=dHPlugWallenten.tau,
-    nSeg=100,
     redeclare package Medium = Annex60.Media.Water,
     redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
       baseConfiguration,
     redeclare
-      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR20S
-      dim) annotation (Placement(transformation(extent={{-10,-86},{10,-58}})));
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleReinforced.IsoPlusDR100S
+      dim,
+    nSeg=10)
+           annotation (Placement(transformation(extent={{-10,-86},{10,-58}})));
 equation
 
   der(WallPlugEn) = dHPlugWallenten.QLosses;
@@ -407,7 +411,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}}), graphics),
+            -100},{100,100}})),
     experiment(StopTime=200000),
     __Dymola_experimentSetupOutput);
 end TwinPipes;
