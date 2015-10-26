@@ -27,7 +27,8 @@ partial model PartialDistrictHeatingPipe
 
   final parameter Modelica.SIunits.Mass m=Modelica.Constants.pi*Di*Di/4*L*rho;
 
-  parameter Integer tau=120 "Time constant of the temperature sensors";
+  parameter Modelica.SIunits.Time tau=120
+    "Time constant of the temperature sensors";
   final parameter Real hs=baseConfiguration.hs
     "Heat loss factor for the symmetrical problem";
   final parameter Real ha=baseConfiguration.ha
