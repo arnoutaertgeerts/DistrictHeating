@@ -14,6 +14,9 @@ package TimeDelays
 
     Modelica.Blocks.Interfaces.RealOutput tau "Time delay"
       annotation (Placement(transformation(extent={{100,-10},{120,10}})));
+
+  initial equation
+    td = 0;
   equation
     //Speed
     der(x) = u;

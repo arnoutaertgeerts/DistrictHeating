@@ -22,7 +22,7 @@ partial model PartialDistrictHeatingPipe
     "Nominal pressure drop/meter over the pipe";
 
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.1;
-  parameter Boolean allowFlowReversal=false
+  parameter Boolean allowFlowReversal
     annotation (Dialog(tab="Assumptions"), Evaluate=true);
 
   final parameter Modelica.SIunits.Mass m=Modelica.Constants.pi*Di*Di/4*L*rho;

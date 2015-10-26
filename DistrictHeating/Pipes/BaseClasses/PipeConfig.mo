@@ -12,10 +12,10 @@ package PipeConfig
      parameter Modelica.SIunits.Length Dc=2.5*Di
       "Diameter of circumscribing pipe";
 
-    final parameter Modelica.SIunits.Length E=h + Di
+    final parameter Modelica.SIunits.Length E=h + Do
       "Horizontal distance between pipe centers";
 
-     parameter Modelica.SIunits.ThermalConductivity lambdaI=0.026
+     parameter Modelica.SIunits.ThermalConductivity lambdaI=0.028
       "Thermal conductivity of pipe insulation material";
 
   end PipeData;
@@ -225,6 +225,6 @@ package PipeConfig
   end IsoPlusDoubleReinforced;
 
   partial record IsoPlusDouble "IsoPlus double pipes"
-    extends PipeData(lambdaI=0.0275);
+    extends PipeData(lambdaI=0.028);
   end IsoPlusDouble;
 end PipeConfig;
